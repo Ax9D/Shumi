@@ -56,7 +56,7 @@ public class Game {
 		// Texture2D("an1.png"),
 		// new Texture2D("an2.png"), new Texture2D("an3.png"), new Texture2D("an4.png")
 		// }, 10));
-		System.out.println("F");
+		System.out.println("Initialized.");
 	}
 
 	public void update() {
