@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/joml-1.9.17.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/joml-1.9.17-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-glfw.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-glfw-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-glfw-natives-linux.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-openal.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-openal-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-openal-natives-linux.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-opengl.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-opengl-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-opengl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-stb.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-stb-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/lwjgl-stb-natives-linux.jar"/>
+	<classpathentry kind="lib" path="/home/atri/eclipse-workspace/ASDF/jars/org.json.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
