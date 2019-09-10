@@ -10,8 +10,9 @@ public class BPhysics {
 		// BoundingBox bB=B.getBoundingBox();
 
 		// if()
-		A.getComponent(BoundingBox.class);
-		B.getComponent(BoundingBox.class);
+		BoundingBox bA=A.getComponent(BoundingBox.class);
+		BoundingBox bB=B.getComponent(BoundingBox.class);
 
+		
 	}
 }

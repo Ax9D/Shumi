@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="jars/joml-1.9.17-javadoc.jar"/>
+	<classpathentry kind="lib" path="jars/joml-1.9.17-sources.jar"/>
+	<classpathentry kind="lib" path="jars/joml-1.9.17.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-glfw-javadoc.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-glfw-natives-linux.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-glfw-sources.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-glfw.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-javadoc.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-openal-javadoc.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-openal-natives-linux.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-openal-sources.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-openal.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-opengl-javadoc.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-opengl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-opengl-sources.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-opengl.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-sources.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-stb-javadoc.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-stb-natives-linux.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-stb-sources.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl-stb.jar"/>
+	<classpathentry kind="lib" path="jars/lwjgl.jar"/>
+	<classpathentry kind="lib" path="jars/org.json.jar"/>
+	<classpathentry kind="lib" path="jars/javafx/javafx-swt.jar"/>
+	<classpathentry kind="lib" path="jars/javafx/javafx.base.jar"/>
+	<classpathentry kind="lib" path="jars/javafx/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="jars/javafx/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="jars/javafx/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="jars/javafx/javafx.media.jar"/>
+	<classpathentry kind="lib" path="jars/javafx/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="jars/javafx/javafx.web.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
