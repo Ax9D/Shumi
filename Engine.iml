@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/jars/joml-1.9.17-javadoc.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/joml-1.9.17-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/joml-1.9.17.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-glfw-javadoc.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-glfw-natives-linux.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-glfw-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-glfw.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-javadoc.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-natives-linux.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-openal-javadoc.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-openal-natives-linux.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-openal-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-openal.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-opengl-javadoc.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-opengl-natives-linux.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-opengl-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-opengl.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-stb-javadoc.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-stb-natives-linux.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-stb-sources.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl-stb.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/lwjgl.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/org.json.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/javafx/javafx-swt.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/javafx/javafx.base.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/javafx/javafx.controls.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/javafx/javafx.fxml.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/javafx/javafx.graphics.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/javafx/javafx.media.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/javafx/javafx.swing.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jars/javafx/javafx.web.jar!/" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module-library">
+      <library name="joml-1.9.17-javadoc.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/joml-1.9.17-javadoc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="joml-1.9.17-sources.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/joml-1.9.17-sources.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="joml-1.9.17.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/joml-1.9.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-glfw-javadoc.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-glfw-javadoc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-glfw-natives-linux.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-glfw-natives-linux.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-glfw-sources.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-glfw-sources.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-glfw.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-glfw.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-javadoc.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-javadoc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-natives-linux.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-natives-linux.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-openal-javadoc.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-openal-javadoc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-openal-natives-linux.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-openal-natives-linux.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-openal-sources.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-openal-sources.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-openal.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-openal.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-opengl-javadoc.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-opengl-javadoc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-opengl-natives-linux.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-opengl-natives-linux.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-opengl-sources.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-opengl-sources.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-opengl.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-opengl.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-sources.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-sources.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-stb-javadoc.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-stb-javadoc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-stb-natives-linux.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-stb-natives-linux.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-stb-sources.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-stb-sources.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl-stb.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl-stb.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lwjgl.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/lwjgl.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="org.json.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/org.json.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javafx-swt.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/javafx/javafx-swt.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javafx.base.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/javafx/javafx.base.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javafx.controls.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/javafx/javafx.controls.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javafx.fxml.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/javafx/javafx.fxml.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javafx.graphics.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/javafx/javafx.graphics.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javafx.media.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/javafx/javafx.media.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javafx.swing.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/javafx/javafx.swing.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javafx.web.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jars/javafx/javafx.web.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
