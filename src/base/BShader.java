@@ -25,7 +25,7 @@ public class BShader {
 		glLinkProgram(program);
 
 		String linkLog = glGetProgramInfoLog(program);
-		if (linkLog != "")
+		if (linkLog.length()==0)
 			System.out.println(linkLog);
 
 		glDetachShader(program, vertexShader);
@@ -67,8 +67,7 @@ public class BShader {
 		glShaderSource(shader, code);
 		glCompileShader(shader);
 		String infoLog = glGetShaderInfoLog(shader);
-
-		if (infoLog != "")
+		if (infoLog.length()==0)
 			System.out.println(infoLog);
 		return shader;
 	}

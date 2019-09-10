@@ -5,7 +5,7 @@ import org.joml.Vector2f;
 public class Camera2D {
 	public Vector2f pos;
 	public Vector2f scale;
-	
+
 	float cameraSpeed;
 	public Camera2D(Vector2f pos,Vector2f scale,float cameraSpeed)
 	{
@@ -29,5 +29,5 @@ public class Camera2D {
 	{
 		pos.y-=cameraSpeed;
 	}
-	
+
 }

@@ -12,13 +12,13 @@ public class Game {
 	/*
 	 * BShader bs; ob2D test; Camera2D c; static Model quad; Player p; static
 	 * Texture2D genericTex;
-	 * 
+	 *
 	 * static float[] quadVerts = { -1f, 1f, 1f, 1f, 1f, -1f, -1f, -1f }; static
 	 * int[] quadInds = { 0, 3, 1, 1, 3, 2 };
-	 * 
+	 *
 	 * static float[] quadtCoords = { 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f
 	 * };
-	 * 
+	 *
 	 * static { quad = new Model(quadVerts, quadInds, quadtCoords); genericTex = new
 	 * Texture2D("test.png"); quad.setTexture(genericTex); }
 	 */
@@ -38,11 +38,11 @@ public class Game {
 
 	public Game() {
 		/*
-		 * 
+		 *
 		 * test = new ob2D(quad, new Vector2f(0.25f, 0), new Vector2f(0.5f, 0.5f));
-		 * 
+		 *
 		 * c = new Camera2D(new Vector2f(0.25f, 0), new Vector2f(1, 1), 0.01f);
-		 * 
+		 *
 		 * p = new Player(quad, new Vector2f(0.25f, 0), new Vector2f(0.25f, 0.25f));
 		 */
 		w = new World();

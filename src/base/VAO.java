@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL33;
 import org.lwjgl.opengl.GL30.*;
 
 public class VAO {
-	
+
 	ArrayList<Integer> vboIDs;
 	int vao;
 	public VAO()
@@ -21,7 +21,7 @@ public class VAO {
 	public void loadToVBO(float[] data,int size)
 	{
 		bind();
-		
+
 		int vboID=GL30.glGenBuffers();
 		System.out.println("Created VBO:"+vboID);
 		GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, vboID);
@@ -29,7 +29,7 @@ public class VAO {
 		GL30.glVertexAttribPointer(vboIDs.size(), size,GL11.GL_FLOAT, false, 0, 0);
 		GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, 0);
 		unbind();
-		
+
 		vboIDs.add(vboID);
 	}
 	public void activateVPointers()
@@ -52,6 +52,6 @@ public class VAO {
 	}
 	public void delete()
 	{
-		
+
 	}
 }

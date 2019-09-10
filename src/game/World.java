@@ -1,10 +1,10 @@
 package game;
 
-import java.util.ArrayList;
-
 import base.BShader;
 import base.Camera2D;
 import base.Renderer;
+
+import java.util.ArrayList;
 
 public class World {
 	public ArrayList<ob2D> ob2Ds;

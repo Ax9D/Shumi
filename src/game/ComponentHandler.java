@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 public class ComponentHandler {
 	/*
 	 * public static HashMap<String, ComponentContainer> entityComponentPairs;
-	 * 
+	 *
 	 * public static <T> void add(String id, T comp) {
 	 * switch(comp.getClass().toString()) { case entityComponentPairs.get(id).; } }
 	 */
