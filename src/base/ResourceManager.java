@@ -1,6 +1,5 @@
 package base;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +13,7 @@ public class ResourceManager {
         textures = new HashMap<String, Texture2D>();
         shaders = new HashMap<String, BShader>();
     }
+
 
     public void addModel(Model m, String id) {
         models.put(id, m);

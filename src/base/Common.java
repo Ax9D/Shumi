@@ -1,12 +1,12 @@
 package base;
 
+import org.lwjgl.BufferUtils;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.Scanner;
-
-import org.lwjgl.BufferUtils;
 
 public class Common {
 

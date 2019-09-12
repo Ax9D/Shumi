@@ -1,6 +1,7 @@
-package game;
+package game.components;
 
 import base.Texture2D;
+import game.ob2D;
 
 public class LoopAnimation extends Component {
 	int nframes;
@@ -21,9 +22,11 @@ public class LoopAnimation extends Component {
 
 	public void setParent(ob2D b) {
 		super.setParent(b);
+	}
+	public void init()
+	{
 		parent.tex = textures[0];
 	}
-
 	public void update() {
 		long curTime = System.currentTimeMillis();
 

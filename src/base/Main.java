@@ -1,11 +1,8 @@
 package base;
 
-import org.lwjgl.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 
-import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -53,6 +50,7 @@ public class Main {
 		glClearColor(1.0f,1.0f,1.0f,1.0f);
 		while(!glfwWindowShouldClose(window))
 		{
+			glfwSetWindowTitle(window,"FPS: "+Math.round(1/Game.tDelta));
 
 			glClear(GL_COLOR_BUFFER_BIT);
 

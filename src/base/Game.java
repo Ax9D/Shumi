@@ -1,11 +1,8 @@
 package base;
 
-import org.joml.Vector2f;
-
-import game.LoopAnimation;
-import game.Player;
 import game.World;
 import game.ob2D;
+import org.joml.Vector2f;
 
 public class Game {
 
@@ -36,6 +33,10 @@ public class Game {
 	BShader bs;
 	ob2D btest;
 
+	private long prevTime,curTime;
+
+	public static float tDelta;
+
 	public Game() {
 		/*
 		 *
@@ -57,19 +58,25 @@ public class Game {
 		// new Texture2D("an2.png"), new Texture2D("an3.png"), new Texture2D("an4.png")
 		// }, 10));
 		System.out.println("Initialized.");
+
+		prevTime=System.currentTimeMillis();
 	}
 
 	public void update() {
 		w.update();
 	}
 
-	public void draw() {
-		w.render(c, bs);
+	public void draw(){
+		Renderer.render(w,c,bs);
 	}
-
 	public void run() {
+		curTime=System.currentTimeMillis();
+
+		tDelta=(curTime-prevTime)/1000.0f;
+
 		update();
 		draw();
+		prevTime=curTime;
 	}
 
 	public void exit() {

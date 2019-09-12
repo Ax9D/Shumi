@@ -1,11 +1,12 @@
 package game;
 
-import org.joml.Vector2f;
+import game.components.BoundingBox;
+import game.components.PlayerMovement;
 
 public class BPhysics {
 
 	// Assuming B is the fixed object
-	public void handlePlayerFOCollision(ob2D A, ob2D B) {
+	public static void handlePlayerFOCollision(ob2D A, ob2D B) {
 		// BoundingBox bA=A.getBoundingBox();
 		// BoundingBox bB=B.getBoundingBox();
 
@@ -13,10 +14,16 @@ public class BPhysics {
 		BoundingBox bA=A.getComponent(BoundingBox.class);
 		BoundingBox bB=B.getComponent(BoundingBox.class);
 
+		bA.compute();
+		bB.compute();
+
 		//Left wall of B
 		if(isCollision(bA,bB))
 		{
-			Direction walkDir=A.getComponent(PlayerMovement.class).walkDirection;
+
+		    PlayerMovement pm=A.getComponent(PlayerMovement.class);
+
+			var walkDir=pm.walkDirection;
 
 			switch(walkDir)
 			{
@@ -27,7 +34,7 @@ public class BPhysics {
 					A.pos.x-=bA.right-bB.left;
 					break;
 				case UP:
-					A.pos.y-=bB.bottom-bA.top;
+					A.pos.y-=bA.top-bB.bottom;
 					break;
 				case DOWN:
 					A.pos.y+=bB.top-bA.bottom;
@@ -36,7 +43,8 @@ public class BPhysics {
 
 		}
 	}
-	public boolean isCollision(BoundingBox bA,BoundingBox bB)
+	public static boolean isCollision(BoundingBox bA,BoundingBox bB)
 	{
+			return !(bA.right<=bB.left || bA.left>=bB.right || bA.bottom>=bB.top || bA.top<=bB.bottom);
 	}
 }

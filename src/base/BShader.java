@@ -1,10 +1,7 @@
 package base;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
 import org.joml.Matrix4f;
+
 import static org.lwjgl.opengl.GL30.*;
 
 public class BShader {

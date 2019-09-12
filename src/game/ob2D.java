@@ -1,13 +1,13 @@
 package game;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
-import org.joml.Vector2f;
-
 import base.Model;
 import base.Texture2D;
-import base.VAO;
+import game.components.Component;
+import game.components.ComponentHandler;
+import org.joml.Vector2f;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class ob2D {
 	public Model m;
@@ -20,7 +20,7 @@ public class ob2D {
 
 	public String name;
 
-	public HashMap<String, Component> comps;
+	public HashMap<Class,Boolean> comps;
 
 	public Texture2D tex;
 
@@ -30,7 +30,7 @@ public class ob2D {
 		this.size = size;
 		this.name = name;
 		this.id = genID();
-		comps = new HashMap<String, Component>();
+		comps = new HashMap<Class,Boolean>();
 	}
 
 	private String genID() {
@@ -43,23 +43,25 @@ public class ob2D {
 		 */
 		String className = c.getClass().getName();
 		System.out.println("Adding " + className);
-		HashMap<String, Component> cmpList = ComponentHandler.cmp.get(className);
+		HashMap<String,Component> cmpList = ComponentHandler.cmp.get(className);
 
 		if (cmpList == null)
-			ComponentHandler.cmp.put(className, cmpList = new HashMap<String, Component>());
+			ComponentHandler.cmp.put(className, cmpList = new HashMap<String,Component>());
 
-		cmpList.put(id, (Component) c);
+		cmpList.put(id,c);
+
+		comps.put(c.getClass(),true);
 
 		c.setParent(this);
 	}
 
-	public <T> T getComponent(Class<T> c) {
+	public <T extends Component> T getComponent(Class<T> c) {
 		String className = c.getName();
 		/*
 		 * Object req = comps.get(className); return c.cast(req);
 		 */
-		HashMap<String, Component> cmpList = ComponentHandler.cmp.get(className);
-		return c.cast(cmpList.get(id));
+		HashMap<String,Component> ret=ComponentHandler.cmp.get(className);
+		return c.cast(ret.get(id));
 	}
 
 	/*
@@ -71,6 +73,17 @@ public class ob2D {
 		String className = c.getName();
 		HashMap<String, Component> cmpList = ComponentHandler.cmp.get(className);
 		cmpList.remove(id);
+
+		comps.remove(c);
+	}
+	public void delete()
+	{
+		for(Entry<Class,Boolean> ent:comps.entrySet())
+		{
+			Class cmpName=ent.getKey();
+
+			ComponentHandler.getAll(cmpName);
+		}
 	}
 
 }

@@ -14,7 +14,11 @@
 		},	
 		{
 			"type":"PlayerMovement",
-			"walkSpeed":0.01
+			"walkSpeed":1
+		},
+		{
+			"type": "BoundingBox",
+			"bType": "basic"
 		}
 	]
 },
@@ -25,6 +29,10 @@
 	"pos":[0,0],
 	"size":[0.25,0.25],
 	"components":[
+		{
+			"type": "BoundingBox",
+			"bType": "basic"
+		}
 	]
 }
 ]

@@ -1,7 +1,7 @@
 package base;
 
-import org.lwjgl.glfw.*;
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+import static org.lwjgl.glfw.GLFW.glfwGetKey;
 
 
 public class KeyboardHandler {

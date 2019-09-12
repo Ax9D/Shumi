@@ -1,4 +1,4 @@
-package game;
+package game.components;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,18 +15,25 @@ public class ComponentHandler {
 	public static HashMap<String, HashMap<String, Component>> cmp;
 
 	static {
-		cmp = new HashMap<String, HashMap<String, Component>>();
+		cmp = new HashMap<String,HashMap<String,Component>>();
 	}
 
 	public static <T> ArrayList<T> getAll(Class<T> c) {
 		String className = c.getName();
 
-		HashMap<String, Component> req = cmp.get(className);
+		var req = cmp.get(className);
 
 		ArrayList<T> ret = new ArrayList<T>();
 
+		/*
 		for (Entry<String, Component> e : req.entrySet())
 			ret.add(c.cast(e.getValue()));
 		return ret;
+		*/
+		for (Entry<String,Component> ent : req.entrySet())
+			ret.add(c.cast(ent.getValue()));
+
+		return ret;
 	}
+
 }

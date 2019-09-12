@@ -1,8 +1,8 @@
 package base;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.opengl.GL20.GL_CLAMP_TO_EDGE;
+import static org.lwjgl.opengl.GL33.glGenerateMipmap;
 import static org.lwjgl.stb.STBImage.*;
 
 public class Texture2D {

@@ -1,9 +1,9 @@
 package game;
 
+import base.KeyboardHandler;
+import base.Model;
 import org.joml.Vector2f;
 
-import base.Model;
-import base.KeyboardHandler;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Player extends ob2D {

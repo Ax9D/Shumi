@@ -1,12 +1,10 @@
 package base;
 
-import java.util.ArrayList;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL33;
-import org.lwjgl.opengl.GL30.*;
+
+import java.util.ArrayList;
 
 public class VAO {
 
