@@ -82,7 +82,7 @@ public class ob2D {
 		{
 			Class cmpName=ent.getKey();
 
-			ComponentHandler.getAll(cmpName);
+			ComponentHandler.cmp.get(cmpName).remove(id);
 		}
 	}
 

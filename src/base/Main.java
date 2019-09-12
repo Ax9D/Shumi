@@ -43,11 +43,10 @@ public class Main {
 	{
 		init();
 
-
 		Game g=new Game();
 		KeyboardHandler.window=window;
 
-		glClearColor(1.0f,1.0f,1.0f,1.0f);
+		glClearColor(0.64f,0.64f,0.64f,1.0f);
 		while(!glfwWindowShouldClose(window))
 		{
 			glfwSetWindowTitle(window,"FPS: "+Math.round(1/Game.tDelta));
@@ -59,6 +58,7 @@ public class Main {
 			glfwPollEvents();
 			glfwSwapBuffers(window);
 		}
+		g.exit();
 
 	}
 	public static void fail(String error)

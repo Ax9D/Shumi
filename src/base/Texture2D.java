@@ -19,8 +19,6 @@ public class Texture2D {
 		if (imageBuffer == null)
 			throw new RuntimeException("Failed to Load texture: " + path + "\n" + stbi_failure_reason());
 
-		System.out.println(imageBuffer);
-
 		tex = glGenTextures();
 
 		bind();
@@ -37,6 +35,8 @@ public class Texture2D {
 		unbind();
 
 		stbi_image_free(imageBuffer);
+
+		System.out.println("Created Texture:"+tex);
 
 	}
 

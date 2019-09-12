@@ -1,6 +1,7 @@
 package game;
 
 import base.Model;
+import game.components.CameraController;
 import game.components.ComponentHandler;
 import game.components.LoopAnimation;
 import game.components.PlayerMovement;
@@ -9,35 +10,41 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class World {
-	public ArrayList<ob2D> ob2Ds;
+    public ArrayList<ob2D> ob2Ds;
 
-	public HashMap<Model, ArrayList<ob2D>> modelObpair;
+    public HashMap<Model, ArrayList<ob2D>> modelObpair;
 
-	public ob2D player;
+    public ob2D player;
 
-	public World()
-	{
-		modelObpair=new HashMap<Model,ArrayList<ob2D>>();
-	}
-	public void update() {
+    public World() {
+        modelObpair = new HashMap<Model, ArrayList<ob2D>>();
+    }
 
-		for (LoopAnimation ba : ComponentHandler.getAll(LoopAnimation.class))
-			ba.update();
+    public void update() {
 
-		ComponentHandler.getAll(PlayerMovement.class).get(0).update();
+        for (LoopAnimation ba : ComponentHandler.getAllByComponent(LoopAnimation.class))
+            ba.update();
 
-		BPhysics.handlePlayerFOCollision(ob2Ds.get(0),ob2Ds.get(1));
+        PlayerMovement pm = ComponentHandler.getAllByComponent(PlayerMovement.class).get(0);
+        pm.update();
 
-		// for (ob2D b : ob2Ds)
-		// runComponents(b);
+        ob2D p =pm.parent;
 
-		// Test code --> Remove
-		// b.getComponent(BasicAnimation.class).run();
+        for (int i = 1; i < ob2Ds.size(); i++)
+            BPhysics.handlePlayerFOCollision(p, ob2Ds.get(i));
 
-		// p.update();
-	}
-	/*
-	 * public void runComponents(ob2D b) { for (Entry<String, Component> en :
-	 * b.comps.entrySet()) { en.getValue().run(); } }
-	 */
+        ComponentHandler.getAllByComponent(CameraController.class).get(0).update();
+
+        // for (ob2D b : ob2Ds)
+        // runComponents(b);
+
+        // Test code --> Remove
+        // b.getComponent(BasicAnimation.class).run();
+
+        // p.update();
+    }
+    /*
+     * public void runComponents(ob2D b) { for (Entry<String, Component> en :
+     * b.comps.entrySet()) { en.getValue().run(); } }
+     */
 }

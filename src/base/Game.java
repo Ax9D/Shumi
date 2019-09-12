@@ -1,6 +1,8 @@
 package base;
 
 import game.World;
+import game.components.CameraController;
+import game.components.ComponentHandler;
 import game.ob2D;
 import org.joml.Vector2f;
 
@@ -33,7 +35,7 @@ public class Game {
 	BShader bs;
 	ob2D btest;
 
-	private long prevTime,curTime;
+	private long prevTime;
 
 	public static float tDelta;
 
@@ -46,20 +48,25 @@ public class Game {
 		 *
 		 * p = new Player(quad, new Vector2f(0.25f, 0), new Vector2f(0.25f, 0.25f));
 		 */
+		prevTime=System.currentTimeMillis();
+
 		w = new World();
 		rm = new ResourceManager();
 
 		bs = new BShader("src/vertex", "src/fragment");
 		l = new Loader(rm, w, "resources.json", "gamedata.json");
-		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 0.001f);
+		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
 
 		// w.ob2Ds.get(0).addComponent(new BasicAnimation(new Texture2D[] { new
 		// Texture2D("an1.png"),
 		// new Texture2D("an2.png"), new Texture2D("an3.png"), new Texture2D("an4.png")
 		// }, 10));
-		System.out.println("Initialized.");
+		System.out.println("Initialized.\n"+
+							"Loaded resources and world in "+(System.currentTimeMillis()-prevTime)+"ms");
 
-		prevTime=System.currentTimeMillis();
+		//Future me, please refactor this
+		ComponentHandler.getAllByComponent(CameraController.class).get(0).setCamera(c);
+
 	}
 
 	public void update() {
@@ -70,7 +77,7 @@ public class Game {
 		Renderer.render(w,c,bs);
 	}
 	public void run() {
-		curTime=System.currentTimeMillis();
+		long curTime=System.currentTimeMillis();
 
 		tDelta=(curTime-prevTime)/1000.0f;
 
@@ -80,6 +87,7 @@ public class Game {
 	}
 
 	public void exit() {
+		rm.delete();
 	}
 
 }

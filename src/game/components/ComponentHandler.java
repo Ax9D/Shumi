@@ -18,7 +18,7 @@ public class ComponentHandler {
 		cmp = new HashMap<String,HashMap<String,Component>>();
 	}
 
-	public static <T> ArrayList<T> getAll(Class<T> c) {
+	public static <T> ArrayList<T> getAllByComponent(Class<T> c) {
 		String className = c.getName();
 
 		var req = cmp.get(className);

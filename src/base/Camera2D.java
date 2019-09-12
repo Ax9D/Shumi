@@ -15,19 +15,18 @@ public class Camera2D {
 	}
 	public void moveLeft()
 	{
-		pos.x-=cameraSpeed;
+		pos.x-=cameraSpeed*Game.tDelta;
 	}
 	public void moveRight()
 	{
-		pos.x+=cameraSpeed;
+		pos.x+=cameraSpeed*Game.tDelta;
 	}
 	public void moveUp()
 	{
-		pos.y+=cameraSpeed;
+		pos.y+=cameraSpeed*Game.tDelta;
 	}
 	public void moveDown()
 	{
-		pos.y-=cameraSpeed;
+		pos.y-=cameraSpeed*Game.tDelta;
 	}
-
 }

@@ -1,10 +1,7 @@
 package base;
 
 import game.World;
-import game.components.BoundingBox;
-import game.components.Component;
-import game.components.LoopAnimation;
-import game.components.PlayerMovement;
+import game.components.*;
 import game.ob2D;
 import org.joml.Vector2f;
 import org.json.JSONArray;
@@ -128,7 +125,7 @@ public class Loader {
         for (int i = 0; i < ja.length(); i++) {
             jo = ja.getJSONObject(i);
             String type = jo.getString("type");
-            Component c;
+            Component c=null;
             switch (type) {
                 case "LoopAnimation":
                     int frameRate = jo.getInt("frameRate");
@@ -139,21 +136,29 @@ public class Loader {
                         textures[j] = rs.textures.get(texIDs[j]);
 
                     c = new LoopAnimation(textures, frameRate);
-                    b.addComponent(c);
                     break;
                 case "PlayerMovement":
                     float walkSpeed = (float) jo.getDouble("walkSpeed");
                     c = new PlayerMovement(walkSpeed);
-                    b.addComponent(c);
                     break;
                 case "BoundingBox":
                 	String bType=jo.getString("bType");
                 	if(bType.equals("basic")) {
                         c=new BoundingBox();
-						b.addComponent(c);
 					}
                 	break;
+                case "CameraController":
+                    float minHor=(float)jo.getDouble("minHor");
+                    float maxHor=(float)jo.getDouble("maxHor");
+                    float minVer=(float)jo.getDouble("minVer");
+                    float maxVer=(float)jo.getDouble("maxVer");
+
+                    c=new CameraController(minHor,maxHor,minVer,maxVer);
+
+                    break;
             }
+
+            b.addComponent(c);
         }
     }
 
