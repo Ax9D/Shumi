@@ -46,6 +46,7 @@ public class Main {
 		Game g=new Game();
 		KeyboardHandler.window=window;
 
+
 		glClearColor(0.64f,0.64f,0.64f,1.0f);
 		while(!glfwWindowShouldClose(window))
 		{
