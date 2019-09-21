@@ -1,0 +1,23 @@
+#version 400 core
+
+uniform sampler2D map;
+uniform sampler2D grass;
+uniform sampler2D dirt;
+
+in vec2 tC;
+
+
+out vec4 color;
+void main()
+{
+    vec4 mapCol=texture(map,tC);
+    vec4 grassCol=texture(grass,tC*200);
+    vec4 dirtCol=texture(dirt,tC*200);
+
+    float gFactor=mapCol.r;
+    float dFactor=mapCol.g;
+
+    vec4 finalCol=vec4(gFactor*grassCol.rgb+dFactor*dirtCol.rgb,1.0);
+
+    color=finalCol;
+}
