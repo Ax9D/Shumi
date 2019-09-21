@@ -19,7 +19,20 @@
 	{
 		"id":"an4",
 		"path":"an4.png"
+	},
+	{
+	"id":"grass",
+		"path":"grass.png"
+	},
+	{
+			"id":"dirt",
+			"path":"dirt.png"
+	},
+	{
+		"id":"main_map",
+			"path":"map.png"
 	}
+
 	],
 	"models":[
 	{

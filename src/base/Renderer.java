@@ -1,11 +1,13 @@
 package base;
 
+import game.GMap;
 import game.World;
 import game.ob2D;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import static org.lwjgl.opengl.GL30.*;
@@ -47,7 +49,46 @@ public class Renderer {
 	}
 	public static void render(World w,Camera2D c,BShader bs)
 	{
-        for(Entry<Model, ArrayList<ob2D>> et:w.modelObpair.entrySet()) {
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        GMap gm=w.gm;
+
+        gm.ts.use();
+
+        Matrix4f tmat = MatrixMath.get2DTMat(gm.pos, gm.size);
+        Matrix4f cmat = MatrixMath.get2DTMat(new Vector2f(-c.pos.x, -c.pos.y), c.scale);
+
+        gm.ts.setMatrix("tmat", tmat);
+        gm.ts.setMatrix("cmat", cmat);
+
+        glActiveTexture(GL_TEXTURE0);
+        gm.map.bind();
+        glActiveTexture(GL_TEXTURE1);
+        gm.grass.bind();
+        glActiveTexture(GL_TEXTURE2);
+        gm.dirt.bind();
+
+        Model quad=Game.genericQuad;
+        quad.vao.bind();
+        quad.vao.activateVPointers();
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quad.eboID);
+
+        glDrawElements(GL_TRIANGLES, quad.ic, GL_UNSIGNED_INT, 0);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        quad.vao.deactivateVPointers();
+        quad.vao.unbind();
+
+
+        //Unbinding anyone should work
+        gm.dirt.unbind();
+
+        gm.ts.stop();
+
+
+        bs.use();
+
+        for(Entry<Model, HashMap<ob2D,Boolean>> et:w.modelObpair.entrySet()) {
             Model m = et.getKey();
             m.vao.bind();
             m.vao.activateVPointers();
@@ -56,30 +97,51 @@ public class Renderer {
 
             glActiveTexture(GL_TEXTURE0);
 
-            for (ob2D b : et.getValue()) {
 
+            for (Entry<ob2D,Boolean> be: et.getValue().entrySet()) {
+                ob2D b=be.getKey();
                 b.tex.bind();
 
-                bs.use();
-
-                Matrix4f tmat = MatrixMath.get2DTMat(b.pos, b.size);
-                Matrix4f cmat = MatrixMath.get2DTMat(new Vector2f(-c.pos.x, -c.pos.y), c.scale);
+                tmat = MatrixMath.get2DTMat(b.pos, b.size);
 
                 bs.setMatrix("tmat", tmat);
                 bs.setMatrix("cmat", cmat);
 
-                bs.setInt("texSamp", 0);
-
                 glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
-
-                bs.stop();
 
                 b.tex.unbind();
             }
+
 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
             m.vao.deactivateVPointers();
             m.vao.unbind();
         }
+        bs.stop();
 	}
+	public static void renderTOFBO(World w, Camera2D c, BShader bs, FBO fbo, Model screenQuad, BShader screenShader)
+    {
+        fbo.bind();
+        render(w,c,bs);
+        fbo.unbind();
+
+        glClearColor(0.64f,0.64f,0.64f,1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        screenShader.use();
+
+        screenQuad.vao.bind();
+        glActiveTexture(GL_TEXTURE0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, screenQuad.eboID);
+
+        fbo.tex.bind();
+
+        glDrawElements(GL_TRIANGLES, screenQuad.ic, GL_UNSIGNED_INT, 0);
+
+        fbo.tex.unbind();
+
+        screenQuad.vao.unbind();
+
+        screenShader.stop();
+    }
 }

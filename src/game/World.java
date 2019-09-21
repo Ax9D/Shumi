@@ -12,14 +12,18 @@ import java.util.HashMap;
 public class World {
     public ArrayList<ob2D> ob2Ds;
 
-    public HashMap<Model, ArrayList<ob2D>> modelObpair;
+    public HashMap<Model, HashMap<ob2D,Boolean>> modelObpair;
 
-    public ob2D player;
+    public GMap gm;
 
     public World() {
-        modelObpair = new HashMap<Model, ArrayList<ob2D>>();
+        modelObpair = new HashMap<Model, HashMap<ob2D,Boolean>>();
     }
-
+    public void deleteOb2D(ob2D b)
+    {
+        b.delete();
+        modelObpair.get(b.m).remove(b);
+    }
     public void update() {
 
         for (LoopAnimation ba : ComponentHandler.getAllByComponent(LoopAnimation.class))

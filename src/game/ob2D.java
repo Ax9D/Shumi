@@ -20,8 +20,6 @@ public class ob2D {
 
 	public String name;
 
-	public HashMap<Class,Boolean> comps;
-
 	public Texture2D tex;
 
 	public ob2D(Model m, Vector2f pos, Vector2f size, String name) {
@@ -30,7 +28,6 @@ public class ob2D {
 		this.size = size;
 		this.name = name;
 		this.id = genID();
-		comps = new HashMap<Class,Boolean>();
 	}
 
 	private String genID() {
@@ -49,8 +46,6 @@ public class ob2D {
 			ComponentHandler.cmp.put(className, cmpList = new HashMap<String,Component>());
 
 		cmpList.put(id,c);
-
-		comps.put(c.getClass(),true);
 
 		c.setParent(this);
 	}
@@ -74,16 +69,15 @@ public class ob2D {
 		HashMap<String, Component> cmpList = ComponentHandler.cmp.get(className);
 		cmpList.remove(id);
 
-		comps.remove(c);
 	}
 	public void delete()
 	{
-		for(Entry<Class,Boolean> ent:comps.entrySet())
+		/*for(Entry<Class,Boolean> ent:comps.entrySet())
 		{
 			Class cmpName=ent.getKey();
 
 			ComponentHandler.cmp.get(cmpName).remove(id);
-		}
+		}*/
 	}
 
 }

@@ -1,10 +1,12 @@
 package base;
 
+import game.GMap;
 import game.World;
 import game.components.CameraController;
 import game.components.ComponentHandler;
 import game.ob2D;
 import org.joml.Vector2f;
+import org.lwjgl.glfw.GLFWNativeCocoa;
 
 public class Game {
 
@@ -22,18 +24,18 @@ public class Game {
 	 * Texture2D("test.png"); quad.setTexture(genericTex); }
 	 */
 
-	public static Texture2D defaultTex;
-
-	static {
-		defaultTex = new Texture2D("test.png");
-	}
-
 	World w;
 	ResourceManager rm;
 	Loader l;
 	Camera2D c;
 	BShader bs;
-	ob2D btest;
+
+	static Model genericQuad;
+
+	FBO screenFBO;
+
+	BShader screenShader;
+	BShader mapShader;
 
 	private long prevTime;
 
@@ -57,6 +59,12 @@ public class Game {
 		l = new Loader(rm, w, "resources.json", "gamedata.json");
 		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
 
+		genericQuad=rm.models.get("generic_quad");
+		screenFBO=new FBO(new Texture2D(800,600));
+		screenShader=new BShader("src/screenV","src/screenF");
+		mapShader=new BShader("src/mapV","src/mapF");
+
+
 		// w.ob2Ds.get(0).addComponent(new BasicAnimation(new Texture2D[] { new
 		// Texture2D("an1.png"),
 		// new Texture2D("an2.png"), new Texture2D("an3.png"), new Texture2D("an4.png")
@@ -67,6 +75,13 @@ public class Game {
 		//Future me, please refactor this
 		ComponentHandler.getAllByComponent(CameraController.class).get(0).setCamera(c);
 
+		bs.use();
+		bs.setInt("texSamp", 0);
+		bs.stop();
+
+		screenShader.use();
+		screenShader.setInt("texSamp",0);
+		screenShader.stop();
 	}
 
 	public void update() {
@@ -74,7 +89,8 @@ public class Game {
 	}
 
 	public void draw(){
-		Renderer.render(w,c,bs);
+		//Renderer.render(w,c,bs);
+		Renderer.renderTOFBO(w,c,bs,screenFBO,genericQuad,screenShader);
 	}
 	public void run() {
 		long curTime=System.currentTimeMillis();

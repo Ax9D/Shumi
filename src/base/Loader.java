@@ -1,5 +1,6 @@
 package base;
 
+import game.GMap;
 import game.World;
 import game.components.*;
 import game.ob2D;
@@ -9,12 +10,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Loader {
 
     ResourceManager rs;
     World w;
+    static Texture2D defaultTex;
 
+    static{
+        defaultTex=new Texture2D("test.png");
+    }
     /*
      * public static Texture2D loadIMG(String path) { int[] w=new int[1]; int[]
      * h=new int[1]; int[] ch=new int[1];
@@ -115,7 +121,7 @@ public class Loader {
             // m.setTexture(rs.textures.get(tid));
 
             rs.addModel(m, mid);
-            w.modelObpair.put(m,new ArrayList<ob2D>());
+            w.modelObpair.put(m,new HashMap<ob2D,Boolean>());
         }
     }
 
@@ -156,6 +162,8 @@ public class Loader {
                     c=new CameraController(minHor,maxHor,minVer,maxVer);
 
                     break;
+                default:
+                    throw new JSONException("No matching components found: "+type);
             }
 
             b.addComponent(c);
@@ -179,7 +187,7 @@ public class Loader {
             ob2D b = new ob2D(m, pos, size, bid);
 
             if (!jo.has("texture"))
-                b.tex = Game.defaultTex;
+                b.tex = defaultTex;
             else {
                 String tid = jo.getString("texture");
                 b.tex = rs.textures.get(tid);
@@ -190,9 +198,30 @@ public class Loader {
             obs.add(b);
             var objectList=w.modelObpair.get(m);
 
-            objectList.add(b);
+            objectList.put(b,true);
         }
         w.ob2Ds = obs;
+    }
+    public void getGMaps(JSONArray ja) throws JSONException
+    {
+        JSONObject jo=ja.getJSONObject(0);
+        Texture2D grass=rs.textures.get(jo.getString("grass"));
+        Texture2D dirt=rs.textures.get(jo.getString("dirt"));
+        Texture2D map=rs.textures.get(jo.getString("map"));
+        float[] posF=getFloatArrFromJSON(jo.getJSONArray("pos"));
+        float[] sizeF=getFloatArrFromJSON(jo.getJSONArray("size"));
+
+
+        var ts=new BShader("src/mapV","src/mapF");
+        w.gm=new GMap(new Vector2f(posF[0],posF[1]),new Vector2f(sizeF[0],sizeF[1]),grass,dirt,map,ts);
+
+        ts.use();
+
+        ts.setInt("map",0);
+        ts.setInt("grass",1);
+        ts.setInt("dirt",2);
+
+        ts.stop();
     }
     /*
     private void getPlayer(JSONObject jo) throws JSONException {
@@ -230,6 +259,7 @@ public class Loader {
             JSONObject jj = new JSONObject(fullJSONtxt);
 
             getOb2Ds(jj.getJSONArray("ob2Ds"));
+            getGMaps(jj.getJSONArray("GMaps"));
             // getPlayer(jj.getJSONObject("player"));
 
         } catch (JSONException e) {

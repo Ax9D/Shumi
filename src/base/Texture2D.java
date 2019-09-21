@@ -1,5 +1,7 @@
 package base;
 
+import java.nio.ByteBuffer;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL33.glGenerateMipmap;
@@ -39,7 +41,29 @@ public class Texture2D {
 		System.out.println("Created Texture:"+tex);
 
 	}
+	public Texture2D(int w,int h)
+	{
+		tex = glGenTextures();
 
+		bind();
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE,0);
+
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		unbind();
+
+		System.out.println("Created Texture:"+tex);
+	}
+	public int getID()
+	{
+		return tex;
+	}
 	public void delete() {
 		glDeleteTextures(tex);
 	}

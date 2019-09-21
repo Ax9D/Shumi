@@ -1,5 +1,6 @@
 package base;
 
+import editor.Editor;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
@@ -30,7 +31,6 @@ public class Main {
 		GL.createCapabilities();
 
 		glfwSwapInterval(1);
-		glfwShowWindow(window);
 
 		glfwSetKeyCallback(window, (w,key,scancode,action,mods)->{
 			if(key==GLFW_KEY_ESCAPE && action==GLFW_RELEASE)
@@ -43,23 +43,29 @@ public class Main {
 	{
 		init();
 
-		Game g=new Game();
-		KeyboardHandler.window=window;
-
-
-		glClearColor(0.64f,0.64f,0.64f,1.0f);
-		while(!glfwWindowShouldClose(window))
+		if(args.length>0 && args[0].equals("Editor"))
 		{
-			glfwSetWindowTitle(window,"FPS: "+Math.round(1/Game.tDelta));
+			Editor e=new Editor();
 
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			g.run();
-
-			glfwPollEvents();
-			glfwSwapBuffers(window);
 		}
-		g.exit();
+		else {
+			glfwShowWindow(window);
+
+			Game g = new Game();
+			KeyboardHandler.window = window;
+
+
+			//glClearColor(0.64f,0.64f,0.64f,1.0f);
+			while (!glfwWindowShouldClose(window)) {
+				glfwSetWindowTitle(window, "FPS: " + Math.round(1 / Game.tDelta));
+
+				g.run();
+
+				glfwPollEvents();
+				glfwSwapBuffers(window);
+			}
+			g.exit();
+		}
 
 	}
 	public static void fail(String error)

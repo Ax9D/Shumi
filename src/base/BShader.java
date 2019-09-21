@@ -64,8 +64,7 @@ public class BShader {
 		glShaderSource(shader, code);
 		glCompileShader(shader);
 		String infoLog = glGetShaderInfoLog(shader);
-		if (infoLog.length()==0)
-			System.out.println(infoLog);
+		System.out.println(infoLog);
 		return shader;
 	}
 }
