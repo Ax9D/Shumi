@@ -1,38 +1,43 @@
 package game;
 
-import base.BShader;
-import base.Model;
-import base.Texture2D;
+import base.*;
 import org.joml.Vector2f;
 
 public class GMap {
-    public Texture2D grass;
-    public Texture2D dirt;
-    public Texture2D map;
 
-    public Vector2f pos,size;
+    public Texture2D biomeTex;
+
+    public Vector2f pos,zerozero;
+
+    public float size;
 
     public BShader ts;
 
-    public ob2D[] vertPath;
-    public ob2D[] horPath;
+    public Path[] paths;
 
-    public GMap(Vector2f pos,Vector2f scale,Texture2D grass, Texture2D dirt,BShader ts)
+    public float tileSize;
+
+   public FBO mapTexFBO;
+
+    public GMap(Vector2f pos,float size,BShader ts,int tileCount,Path[] paths)
     {
-        this.grass=grass;
-        this.dirt=dirt;
-
         this.pos=pos;
-        this.size=scale;
+        this.size=size;
 
         this.ts=ts;
+        this.paths=paths;
+        this.tileSize=size.x/tileCount;
+        this.zerozero=new Vector2f(this.pos.x-size.x+tileSize,this.pos.y+size.y-tileSize);
+        System.out.println(zerozero);
+
+        mapTexFBO=new FBO(new Texture2D());
     }
-    public void addhertPath(Vector2f pos,int ntiles)
+    /*public void addhertPath(Vector2f pos,int ntiles)
     {
 
     }
     public void addverPath(Vector2f pos,int ntiles)
     {
 
-    }
+    }*/
 }

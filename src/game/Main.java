@@ -40,6 +40,8 @@ public class Main {
 		});
 
 		System.out.println(GL11.glGetString(GL11.GL_VERSION));
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable( GL_BLEND );
 	}
 	public static void main(String[] args)
 	{

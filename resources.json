@@ -28,11 +28,10 @@
 			"id":"dirt",
 			"path":"dirt.png"
 	},
-	{
-		"id":"main_map",
-			"path":"map.png"
-	}
-
+		{
+			"id":"stone",
+			"path":"stone.png"
+		}
 	],
 	"models":[
 	{

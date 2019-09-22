@@ -1,8 +1,8 @@
 #version 400 core
 
-uniform sampler2D map;
-uniform sampler2D grass;
-uniform sampler2D dirt;
+uniform sampler2D biomeTex;
+
+uniform int tileCount;
 
 in vec2 tC;
 
@@ -10,14 +10,5 @@ in vec2 tC;
 out vec4 color;
 void main()
 {
-    vec4 mapCol=texture(map,tC);
-    vec4 grassCol=texture(grass,tC*40);
-    vec4 dirtCol=texture(dirt,tC*40);
-
-    float gFactor=1-mapCol.r-mapCol.g-mapCol.b;
-    float dFactor=mapCol.r;
-
-    vec4 finalCol=vec4(gFactor*grassCol.rgb+dFactor*dirtCol.rgb,1.0);
-
-    color=finalCol;
+    color=texture(biomeTex,tC*tileCount);
 }

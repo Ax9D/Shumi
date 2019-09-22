@@ -1,10 +1,9 @@
 package base;
 
-import game.GMap;
-import game.World;
+import game.*;
 import game.components.*;
-import game.ob2D;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,8 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Loader {
-
-    ResourceManager rs;
     World w;
     static Texture2D defaultTex;
 
@@ -65,8 +62,7 @@ public class Loader {
      *
      * }
      */
-    public Loader(ResourceManager rs, World w, String rspath, String gmpath) {
-        this.rs = rs;
+    public Loader(World w, String rspath, String gmpath) {
         this.w = w;
         loadGame(rspath, gmpath);
     }
@@ -102,7 +98,7 @@ public class Loader {
             JSONObject jo = ja.getJSONObject(i);
             String tid = jo.getString("id");
             String path = jo.getString("path");
-            rs.addTexture2D(new Texture2D(path), tid);
+            ResourceManager.addTexture2D(new Texture2D(path), tid);
         }
     }
 
@@ -120,7 +116,7 @@ public class Loader {
             Model m = new Model(vertices, indices, texCoords);
             // m.setTexture(rs.textures.get(tid));
 
-            rs.addModel(m, mid);
+            ResourceManager.addModel(m, mid);
             w.modelObpair.put(m,new HashMap<ob2D,Boolean>());
         }
     }
@@ -139,7 +135,7 @@ public class Loader {
                     Texture2D[] textures = new Texture2D[texIDs.length];
 
                     for (int j = 0; j < texIDs.length; j++)
-                        textures[j] = rs.textures.get(texIDs[j]);
+                        textures[j] = ResourceManager.getTexture(texIDs[j]);
 
                     c = new LoopAnimation(textures, frameRate);
                     break;
@@ -183,14 +179,14 @@ public class Loader {
             Vector2f pos = new Vector2f(posArr[0], posArr[1]);
             Vector2f size = new Vector2f(sizeArr[0], sizeArr[1]);
 
-            Model m=rs.models.get(mid);
+            Model m=ResourceManager.getModel(mid);
             ob2D b = new ob2D(m, pos, size, bid);
 
             if (!jo.has("texture"))
                 b.tex = defaultTex;
             else {
                 String tid = jo.getString("texture");
-                b.tex = rs.textures.get(tid);
+                b.tex = ResourceManager.getTexture(tid);
             }
 
             getComponents(b, jo.getJSONArray("components"));
@@ -202,24 +198,50 @@ public class Loader {
         }
         w.ob2Ds = obs;
     }
+    public Path[] getPaths(JSONArray ja) throws JSONException {
+        int n=ja.length();
+        Path[] ret=new Path[n];
+
+        int[] gridPos;
+        int ntiles;
+        Path.PathType type;
+        Path.PathDirection dir;
+
+        for(int i=0;i<n;i++)
+        {
+            JSONObject jo=ja.getJSONObject(i);
+            type=Path.PathType.valueOf(jo.getString("type"));
+            gridPos=getIntArrFromJSON(jo.getJSONArray("gridPos"));
+            ntiles=jo.getInt("ntiles");
+            dir=Path.PathDirection.valueOf(jo.getString("direction"));
+
+            ret[i]=new Path(type,new Vector2i(gridPos[0],gridPos[1]),ntiles,dir);
+        }
+
+
+        return ret;
+    }
     public void getGMaps(JSONArray ja) throws JSONException
     {
         JSONObject jo=ja.getJSONObject(0);
-        Texture2D grass=rs.textures.get(jo.getString("grass"));
-        Texture2D dirt=rs.textures.get(jo.getString("dirt"));
-        Texture2D map=rs.textures.get(jo.getString("map"));
         float[] posF=getFloatArrFromJSON(jo.getJSONArray("pos"));
-        float[] sizeF=getFloatArrFromJSON(jo.getJSONArray("size"));
+        float sizeF=(float)jo.getDouble("size");
 
+        Path[] paths=getPaths(jo.getJSONArray("paths"));
+
+        int tileCount=jo.getInt("tileCount");
 
         var ts=new BShader("src/mapV","src/mapF");
-        w.gm=new GMap(new Vector2f(posF[0],posF[1]),new Vector2f(sizeF[0],sizeF[1]),grass,dirt,map,ts);
+
+
+        w.gm=new GMap(new Vector2f(posF[0],posF[1]),new Vector2f(sizeF,sizeF),ts,tileCount,paths);
+
+        w.gm.biomeTex=ResourceManager.getTexture("grass");
 
         ts.use();
 
-        ts.setInt("map",0);
-        ts.setInt("grass",1);
-        ts.setInt("dirt",2);
+        ts.setInt("tileCount",tileCount);
+        ts.setInt("biomeTex",0);
 
         ts.stop();
     }
@@ -229,7 +251,7 @@ public class Loader {
         float[] sizeA = getFloatArrFromJSON(jo.getJSONArray("size"));
         String mid = jo.getString("model");
 
-        w.p = new Player(rs.models.get(mid), new Vector2f(posA[0], posA[1]), new Vector2f(sizeA[0], sizeA[1]));
+        w.p = new Player(ResourceManager.models.get(mid), new Vector2f(posA[0], posA[1]), new Vector2f(sizeA[0], sizeA[1]));
     }
     */
     public void loadGame(String rspath, String gmpath) {

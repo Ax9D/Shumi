@@ -25,17 +25,14 @@ public class Game {
 	 */
 
 	World w;
-	ResourceManager rm;
 	Loader l;
 	Camera2D c;
 	BShader bs;
-
-	static Model genericQuad;
+	Renderer r;
 
 	FBO screenFBO;
 
 	BShader screenShader;
-	BShader mapShader;
 
 	private long prevTime;
 
@@ -53,22 +50,23 @@ public class Game {
 		prevTime=System.currentTimeMillis();
 
 		w = new World();
-		rm = new ResourceManager();
 
 		bs = new BShader("src/vertex", "src/fragment");
-		l = new Loader(rm, w, "resources.json", "gamedata.json");
+		l = new Loader(w, "resources.json", "gamedata.json");
 		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
 
-		genericQuad=rm.models.get("generic_quad");
+		r=new Renderer(c);
+
+
 		screenFBO=new FBO(new Texture2D(800,600));
 		screenShader=new BShader("src/screenV","src/screenF");
-		mapShader=new BShader("src/mapV","src/mapF");
 
 
 		// w.ob2Ds.get(0).addComponent(new BasicAnimation(new Texture2D[] { new
 		// Texture2D("an1.png"),
 		// new Texture2D("an2.png"), new Texture2D("an3.png"), new Texture2D("an4.png")
 		// }, 10));
+
 		System.out.println("Initialized.\n"+
 							"Loaded resources and world in "+(System.currentTimeMillis()-prevTime)+"ms");
 
@@ -77,11 +75,13 @@ public class Game {
 
 		bs.use();
 		bs.setInt("texSamp", 0);
-		bs.stop();
+
 
 		screenShader.use();
 		screenShader.setInt("texSamp",0);
-		screenShader.stop();
+
+		r.renderGMaptoTexture(w.gm,bs);
+
 	}
 
 	public void update() {
@@ -90,7 +90,7 @@ public class Game {
 
 	public void draw(){
 		//Renderer.render(w,c,bs);
-		Renderer.renderTOFBO(w,c,bs,screenFBO,genericQuad,screenShader);
+		r.renderTOFBO(w,bs,screenFBO,ResourceManager.basicQuad,screenShader);
 	}
 	public void run() {
 		long curTime=System.currentTimeMillis();
@@ -103,7 +103,7 @@ public class Game {
 	}
 
 	public void exit() {
-		rm.delete();
+		ResourceManager.delete();
 	}
 
 }
