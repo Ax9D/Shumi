@@ -1,5 +1,7 @@
-package base;
+package game;
 
+import base.Game;
+import base.KeyboardHandler;
 import editor.Editor;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;

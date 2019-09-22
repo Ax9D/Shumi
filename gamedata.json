@@ -46,7 +46,7 @@
 	"GMaps": [{
 		"id": "main_world",
 		"pos": [0,0],
-		"size": [5,5],
+		"size": [1,1],
 		"map": "main_map",
 		"grass": "grass",
 		"dirt": "dirt"

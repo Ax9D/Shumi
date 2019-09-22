@@ -14,16 +14,25 @@ public class GMap {
 
     public BShader ts;
 
-    public GMap(Vector2f pos,Vector2f scale,Texture2D grass, Texture2D dirt,Texture2D map,BShader ts)
+    public ob2D[] vertPath;
+    public ob2D[] horPath;
+
+    public GMap(Vector2f pos,Vector2f scale,Texture2D grass, Texture2D dirt,BShader ts)
     {
         this.grass=grass;
         this.dirt=dirt;
-        this.map=map;
 
         this.pos=pos;
         this.size=scale;
 
         this.ts=ts;
     }
+    public void addhertPath(Vector2f pos,int ntiles)
+    {
 
+    }
+    public void addverPath(Vector2f pos,int ntiles)
+    {
+
+    }
 }
