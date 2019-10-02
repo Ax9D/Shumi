@@ -1,7 +1,5 @@
 package base;
 
-import java.nio.ByteBuffer;
-
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL33.glGenerateMipmap;

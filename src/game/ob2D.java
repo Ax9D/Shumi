@@ -7,7 +7,6 @@ import game.components.ComponentHandler;
 import org.joml.Vector2f;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 public class ob2D {
 	public Model m;

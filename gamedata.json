@@ -46,9 +46,8 @@
 	"GMaps": [{
 		"id": "main_world",
 		"pos": [0,0],
-		"size": 1,
+		"size": 2,
 		"tileCount": 10,
-
 
 		"paths": [{
 			"type": "Dirt",

@@ -2,7 +2,6 @@ package game;
 
 import base.ResourceManager;
 import base.Texture2D;
-import org.joml.Vector2f;
 import org.joml.Vector2i;
 
 public class Path  {

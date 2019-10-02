@@ -1,7 +1,10 @@
 package base;
 
-import game.*;
+import game.GMap;
+import game.Path;
+import game.World;
 import game.components.*;
+import game.ob2D;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.json.JSONArray;
@@ -233,8 +236,7 @@ public class Loader {
 
         var ts=new BShader("src/mapV","src/mapF");
 
-
-        w.gm=new GMap(new Vector2f(posF[0],posF[1]),new Vector2f(sizeF,sizeF),ts,tileCount,paths);
+        w.gm=new GMap(new Vector2f(posF[0],posF[1]),sizeF,ts,tileCount,paths);
 
         w.gm.biomeTex=ResourceManager.getTexture("grass");
 

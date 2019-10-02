@@ -4,7 +4,6 @@ import game.*;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -101,6 +100,9 @@ public class Renderer {
 
     public void renderGMaptoTexture(GMap map, BShader bs) {
         FBO fbo = map.mapTexFBO;
+
+        glViewport(0,0,fbo.width,fbo.height);
+
         fbo.bind();
 
         Model m = ResourceManager.basicQuad;
@@ -116,8 +118,8 @@ public class Renderer {
         ms.use();
 
         Vector2f origin = new Vector2f(0);
-        Vector2f gzerozero = new Vector2f(origin.x - map.size.x + map.tileSize, origin.x + map.size.x - map.tileSize);
-
+        System.out.println(map.size);
+        Vector2f gzerozero = new Vector2f(origin.x - map.size + map.tileSize, origin.y + map.size - map.tileSize);
 
         Matrix4f tmat = MatrixMath.get2DTMat(origin, map.size);
 
@@ -158,6 +160,8 @@ public class Renderer {
 
 
         fbo.unbind();
+
+        glViewport(0,0, Main.WIDTH, Main.HEIGHT);
         //m.vao.unbind();
     }
 
@@ -219,6 +223,7 @@ public class Renderer {
         m.vao.bind();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.eboID);
         m.vao.activateVPointers();
+
         bs.use();
 
         map.mapTexFBO.tex.bind();

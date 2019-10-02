@@ -22,5 +22,23 @@ public class MatrixMath {
 		ret.rotateZ(r);
 		return ret;
 	}
+	public static Matrix4f get2DTMat(Vector2f t,float s)
+	{
+		Matrix4f ret=new Matrix4f();
+		ret.identity();
+		ret.translate(t.x,t.y,0.0f);
+		ret.scale(s,s,1);
+
+		return ret;
+	}
+	public static Matrix4f get2DTMat(Vector2f t,float s,float r)
+	{
+		Matrix4f ret=new Matrix4f();
+		ret.identity();
+		ret.translate(t.x,t.y,0.0f);
+		ret.scale(s,s,1f);
+		ret.rotateZ(r);
+		return ret;
+	}
 
 }

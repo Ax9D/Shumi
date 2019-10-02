@@ -1,12 +1,9 @@
 package base;
 
-import game.GMap;
 import game.World;
 import game.components.CameraController;
 import game.components.ComponentHandler;
-import game.ob2D;
 import org.joml.Vector2f;
-import org.lwjgl.glfw.GLFWNativeCocoa;
 
 public class Game {
 
@@ -58,7 +55,7 @@ public class Game {
 		r=new Renderer(c);
 
 
-		screenFBO=new FBO(new Texture2D(800,600));
+		screenFBO=new FBO(800,600);
 		screenShader=new BShader("src/screenV","src/screenF");
 
 
@@ -82,6 +79,7 @@ public class Game {
 
 		r.renderGMaptoTexture(w.gm,bs);
 
+		w.gm.mapTexFBO.saveToDisk("fbotest.png");
 	}
 
 	public void update() {

@@ -10,8 +10,8 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Main {
-	static final int WIDTH=800;
-	static final int HEIGHT=600;
+	public static final int WIDTH=800;
+	public static final int HEIGHT=600;
 
 	static long window;
 	public static void init()
