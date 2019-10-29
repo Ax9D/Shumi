@@ -18,9 +18,6 @@ public class ResourceManager {
 
 
     public static void addModel(Model m, String id) {
-        if(id.equals("generic_quad"))
-            basicQuad=m;
-
         models.put(id, m);
     }
 
@@ -34,7 +31,10 @@ public class ResourceManager {
     }
     public static Model getModel(String id)
     {
-        return models.get(id);
+        if(id.equals("generic_quad"))
+            return basicQuad;
+        else
+            return models.get(id);
     }
     public static Texture2D getTexture(String id)
     {

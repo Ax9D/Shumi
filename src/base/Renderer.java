@@ -56,7 +56,8 @@ public class Renderer {
     }
 
     public void renderWorld(World w, BShader bs) {
-        glClear(GL_COLOR_BUFFER_BIT);
+
+        glEnable(GL_BLEND);
 
         GMap gm = w.gm;
 
@@ -96,13 +97,14 @@ public class Renderer {
             // m.vao.unbind();
         }
         //bs.stop();
+        glDisable(GL_BLEND);
     }
 
     public void renderGMaptoTexture(GMap map, BShader bs) {
+
         FBO fbo = map.mapTexFBO;
 
         glViewport(0,0,fbo.width,fbo.height);
-
         fbo.bind();
 
         Model m = ResourceManager.basicQuad;
@@ -117,11 +119,13 @@ public class Renderer {
 
         ms.use();
 
-        Vector2f origin = new Vector2f(0);
-        System.out.println(map.size);
-        Vector2f gzerozero = new Vector2f(origin.x - map.size + map.tileSize, origin.y + map.size - map.tileSize);
 
-        Matrix4f tmat = MatrixMath.get2DTMat(origin, map.size);
+
+        Vector2f origin = new Vector2f(0);
+        //System.out.println(map.size);
+        Vector2f gzerozero = new Vector2f(origin.x - 1 + map.tileSize, origin.y + 1 - map.tileSize);
+
+        Matrix4f tmat = MatrixMath.get2DTMat(origin, 1);
 
         ms.setMatrix("tmat", tmat);
         map.biomeTex.bind();
@@ -130,11 +134,14 @@ public class Renderer {
 
         bs.use();
 
-        bs.setMatrix("cmat", MatrixMath.get2DTMat(new Vector2f(0), new Vector2f(1)));
+        bs.setMatrix("cmat", MatrixMath.get2DTMat(new Vector2f(0), new Vector2f(1,1)));
 
         float tileSkip = map.tileSize * 2;
 
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_BLEND);
 
+        /*
         for (Path p : map.paths) {
             p.tex.bind();
             if (p.dir == Path.PathDirection.Horizontal) {
@@ -156,13 +163,25 @@ public class Renderer {
             }
         }
         // ms.stop();
-        m.vao.deactivateVPointers();
+        */
+        for(Tile t:map.tiles)
+        {
+            t.tex.bind();
+            Vector2f pos=new Vector2f(gzerozero.x+t.gridPos.x*tileSkip,gzerozero.y-t.gridPos.y*tileSkip);
+            tmat=MatrixMath.get2DTMat(pos,new Vector2f(map.tileSize),0);
+            bs.setMatrix("tmat",tmat);
+            glDrawElements(GL_TRIANGLES,m.ic,GL_UNSIGNED_INT,0);
+        }
 
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        m.vao.deactivateVPointers();
 
         fbo.unbind();
 
         glViewport(0,0, Main.WIDTH, Main.HEIGHT);
         //m.vao.unbind();
+
+        glDisable(GL_BLEND);
     }
 
     public void renderGMap(GMap map, BShader bs) {
@@ -217,7 +236,9 @@ public class Renderer {
         m.vao.deactivateVPointers();
         //m.vao.unbind();
          */
-        glClear(GL_COLOR_BUFFER_BIT);
+        //glClear(GL_COLOR_BUFFER_BIT);
+
+        glDisable( GL_BLEND );
 
         Model m = ResourceManager.basicQuad;
         m.vao.bind();
@@ -237,28 +258,36 @@ public class Renderer {
         glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
 
         m.vao.deactivateVPointers();
+
     }
 
     public void renderTOFBO(World w, BShader bs, FBO fbo, Model screenQuad, BShader screenShader) {
         fbo.bind();
+
+        //Clear world
+        glClearColor(1f, 0.64f, 0.64f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         setState();
         renderWorld(w, bs);
 
         fbo.unbind();
 
-        glClearColor(0.64f, 0.64f, 0.64f, 1.0f);
+        glClearColor(1f, 1f, 1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         screenShader.use();
 
         screenQuad.vao.bind();
-        glActiveTexture(GL_TEXTURE0);
+
+        screenQuad.vao.activateVPointers();
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, screenQuad.eboID);
 
         fbo.tex.bind();
 
         glDrawElements(GL_TRIANGLES, screenQuad.ic, GL_UNSIGNED_INT, 0);
 
+        screenQuad.vao.deactivateVPointers();
     }
 }

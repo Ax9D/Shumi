@@ -1,12 +1,33 @@
 package base;
 
+import game.Main;
 import game.World;
 import game.components.CameraController;
 import game.components.ComponentHandler;
+import game.ob2D;
 import org.joml.Vector2f;
+
+import java.util.HashMap;
 
 public class Game {
 
+    static float[] quadVerts;
+    static float[] quadUV={0.0f, 1.0f,
+                           1.0f, 1.0f,
+                           1.0f, 0.0f,
+                           0.0f, 0.0f};
+    static int[] quadInds={0, 3, 1, 1, 3, 2};
+
+    static {
+		float aspect_ratio;
+		aspect_ratio = 1;
+		//aspect_ratio=1f;
+		System.out.println(aspect_ratio);
+		quadVerts = new float[]{-1.0f * aspect_ratio, 1.0f,
+				1.0f * aspect_ratio, 1.0f,
+				1.0f * aspect_ratio, -1.0f,
+				-1.0f * aspect_ratio, -1.0f};
+	}
 	/*
 	 * BShader bs; ob2D test; Camera2D c; static Model quad; Player p; static
 	 * Texture2D genericTex;
@@ -20,7 +41,6 @@ public class Game {
 	 * static { quad = new Model(quadVerts, quadInds, quadtCoords); genericTex = new
 	 * Texture2D("test.png"); quad.setTexture(genericTex); }
 	 */
-
 	World w;
 	Loader l;
 	Camera2D c;
@@ -48,11 +68,24 @@ public class Game {
 
 		w = new World();
 
+        ResourceManager.basicQuad=new Model(quadVerts,quadInds,quadUV);
+        w.modelObpair.put(ResourceManager.basicQuad,new HashMap<ob2D,Boolean>());
+
+/*
+
+        screenRect=new Model(new float[]{
+                -1f, 1f,
+                1f, 1f,
+                1f, -1f,
+                -1f, -1f
+        },quadInds,quadUV);*/
+
 		bs = new BShader("src/vertex", "src/fragment");
 		l = new Loader(w, "resources.json", "gamedata.json");
 		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
 
 		r=new Renderer(c);
+
 
 
 		screenFBO=new FBO(800,600);
@@ -79,7 +112,6 @@ public class Game {
 
 		r.renderGMaptoTexture(w.gm,bs);
 
-		w.gm.mapTexFBO.saveToDisk("fbotest.png");
 	}
 
 	public void update() {

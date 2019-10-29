@@ -1,10 +1,7 @@
 package base;
 
-import game.GMap;
-import game.Path;
-import game.World;
+import game.*;
 import game.components.*;
-import game.ob2D;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.json.JSONArray;
@@ -224,19 +221,38 @@ public class Loader {
 
         return ret;
     }
+    public Tile[] getTiles(JSONArray ja) throws JSONException {
+        int n=ja.length();
+        Tile[] ret=new Tile[n];
+
+        int[] gridPos;
+        String texID;
+
+        for(int i=0;i<n;i++)
+        {
+            JSONObject jo=ja.getJSONObject(i);
+            gridPos=getIntArrFromJSON(jo.getJSONArray("gridPos"));
+            texID=jo.getString("texture");
+
+            ret[i]=new Tile(new Vector2f(gridPos[0],gridPos[1]),ResourceManager.getTexture(texID));
+        }
+
+
+        return ret;
+    }
     public void getGMaps(JSONArray ja) throws JSONException
     {
         JSONObject jo=ja.getJSONObject(0);
         float[] posF=getFloatArrFromJSON(jo.getJSONArray("pos"));
         float sizeF=(float)jo.getDouble("size");
 
-        Path[] paths=getPaths(jo.getJSONArray("paths"));
+        Tile[] tiles=getTiles(jo.getJSONArray("tiles"));
 
         int tileCount=jo.getInt("tileCount");
 
         var ts=new BShader("src/mapV","src/mapF");
 
-        w.gm=new GMap(new Vector2f(posF[0],posF[1]),sizeF,ts,tileCount,paths);
+        w.gm=new GMap(new Vector2f(posF[0],posF[1]),sizeF,ts,tileCount,tiles);
 
         w.gm.biomeTex=ResourceManager.getTexture("grass");
 

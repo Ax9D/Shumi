@@ -10,8 +10,8 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Main {
-	public static final int WIDTH=800;
-	public static final int HEIGHT=600;
+    public static final int WIDTH=800;
+    public static final int HEIGHT=800;
 
 	static long window;
 	public static void init()
@@ -40,8 +40,8 @@ public class Main {
 		});
 
 		System.out.println(GL11.glGetString(GL11.GL_VERSION));
+
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable( GL_BLEND );
 	}
 	public static void main(String[] args)
 	{
@@ -57,6 +57,7 @@ public class Main {
 
 			Game g = new Game();
 			KeyboardHandler.window = window;
+
 
 
 			//glClearColor(0.64f,0.64f,0.64f,1.0f);

@@ -46,19 +46,15 @@
 	"GMaps": [{
 		"id": "main_world",
 		"pos": [0,0],
-		"size": 2,
-		"tileCount": 10,
+		"size": 1,
+		"tileCount": 5,
 
-		"paths": [{
-			"type": "Dirt",
+		"tiles": [{
 			"gridPos": [0,0],
-			"ntiles": 6,
-			"direction": "Horizontal"
+			"texture": "dirt"
 		},{
-			"type": "Stone",
 			"gridPos": [1,1],
-			"ntiles": 6,
-			"direction": "Vertical"
+			"texture": "stone"
 		}]
 	}]
 }

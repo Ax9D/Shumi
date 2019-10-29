@@ -21,14 +21,16 @@ public class GMap {
 
    public FBO mapTexFBO;
 
-    public GMap(Vector2f pos,float size,BShader ts,int tileCount,Path[] paths)
+   public Tile[] tiles;
+
+    public GMap(Vector2f pos,float size,BShader ts,int tileCount,Tile[] tiles)
     {
         this.pos=pos;
         this.size=size;
 
         this.ts=ts;
-        this.paths=paths;
-        this.tileSize=size/tileCount;
+        this.tiles=tiles;
+        this.tileSize=1.0f/tileCount;
         //this.zerozero=new Vector2f(this.pos.x-size.x+tileSize,this.pos.y+size.y-tileSize);
        // System.out.println(zerozero);
 
