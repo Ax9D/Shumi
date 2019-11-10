@@ -18,15 +18,12 @@ public class Game {
                            0.0f, 0.0f};
     static int[] quadInds={0, 3, 1, 1, 3, 2};
 
+    static float aspect_ratio=600.0f/800;
     static {
-		float aspect_ratio;
-		aspect_ratio = 1;
-		//aspect_ratio=1f;
-		System.out.println(aspect_ratio);
-		quadVerts = new float[]{-1.0f * aspect_ratio, 1.0f,
-				1.0f * aspect_ratio, 1.0f,
-				1.0f * aspect_ratio, -1.0f,
-				-1.0f * aspect_ratio, -1.0f};
+		quadVerts = new float[]{-1.0f , 1.0f,
+				1.0f  , 1.0f,
+				1.0f  , -1.0f,
+				-1.0f  , -1.0f};
 	}
 	/*
 	 * BShader bs; ob2D test; Camera2D c; static Model quad; Player p; static
@@ -51,6 +48,8 @@ public class Game {
 
 	BShader screenShader;
 
+	Model screenQuad;
+
 	private long prevTime;
 
 	public static float tDelta;
@@ -71,6 +70,12 @@ public class Game {
         ResourceManager.basicQuad=new Model(quadVerts,quadInds,quadUV);
         w.modelObpair.put(ResourceManager.basicQuad,new HashMap<ob2D,Boolean>());
 
+        screenQuad=new Model(new float[]{
+                -1f, 1f,
+                1f, 1f,
+                1f, -1f,
+                -1f, -1f
+        },quadInds,quadUV);
 /*
 
         screenRect=new Model(new float[]{
@@ -111,7 +116,7 @@ public class Game {
 		screenShader.setInt("texSamp",0);
 
 		r.renderGMaptoTexture(w.gm,bs);
-
+		w.gm.mapTexFBO.saveToDisk("asdf.png");
 	}
 
 	public void update() {
@@ -120,7 +125,7 @@ public class Game {
 
 	public void draw(){
 		//Renderer.render(w,c,bs);
-		r.renderTOFBO(w,bs,screenFBO,ResourceManager.basicQuad,screenShader);
+		r.renderTOFBO(w,bs,screenFBO,screenQuad,screenShader);
 	}
 	public void run() {
 		long curTime=System.currentTimeMillis();

@@ -1,20 +1,26 @@
 package game.components;
 
+import game.World;
 import game.ob2D;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public abstract class Component {
 	public ob2D parent;
-
-	public interface loaderLambda{
-		void load();
-	};
-
-	public static loaderLambda loaderFn;
 
 	public void setParent(ob2D parent) {
 		this.parent = parent;
 		init();
 
 	}
+	public static Component loadComponent(JSONObject jo) throws JSONException {
+        System.out.println("Loaded component");
+       return null;
+    }
 	public abstract void init();
+	public void update()
+	{
+
+	}
 }
+

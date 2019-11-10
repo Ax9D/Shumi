@@ -1,11 +1,29 @@
 package game.components;
 
 import base.Camera2D;
+import game.World;
 import org.joml.Vector2f;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class CameraController extends Component{
+
+    public static Component loadComponent(JSONObject jo) throws JSONException {
+
+        float minHor=(float)jo.getDouble("minHor");
+        float maxHor=(float)jo.getDouble("maxHor");
+        float minVer=(float)jo.getDouble("minVer");
+        float maxVer=(float)jo.getDouble("maxVer");
+
+        Component c=new CameraController(minHor,maxHor,minVer,maxVer);
+        return c;
+    }
+
+
     private float minHor, maxHor, minVer, maxVer;
     private Camera2D c;
+
+
 
     public CameraController(float minHor, float maxHor, float minVer, float maxVer) {
         this.minHor = minHor;

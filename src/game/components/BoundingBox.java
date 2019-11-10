@@ -1,6 +1,19 @@
 package game.components;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class BoundingBox extends Component {
+
+    public static Component loadComponent(JSONObject jo) throws JSONException {
+        Component c=null;
+        String bType=jo.getString("bType");
+        if(bType.equals("basic")) {
+            c=new BoundingBox();
+        }
+        return c;
+    }
+
 	public float left, right, top,bottom;
 	private float xExtent,yExtent;
 

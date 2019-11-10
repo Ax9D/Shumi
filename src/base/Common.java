@@ -1,5 +1,7 @@
 package base;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.lwjgl.BufferUtils;
 
 import java.io.FileInputStream;
@@ -39,4 +41,32 @@ public class Common {
 		return txt;
 
 	}
+
+
+	public static String[] getStringArrFromJSON(JSONArray ja) throws JSONException {
+		String[] ret;
+		ret = new String[ja.length()];
+		for (int i = 0; i < ja.length(); i++)
+			ret[i] = ja.getString(i);
+		return ret;
+	}
+
+	public static float[] getFloatArrFromJSON(JSONArray ja) throws JSONException {
+		float[] ret;
+		ret = new float[ja.length()];
+		for (int i = 0; i < ja.length(); i++)
+			ret[i] = (float) ja.getDouble(i);
+
+		return ret;
+	}
+
+	public static int[] getIntArrFromJSON(JSONArray ja) throws JSONException {
+		int[] ret;
+		ret = new int[ja.length()];
+		for (int i = 0; i < ja.length(); i++)
+			ret[i] = ja.getInt(i);
+
+		return ret;
+	}
+
 }

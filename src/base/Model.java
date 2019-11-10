@@ -33,7 +33,6 @@ public class Model {
 	/*
 	 * public void setTexture(Texture2D tex) { this.tex = tex; }
 	 */
-
 	public void delete() {
 		vao.delete();
 		GL20.glDeleteBuffers(eboID);

@@ -81,7 +81,7 @@ public class Renderer {
                 ob2D b = be.getKey();
                 b.tex.bind();
 
-                tmat = MatrixMath.get2DTMat(b.pos, b.size);
+                tmat = MatrixMath.get2DTMat(b.pos, new Vector2f(b.size.x*Game.aspect_ratio,b.size.y));
 
                 bs.setMatrix("tmat", tmat);
                 bs.setMatrix("cmat", cmat);
@@ -134,41 +134,18 @@ public class Renderer {
 
         bs.use();
 
-        bs.setMatrix("cmat", MatrixMath.get2DTMat(new Vector2f(0), new Vector2f(1,1)));
+        bs.setMatrix("cmat", MatrixMath.get2DTMat(origin, 1));
 
         float tileSkip = map.tileSize * 2;
 
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_BLEND);
 
-        /*
-        for (Path p : map.paths) {
-            p.tex.bind();
-            if (p.dir == Path.PathDirection.Horizontal) {
-                for (int i = 0; i < p.ntiles; i++) {
-                    Vector2f pos = new Vector2f(gzerozero.x + (p.gridPos.x + i) * tileSkip, gzerozero.y - p.gridPos.y * tileSkip);
-
-                    tmat = MatrixMath.get2DTMat(pos, new Vector2f(map.tileSize), 0);
-                    bs.setMatrix("tmat", tmat);
-                    glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
-                }
-            } else if (p.dir == Path.PathDirection.Vertical) {
-                for (int i = 0; i < p.ntiles; i++) {
-                    Vector2f pos = new Vector2f(gzerozero.x + p.gridPos.x * tileSkip, gzerozero.y - (p.gridPos.y + i) * tileSkip);
-
-                    tmat = MatrixMath.get2DTMat(pos, new Vector2f(map.tileSize), (float) Math.PI / 2);
-                    bs.setMatrix("tmat", tmat);
-                    glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
-                }
-            }
-        }
-        // ms.stop();
-        */
         for(Tile t:map.tiles)
         {
             t.tex.bind();
             Vector2f pos=new Vector2f(gzerozero.x+t.gridPos.x*tileSkip,gzerozero.y-t.gridPos.y*tileSkip);
-            tmat=MatrixMath.get2DTMat(pos,new Vector2f(map.tileSize),0);
+            tmat=MatrixMath.get2DTMat(pos,map.tileSize);
             bs.setMatrix("tmat",tmat);
             glDrawElements(GL_TRIANGLES,m.ic,GL_UNSIGNED_INT,0);
         }
@@ -185,77 +162,27 @@ public class Renderer {
     }
 
     public void renderGMap(GMap map, BShader bs) {
-        /*Model m = ResourceManager.basicQuad;
-
-        m.vao.bind();
-        m.vao.activateVPointers();
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.eboID);
-
-        Matrix4f tmat;
-
-        BShader ms=map.ts;
-
-        ms.use();
-
-        tmat = MatrixMath.get2DTMat(map.pos, map.size);
-
-        ms.setMatrix("cmat", cmat);
-        ms.setMatrix("tmat", tmat);
-
-        map.biomeTex.bind();
-
-        glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
-
-        bs.use();
-        bs.setMatrix("cmat", cmat);
-
-        float tileSkip=map.tileSize*2;
-
-        for (Path p : map.paths) {
-            p.tex.bind();
-            if (p.dir == Path.PathDirection.Horizontal) {
-                for (int i = 0; i <p.ntiles; i++) {
-                    Vector2f pos = new Vector2f(map.zerozero.x + (p.gridPos.x + i) * tileSkip, map.zerozero.y - p.gridPos.y * tileSkip);
-
-                    tmat = MatrixMath.get2DTMat(pos, new Vector2f(map.tileSize), 0);
-                    bs.setMatrix("tmat", tmat);
-                    glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
-                }
-            } else if (p.dir == Path.PathDirection.Vertical) {
-                for (int i = 0; i <p.ntiles; i++) {
-                    Vector2f pos = new Vector2f(map.zerozero.x + p.gridPos.x * tileSkip, map.zerozero.y - (p.gridPos.y + i) * tileSkip);
-
-                    tmat = MatrixMath.get2DTMat(pos, new Vector2f(map.tileSize), (float)Math.PI/2);
-                    bs.setMatrix("tmat", tmat);
-                    glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
-                }
-            }
-        }
-        // ms.stop();
-        m.vao.deactivateVPointers();
-        //m.vao.unbind();
-         */
-        //glClear(GL_COLOR_BUFFER_BIT);
 
         glDisable( GL_BLEND );
 
         Model m = ResourceManager.basicQuad;
         m.vao.bind();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.eboID);
+
         m.vao.activateVPointers();
 
         bs.use();
 
         map.mapTexFBO.tex.bind();
 
-        Matrix4f tmat = MatrixMath.get2DTMat(map.pos, map.size);
+        Matrix4f tmat = MatrixMath.get2DTMat(map.pos, new Vector2f(map.size*Game.aspect_ratio,map.size));
 
         bs.setMatrix("tmat", tmat);
         bs.setMatrix("cmat", cmat);
 
-
         glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
         m.vao.deactivateVPointers();
 

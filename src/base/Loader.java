@@ -66,33 +66,6 @@ public class Loader {
         this.w = w;
         loadGame(rspath, gmpath);
     }
-
-    private String[] getStringArrFromJSON(JSONArray ja) throws JSONException {
-        String[] ret;
-        ret = new String[ja.length()];
-        for (int i = 0; i < ja.length(); i++)
-            ret[i] = ja.getString(i);
-        return ret;
-    }
-
-    private float[] getFloatArrFromJSON(JSONArray ja) throws JSONException {
-        float[] ret;
-        ret = new float[ja.length()];
-        for (int i = 0; i < ja.length(); i++)
-            ret[i] = (float) ja.getDouble(i);
-
-        return ret;
-    }
-
-    private int[] getIntArrFromJSON(JSONArray ja) throws JSONException {
-        int[] ret;
-        ret = new int[ja.length()];
-        for (int i = 0; i < ja.length(); i++)
-            ret[i] = ja.getInt(i);
-
-        return ret;
-    }
-
     private void getTextures(JSONArray ja) throws JSONException {
         for (int i = 0; i < ja.length(); i++) {
             JSONObject jo = ja.getJSONObject(i);
@@ -109,9 +82,9 @@ public class Loader {
             String mid = jo.getString("id");
             // String tid = jo.getString("texture");
 
-            float[] vertices = getFloatArrFromJSON(jo.getJSONArray("vertices"));
-            int[] indices = getIntArrFromJSON(jo.getJSONArray("indices"));
-            float[] texCoords = getFloatArrFromJSON(jo.getJSONArray("textureCoords"));
+            float[] vertices = Common.getFloatArrFromJSON(jo.getJSONArray("vertices"));
+            int[] indices = Common.getIntArrFromJSON(jo.getJSONArray("indices"));
+            float[] texCoords = Common.getFloatArrFromJSON(jo.getJSONArray("textureCoords"));
 
             Model m = new Model(vertices, indices, texCoords);
             // m.setTexture(rs.textures.get(tid));
@@ -126,12 +99,12 @@ public class Loader {
         JSONObject jo;
         for (int i = 0; i < ja.length(); i++) {
             jo = ja.getJSONObject(i);
-            String type = jo.getString("type");
             Component c=null;
+            String type=jo.getString("type");
             switch (type) {
                 case "LoopAnimation":
                     int frameRate = jo.getInt("frameRate");
-                    String[] texIDs = getStringArrFromJSON(jo.getJSONArray("textures"));
+                    String[] texIDs = Common.getStringArrFromJSON(jo.getJSONArray("textures"));
                     Texture2D[] textures = new Texture2D[texIDs.length];
 
                     for (int j = 0; j < texIDs.length; j++)
@@ -139,16 +112,25 @@ public class Loader {
 
                     c = new LoopAnimation(textures, frameRate);
                     break;
+
+
                 case "PlayerMovement":
                     float walkSpeed = (float) jo.getDouble("walkSpeed");
                     c = new PlayerMovement(walkSpeed);
                     break;
+
+
+
                 case "BoundingBox":
                 	String bType=jo.getString("bType");
                 	if(bType.equals("basic")) {
                         c=new BoundingBox();
 					}
                 	break;
+
+
+
+
                 case "CameraController":
                     float minHor=(float)jo.getDouble("minHor");
                     float maxHor=(float)jo.getDouble("maxHor");
@@ -173,8 +155,8 @@ public class Loader {
             String bid = jo.getString("id");
             String mid = jo.getString("model");
 
-            float[] posArr = getFloatArrFromJSON(jo.getJSONArray("pos"));
-            float[] sizeArr = getFloatArrFromJSON(jo.getJSONArray("size"));
+            float[] posArr = Common.getFloatArrFromJSON(jo.getJSONArray("pos"));
+            float[] sizeArr = Common.getFloatArrFromJSON(jo.getJSONArray("size"));
 
             Vector2f pos = new Vector2f(posArr[0], posArr[1]);
             Vector2f size = new Vector2f(sizeArr[0], sizeArr[1]);
@@ -211,7 +193,7 @@ public class Loader {
         {
             JSONObject jo=ja.getJSONObject(i);
             type=Path.PathType.valueOf(jo.getString("type"));
-            gridPos=getIntArrFromJSON(jo.getJSONArray("gridPos"));
+            gridPos=Common.getIntArrFromJSON(jo.getJSONArray("gridPos"));
             ntiles=jo.getInt("ntiles");
             dir=Path.PathDirection.valueOf(jo.getString("direction"));
 
@@ -221,6 +203,7 @@ public class Loader {
 
         return ret;
     }
+
     public Tile[] getTiles(JSONArray ja) throws JSONException {
         int n=ja.length();
         Tile[] ret=new Tile[n];
@@ -231,7 +214,7 @@ public class Loader {
         for(int i=0;i<n;i++)
         {
             JSONObject jo=ja.getJSONObject(i);
-            gridPos=getIntArrFromJSON(jo.getJSONArray("gridPos"));
+            gridPos=Common.getIntArrFromJSON(jo.getJSONArray("gridPos"));
             texID=jo.getString("texture");
 
             ret[i]=new Tile(new Vector2f(gridPos[0],gridPos[1]),ResourceManager.getTexture(texID));
@@ -243,7 +226,7 @@ public class Loader {
     public void getGMaps(JSONArray ja) throws JSONException
     {
         JSONObject jo=ja.getJSONObject(0);
-        float[] posF=getFloatArrFromJSON(jo.getJSONArray("pos"));
+        float[] posF=Common.getFloatArrFromJSON(jo.getJSONArray("pos"));
         float sizeF=(float)jo.getDouble("size");
 
         Tile[] tiles=getTiles(jo.getJSONArray("tiles"));
@@ -305,5 +288,20 @@ public class Loader {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    public Component loadComponent(JSONObject jo) throws JSONException {
+        String name=jo.getString("type");
+        Component retComp=null;
+        try {
+            //Potentially unsafe code
+            System.out.println("Loading component: "+name);
+
+            //retComp;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return retComp;
     }
 }

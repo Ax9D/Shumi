@@ -2,6 +2,9 @@ package game.components;
 
 import base.Game;
 import base.KeyboardHandler;
+import game.World;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -10,6 +13,12 @@ public class PlayerMovement extends Component {
 	public enum Direction {
 		UP, DOWN, LEFT, RIGHT
 	}
+
+    public static Component loadComponent(JSONObject jo) throws JSONException {
+        float walkSpeed = (float) jo.getDouble("walkSpeed");
+        Component c = new PlayerMovement(walkSpeed);
+        return c;
+    }
 
     public Direction walkDirection;
     public float walkSpeed;
