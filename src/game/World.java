@@ -32,7 +32,7 @@ public class World {
 
         ComponentHandler.getAllByComponent(CameraController.class).get(0).update();
         */
-        PlayerMovement pm = ComponentHandler.getAllByComponent(PlayerMovement.class).get(0);
+        PlayerMovement pm = (PlayerMovement)ComponentHandler.getAllByComponent(PlayerMovement.class).get(0);
        // pm.update();
 
         ob2D p =pm.parent;
@@ -46,6 +46,7 @@ public class World {
                  c.getValue().update();
              }
          }
+
         for (int i = 1; i < ob2Ds.size(); i++)
             BPhysics.handlePlayerFOCollision(p, ob2Ds.get(i));
         // for (ob2D b : ob2Ds)

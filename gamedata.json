@@ -46,8 +46,8 @@
 	"GMaps": [{
 		"id": "main_world",
 		"pos": [0,0],
-		"size": 5,
-		"tileCount": 60,
+		"size": 3,
+		"tileCount": 10,
 
 		"tiles": [{
 			"gridPos": [0,0],

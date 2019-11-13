@@ -42,14 +42,14 @@ public class CameraController extends Component{
     {
         Vector2f screenPos=new Vector2f(parent.pos.x-c.pos.x,parent.pos.y-c.pos.y);
 
-        if(screenPos.x>maxHor)
+        if(screenPos.x>=maxHor)
             c.moveRight();
-        else if(screenPos.x<minHor)
+        else if(screenPos.x<=minHor)
             c.moveLeft();
 
-        if(screenPos.y>maxVer)
+        if(screenPos.y>=maxVer)
             c.moveUp();
-        else if(screenPos.y<minVer)
+        else if(screenPos.y<=minVer)
             c.moveDown();
       //  else if(parent.pos.x<)
     }

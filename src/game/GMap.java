@@ -15,11 +15,7 @@ public class GMap {
 
     public BShader ts;
 
-    public Path[] paths;
-
     public float tileSize;
-
-   public FBO mapTexFBO;
 
    public Tile[] tiles;
 
@@ -30,15 +26,9 @@ public class GMap {
 
         this.ts=ts;
         this.tiles=tiles;
-        this.tileSize=1.0f/tileCount;
+        this.tileSize=size/tileCount;
         //this.zerozero=new Vector2f(this.pos.x-size.x+tileSize,this.pos.y+size.y-tileSize);
        // System.out.println(zerozero);
-
-        //Bodgy.. refactor later
-
-        int WIDTH=Main.WIDTH*(int)size;
-        int HEIGHT=Main.HEIGHT*(int)size;
-        mapTexFBO=new FBO(WIDTH,HEIGHT);
     }
     /*public void addhertPath(Vector2f pos,int ntiles)
     {

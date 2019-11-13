@@ -11,8 +11,8 @@ public class BPhysics {
 		// BoundingBox bB=B.getBoundingBox();
 
 		// if()
-		BoundingBox bA=A.getComponent(BoundingBox.class);
-		BoundingBox bB=B.getComponent(BoundingBox.class);
+		BoundingBox bA=(BoundingBox)A.getComponent(BoundingBox.class);
+		BoundingBox bB=(BoundingBox)B.getComponent(BoundingBox.class);
 
 		bA.compute();
 		bB.compute();
@@ -21,7 +21,7 @@ public class BPhysics {
 		if(isCollision(bA,bB))
 		{
 
-		    PlayerMovement pm=A.getComponent(PlayerMovement.class);
+		    PlayerMovement pm=(PlayerMovement)A.getComponent(PlayerMovement.class);
 
 			var walkDir=pm.walkDirection;
 

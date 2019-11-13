@@ -47,12 +47,15 @@ public class Game {
 	FBO screenFBO;
 
 	BShader screenShader;
+	BShader simpleShader;
 
 	Model screenQuad;
 
 	private long prevTime;
 
 	public static float tDelta;
+
+	float averageframeTime;
 
 	public Game() {
 		/*
@@ -87,15 +90,15 @@ public class Game {
 
 		bs = new BShader("src/vertex", "src/fragment");
 		l = new Loader(w, "resources.json", "gamedata.json");
-		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
+		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), .99f);
 
 		r=new Renderer(c);
+        r.setAspectRatio((float)Main.WIDTH/Main.HEIGHT);
 
 
-
-		screenFBO=new FBO(800,600);
+		screenFBO=new FBO(Main.WIDTH,Main.HEIGHT);
 		screenShader=new BShader("src/screenV","src/screenF");
-
+		simpleShader=new BShader("src/simplevertex","src/simplefragment");
 
 		// w.ob2Ds.get(0).addComponent(new BasicAnimation(new Texture2D[] { new
 		// Texture2D("an1.png"),
@@ -106,7 +109,7 @@ public class Game {
 							"Loaded resources and world in "+(System.currentTimeMillis()-prevTime)+"ms");
 
 		//Future me, please refactor this
-		ComponentHandler.getAllByComponent(CameraController.class).get(0).setCamera(c);
+		((CameraController)ComponentHandler.getAllByComponent(CameraController.class).get(0)).setCamera(c);
 
 		bs.use();
 		bs.setInt("texSamp", 0);
@@ -114,9 +117,6 @@ public class Game {
 
 		screenShader.use();
 		screenShader.setInt("texSamp",0);
-
-		r.renderGMaptoTexture(w.gm,bs);
-		w.gm.mapTexFBO.saveToDisk("asdf.png");
 	}
 
 	public void update() {
@@ -125,7 +125,7 @@ public class Game {
 
 	public void draw(){
 		//Renderer.render(w,c,bs);
-		r.renderTOFBO(w,bs,screenFBO,screenQuad,screenShader);
+		r.renderGame(w,bs,screenFBO,screenQuad,screenShader);
 	}
 	public void run() {
 		long curTime=System.currentTimeMillis();

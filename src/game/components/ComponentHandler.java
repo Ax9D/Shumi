@@ -18,12 +18,30 @@ public class ComponentHandler {
 		cmp = new HashMap<String,HashMap<String,Component>>();
 	}
 
-	public static <T> ArrayList<T> getAllByComponent(Class<T> c) {
+	/*public static <T> ArrayList<T> getAllByComponent(Class<T> c) {
 		String className = c.getName();
 
 		var req = cmp.get(className);
 
 		ArrayList<T> ret = new ArrayList<T>();
+
+		*//*
+		for (Entry<String, Component> e : req.entrySet())
+			ret.add(c.cast(e.getValue()));
+		return ret;
+		*//*
+		for (Entry<String,Component> ent : req.entrySet())
+			ret.add(c.cast(ent.getValue()));
+
+		return ret;
+	}*/
+
+	public static <T> ArrayList<Component> getAllByComponent(Class<T> c) {
+		String className = c.getName();
+
+		var req = cmp.get(className);
+
+		ArrayList<Component> ret = new ArrayList<Component>();
 
 		/*
 		for (Entry<String, Component> e : req.entrySet())
@@ -31,9 +49,8 @@ public class ComponentHandler {
 		return ret;
 		*/
 		for (Entry<String,Component> ent : req.entrySet())
-			ret.add(c.cast(ent.getValue()));
+			ret.add(ent.getValue());
 
 		return ret;
 	}
-
 }

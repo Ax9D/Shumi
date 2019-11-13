@@ -13,13 +13,17 @@ public class Renderer {
 
     private Camera2D c;
     private Matrix4f cmat;
+    private Matrix4f ar_correction_matrix;
 
     public Renderer(Camera2D c) {
         this.c = c;
+        ar_correction_matrix=new Matrix4f();
     }
 
-    public void setState() {
-        cmat = MatrixMath.get2DTMat(new Vector2f(-c.pos.x, -c.pos.y), c.scale);
+    public void setState(World w,BShader bs) {
+        cmat = MatrixMath.get2DTMat(new Vector2f(-c.pos.x, -c.pos.y), 1);
+        bs.use();
+        bs.setMatrix("cmat",cmat);
     }
 
     public void render(ob2D b, BShader bs) {
@@ -55,9 +59,12 @@ public class Renderer {
         m.vao.unbind();
     }
 
+    public void setAspectRatio(float ar)
+    {
+        ar*=2;
+        ar_correction_matrix.setOrtho2D(-ar,ar,-2,2);
+    }
     public void renderWorld(World w, BShader bs) {
-
-        glEnable(GL_BLEND);
 
         GMap gm = w.gm;
 
@@ -69,8 +76,7 @@ public class Renderer {
 
         for (Entry<Model, HashMap<ob2D, Boolean>> et : w.modelObpair.entrySet()) {
             Model m = et.getKey();
-            m.vao.bind();
-            m.vao.activateVPointers();
+            m.load();
 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.eboID);
 
@@ -81,10 +87,12 @@ public class Renderer {
                 ob2D b = be.getKey();
                 b.tex.bind();
 
-                tmat = MatrixMath.get2DTMat(b.pos, new Vector2f(b.size.x*Game.aspect_ratio,b.size.y));
+                tmat = MatrixMath.get2DTMat(b.pos, b.size);
 
                 bs.setMatrix("tmat", tmat);
-                bs.setMatrix("cmat", cmat);
+                bs.setMatrix("cmat",cmat);
+                bs.setMatrix("ratio_mat",ar_correction_matrix);
+
 
                 glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
 
@@ -93,14 +101,14 @@ public class Renderer {
 
 
             //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-            m.vao.deactivateVPointers();
+            m.unload();
             // m.vao.unbind();
         }
         //bs.stop();
-        glDisable(GL_BLEND);
     }
 
-    public void renderGMaptoTexture(GMap map, BShader bs) {
+   /* public void renderGMaptoTexture(GMap map, BShader bs) {
+
 
         FBO fbo = map.mapTexFBO;
 
@@ -109,11 +117,7 @@ public class Renderer {
 
         Model m = ResourceManager.basicQuad;
 
-        m.vao.bind();
-        m.vao.activateVPointers();
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.eboID);
-
+        m.load();
 
         BShader ms = map.ts;
 
@@ -132,9 +136,10 @@ public class Renderer {
 
         glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
 
-        bs.use();
+        //End of biome rendering
 
-        bs.setMatrix("cmat", MatrixMath.get2DTMat(origin, 1));
+
+        bs.use();
 
         float tileSkip = map.tileSize * 2;
 
@@ -150,8 +155,7 @@ public class Renderer {
             glDrawElements(GL_TRIANGLES,m.ic,GL_UNSIGNED_INT,0);
         }
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        m.vao.deactivateVPointers();
+        m.unload();
 
         fbo.unbind();
 
@@ -159,43 +163,65 @@ public class Renderer {
         //m.vao.unbind();
 
         glDisable(GL_BLEND);
-    }
 
+
+    }
+*/
     public void renderGMap(GMap map, BShader bs) {
 
-        glDisable( GL_BLEND );
+        glDisable(GL_BLEND);
+        Model m= ResourceManager.basicQuad;
 
-        Model m = ResourceManager.basicQuad;
-        m.vao.bind();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.eboID);
+        BShader ms = map.ts;
 
-        m.vao.activateVPointers();
+        m.load();
 
-        bs.use();
+        ms.use();
 
-        map.mapTexFBO.tex.bind();
+        ms.setMatrix("cmat", cmat);/**/
+        ms.setMatrix("ratio_mat",ar_correction_matrix);
 
-        Matrix4f tmat = MatrixMath.get2DTMat(map.pos, new Vector2f(map.size*Game.aspect_ratio,map.size));
+        Matrix4f tmat = MatrixMath.get2DTMat(map.pos, map.size);
 
-        bs.setMatrix("tmat", tmat);
-        bs.setMatrix("cmat", cmat);
+        ms.setMatrix("tmat", tmat);
+
+        map.biomeTex.bind();
 
         glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        //End of biome rendering
 
-        m.vao.deactivateVPointers();
 
+        glEnable(GL_BLEND);
+        bs.use();
+        bs.setMatrix("ratio_mat",ar_correction_matrix);
+
+        float tileSkip = map.tileSize * 2;
+
+
+        //System.out.println(map.size);
+        Vector2f gzerozero = new Vector2f(map.pos.x - map.size + map.tileSize, map.pos.y + map.size - map.tileSize);
+
+        for(Tile t:map.tiles)
+        {
+            t.tex.bind();
+            Vector2f pos=new Vector2f(gzerozero.x+t.gridPos.x*tileSkip,gzerozero.y-t.gridPos.y*tileSkip);
+            tmat=MatrixMath.get2DTMat(pos,map.tileSize);
+            bs.setMatrix("tmat",tmat);
+            glDrawElements(GL_TRIANGLES,m.ic,GL_UNSIGNED_INT,0);
+        }
+
+        m.unload();
     }
 
-    public void renderTOFBO(World w, BShader bs, FBO fbo, Model screenQuad, BShader screenShader) {
+    public void renderGame(World w, BShader bs, FBO fbo, Model screenQuad, BShader screenShader) {
         fbo.bind();
 
         //Clear world
         glClearColor(1f, 0.64f, 0.64f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        setState();
+        setState(w,bs);
         renderWorld(w, bs);
 
         fbo.unbind();
@@ -205,9 +231,7 @@ public class Renderer {
 
         screenShader.use();
 
-        screenQuad.vao.bind();
-
-        screenQuad.vao.activateVPointers();
+        screenQuad.load();
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, screenQuad.eboID);
 
@@ -215,6 +239,6 @@ public class Renderer {
 
         glDrawElements(GL_TRIANGLES, screenQuad.ic, GL_UNSIGNED_INT, 0);
 
-        screenQuad.vao.deactivateVPointers();
+        screenQuad.unload();
     }
 }

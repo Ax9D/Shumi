@@ -3,6 +3,9 @@ package base;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+
 public class Model {
 	public VAO vao;
 	public int eboID;
@@ -33,6 +36,16 @@ public class Model {
 	/*
 	 * public void setTexture(Texture2D tex) { this.tex = tex; }
 	 */
+	public void load()
+	{
+		vao.bind();
+		vao.activateVPointers();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboID);
+	}
+	public void unload()
+	{
+		vao.deactivateVPointers();
+	}
 	public void delete() {
 		vao.delete();
 		GL20.glDeleteBuffers(eboID);
