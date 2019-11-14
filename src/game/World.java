@@ -1,7 +1,10 @@
 package game;
 
 import base.Model;
+import base.SShader;
 import game.components.*;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,13 +12,30 @@ import java.util.Map;
 
 public class World {
     public ArrayList<ob2D> ob2Ds;
+    public ArrayList<PointLight> pointLights;
 
     public HashMap<Model, HashMap<ob2D,Boolean>> modelObpair;
 
     public GMap gm;
 
+    public SShader sceneShader;
+
     public World() {
         modelObpair = new HashMap<Model, HashMap<ob2D,Boolean>>();
+        sceneShader=new SShader("src/vertex.glsl","src/fragment.glsl");
+        pointLights=new ArrayList<PointLight>();
+    }
+    public void init()
+    {
+            float k=0.5f;
+            pointLights.add(new PointLight(new Vector2f(-k,0f),new Vector3f(0.9257f,0.8945f,0.6835f),0.7f,2f));
+            pointLights.add(new PointLight(new Vector2f(k,0f),new Vector3f(0.9257f,0.8945f,0.6835f),0.7f,2f));
+            pointLights.add(new PointLight(new Vector2f(0f,k),new Vector3f(0.9257f,0.8945f,0.6835f),0.7f,2f));
+            sceneShader.use();
+            sceneShader.addLights(pointLights);
+
+            gm.ts.use();
+            gm.ts.addLights(pointLights);
     }
     public void deleteOb2D(ob2D b)
     {

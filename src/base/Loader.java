@@ -233,7 +233,7 @@ public class Loader {
 
         int tileCount=jo.getInt("tileCount");
 
-        var ts=new BShader("src/mapV","src/mapF");
+        var ts=new SShader("src/vertex.glsl","src/mapF.glsl");
 
         w.gm=new GMap(new Vector2f(posF[0],posF[1]),sizeF,ts,tileCount,tiles);
 
@@ -258,6 +258,7 @@ public class Loader {
     public void loadGame(String rspath, String gmpath) {
         loadrsData(rspath);
         loadGameData(gmpath);
+        w.init();
     }
 
     public void loadrsData(String path) {

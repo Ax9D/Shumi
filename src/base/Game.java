@@ -41,7 +41,7 @@ public class Game {
 	World w;
 	Loader l;
 	Camera2D c;
-	BShader bs;
+	SShader ss;
 	Renderer r;
 
 	FBO screenFBO;
@@ -88,7 +88,6 @@ public class Game {
                 -1f, -1f
         },quadInds,quadUV);*/
 
-		bs = new BShader("src/vertex", "src/fragment");
 		l = new Loader(w, "resources.json", "gamedata.json");
 		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), .99f);
 
@@ -97,8 +96,8 @@ public class Game {
 
 
 		screenFBO=new FBO(Main.WIDTH,Main.HEIGHT);
-		screenShader=new BShader("src/screenV","src/screenF");
-		simpleShader=new BShader("src/simplevertex","src/simplefragment");
+		screenShader=new BShader("src/screenV.glsl","src/screenF.glsl");
+		simpleShader=new BShader("src/simplevertex.glsl","src/simplefragment.glsl");
 
 		// w.ob2Ds.get(0).addComponent(new BasicAnimation(new Texture2D[] { new
 		// Texture2D("an1.png"),
@@ -111,10 +110,6 @@ public class Game {
 		//Future me, please refactor this
 		((CameraController)ComponentHandler.getAllByComponent(CameraController.class).get(0)).setCamera(c);
 
-		bs.use();
-		bs.setInt("texSamp", 0);
-
-
 		screenShader.use();
 		screenShader.setInt("texSamp",0);
 	}
@@ -125,7 +120,7 @@ public class Game {
 
 	public void draw(){
 		//Renderer.render(w,c,bs);
-		r.renderGame(w,bs,screenFBO,screenQuad,screenShader);
+		r.renderGame(w,screenFBO,screenQuad,screenShader);
 	}
 	public void run() {
 		long curTime=System.currentTimeMillis();

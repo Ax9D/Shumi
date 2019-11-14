@@ -20,10 +20,11 @@ public class Renderer {
         ar_correction_matrix=new Matrix4f();
     }
 
-    public void setState(World w,BShader bs) {
+    public void setState(World w) {
         cmat = MatrixMath.get2DTMat(new Vector2f(-c.pos.x, -c.pos.y), 1);
-        bs.use();
-        bs.setMatrix("cmat",cmat);
+        w.sceneShader.use();
+        w.sceneShader.setMatrix("cmat",cmat);
+        w.sceneShader.stop();
     }
 
     public void render(ob2D b, BShader bs) {
@@ -64,21 +65,20 @@ public class Renderer {
         ar*=2;
         ar_correction_matrix.setOrtho2D(-ar,ar,-2,2);
     }
-    public void renderWorld(World w, BShader bs) {
+    public void renderWorld(World w) {
 
+        SShader ss=w.sceneShader;
         GMap gm = w.gm;
 
         Matrix4f tmat;
 
-        renderGMap(gm, bs);
+        renderGMap(gm, ss);
 
-        bs.use();
+        ss.use();
 
         for (Entry<Model, HashMap<ob2D, Boolean>> et : w.modelObpair.entrySet()) {
             Model m = et.getKey();
             m.load();
-
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.eboID);
 
             glActiveTexture(GL_TEXTURE0);
 
@@ -89,9 +89,8 @@ public class Renderer {
 
                 tmat = MatrixMath.get2DTMat(b.pos, b.size);
 
-                bs.setMatrix("tmat", tmat);
-                bs.setMatrix("cmat",cmat);
-                bs.setMatrix("ratio_mat",ar_correction_matrix);
+                ss.setMatrix("tmat", tmat);
+                ss.setMatrix("ratio_mat",ar_correction_matrix);
 
 
                 glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
@@ -105,6 +104,8 @@ public class Renderer {
             // m.vao.unbind();
         }
         //bs.stop();
+
+
     }
 
    /* public void renderGMaptoTexture(GMap map, BShader bs) {
@@ -167,18 +168,18 @@ public class Renderer {
 
     }
 */
-    public void renderGMap(GMap map, BShader bs) {
+    public void renderGMap(GMap map, SShader ss) {
 
         glDisable(GL_BLEND);
         Model m= ResourceManager.basicQuad;
 
-        BShader ms = map.ts;
+        SShader ms = map.ts;
 
         m.load();
 
         ms.use();
 
-        ms.setMatrix("cmat", cmat);/**/
+        ms.setMatrix("cmat", cmat);
         ms.setMatrix("ratio_mat",ar_correction_matrix);
 
         Matrix4f tmat = MatrixMath.get2DTMat(map.pos, map.size);
@@ -193,8 +194,10 @@ public class Renderer {
 
 
         glEnable(GL_BLEND);
-        bs.use();
-        bs.setMatrix("ratio_mat",ar_correction_matrix);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        ss.use();
+        ss.setMatrix("ratio_mat",ar_correction_matrix);
 
         float tileSkip = map.tileSize * 2;
 
@@ -207,22 +210,23 @@ public class Renderer {
             t.tex.bind();
             Vector2f pos=new Vector2f(gzerozero.x+t.gridPos.x*tileSkip,gzerozero.y-t.gridPos.y*tileSkip);
             tmat=MatrixMath.get2DTMat(pos,map.tileSize);
-            bs.setMatrix("tmat",tmat);
+            ss.setMatrix("tmat",tmat);
             glDrawElements(GL_TRIANGLES,m.ic,GL_UNSIGNED_INT,0);
         }
 
         m.unload();
     }
 
-    public void renderGame(World w, BShader bs, FBO fbo, Model screenQuad, BShader screenShader) {
+    public void renderGame(World w, FBO fbo, Model screenQuad, BShader screenShader) {
         fbo.bind();
 
         //Clear world
         glClearColor(1f, 0.64f, 0.64f, 1.0f);
+        //glClearColor(0f, 0f, 0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        setState(w,bs);
-        renderWorld(w, bs);
+        setState(w);
+        renderWorld(w);
 
         fbo.unbind();
 

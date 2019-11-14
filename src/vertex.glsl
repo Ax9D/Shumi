@@ -7,8 +7,13 @@ uniform mat4 cmat;
 uniform mat4 ratio_mat;
 
 out vec2 tC;
+out vec2 posF;
+
 void main()
 {
-    gl_Position=ratio_mat*cmat*tmat*vec4(pos,0.0,1.0);
-    tC=tCoords;
+	vec4 projected_pos=ratio_mat*cmat*tmat*vec4(pos,0,1.0);
+	gl_Position=projected_pos;
+
+	tC=tCoords;
+	posF=(tmat*vec4(pos,0,1.0)).xy;
 }
