@@ -3,7 +3,6 @@ package game.components;
 import base.Common;
 import base.ResourceManager;
 import base.Texture2D;
-import game.World;
 import game.ob2D;
 import org.json.JSONException;
 import org.json.JSONObject;

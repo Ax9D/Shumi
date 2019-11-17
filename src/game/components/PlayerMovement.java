@@ -2,7 +2,6 @@ package game.components;
 
 import base.Game;
 import base.KeyboardHandler;
-import game.World;
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -41,7 +41,7 @@ public class Game {
 	World w;
 	Loader l;
 	Camera2D c;
-	SShader ss;
+
 	Renderer r;
 
 	FBO screenFBO;
@@ -89,13 +89,13 @@ public class Game {
         },quadInds,quadUV);*/
 
 		l = new Loader(w, "resources.json", "gamedata.json");
-		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), .99f);
+		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
 
 		r=new Renderer(c);
-        r.setAspectRatio((float)Main.WIDTH/Main.HEIGHT);
+        r.setAspectRatio((float)WindowInfo.WIDTH/WindowInfo.HEIGHT);
 
 
-		screenFBO=new FBO(Main.WIDTH,Main.HEIGHT);
+		screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT);
 		screenShader=new BShader("src/screenV.glsl","src/screenF.glsl");
 		simpleShader=new BShader("src/simplevertex.glsl","src/simplefragment.glsl");
 
@@ -113,7 +113,14 @@ public class Game {
 		screenShader.use();
 		screenShader.setInt("texSamp",0);
 	}
-
+	public Camera2D getCamera()
+	{
+		return c;
+	}
+	public Renderer getRenderer()
+	{
+		return r;
+	}
 	public void update() {
 		w.update();
 	}

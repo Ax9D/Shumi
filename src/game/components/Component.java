@@ -1,6 +1,5 @@
 package game.components;
 
-import game.World;
 import game.ob2D;
 import org.json.JSONException;
 import org.json.JSONObject;

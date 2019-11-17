@@ -68,6 +68,18 @@ public class BShader {
 		int loc=glGetUniformLocation(program,queryString);
 		glUniform2f(loc,fieldValue.x,fieldValue.y);
 	}
+	public void setStruct(String structName,String fieldName,Vector3f fieldValue)
+    {
+        String queryString=structName+"."+fieldName;
+        int loc=glGetUniformLocation(program,queryString);
+        glUniform3f(loc,fieldValue.x,fieldValue.y,fieldValue.z);
+    }
+    public void setStruct(String structName,String fieldName,float fieldValue)
+    {
+        String queryString=structName+"."+fieldName;
+        int loc=glGetUniformLocation(program,queryString);
+        glUniform1f(loc,fieldValue);
+    }
 	public void setStructArray(String arrName, int index, String fieldName, Vector3f fieldValue)
 	{
 		String queryString=arrName+"["+index+"]."+fieldName;
@@ -78,7 +90,6 @@ public class BShader {
 		int loc = glGetUniformLocation(program, vname);
 		glUniform1i(loc, x);
 	}
-
 	public void delete() {
 		glDeleteProgram(program);
 	}

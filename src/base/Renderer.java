@@ -1,6 +1,9 @@
 package base;
 
-import game.*;
+import game.GMap;
+import game.Tile;
+import game.World;
+import game.ob2D;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
@@ -19,7 +22,10 @@ public class Renderer {
         this.c = c;
         ar_correction_matrix=new Matrix4f();
     }
-
+    public Matrix4f getARMat()
+    {
+        return ar_correction_matrix;
+    }
     public void setState(World w) {
         cmat = MatrixMath.get2DTMat(new Vector2f(-c.pos.x, -c.pos.y), 1);
         w.sceneShader.use();
@@ -170,7 +176,9 @@ public class Renderer {
 */
     public void renderGMap(GMap map, SShader ss) {
 
-        glDisable(GL_BLEND);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         Model m= ResourceManager.basicQuad;
 
         SShader ms = map.ts;
@@ -191,10 +199,6 @@ public class Renderer {
         glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
 
         //End of biome rendering
-
-
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         ss.use();
         ss.setMatrix("ratio_mat",ar_correction_matrix);
@@ -230,6 +234,7 @@ public class Renderer {
 
         fbo.unbind();
 
+        glDisable(GL_BLEND);
         glClearColor(1f, 1f, 1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 

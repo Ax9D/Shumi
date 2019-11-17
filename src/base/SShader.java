@@ -1,6 +1,9 @@
 package base;
 
+import game.DirectionalLight;
+import game.EnvironmentLight;
 import game.PointLight;
+import game.components.PlayerMovement;
 
 import java.util.ArrayList;
 
@@ -11,7 +14,7 @@ public class SShader extends BShader {
     {
         super(vertexPath,fragmentPath);
     }
-    public void addLights(ArrayList<PointLight> pointLights)
+    public void addPointLights(ArrayList<PointLight> pointLights)
     {
         int nlights= pointLights.size();
         int curnlight=getInt("point_light_count");
@@ -25,6 +28,15 @@ public class SShader extends BShader {
             }
             setInt("point_light_count",curnlight+nlights);
         }
+    }
+    public void updateEnvironmentLight(EnvironmentLight elight)
+    {
+        setStruct("envLight","intensity",elight.intensity);
+        setStruct("envLight","color",elight.color);
+    }
+    public void addDirectionalLights(ArrayList<DirectionalLight> directionalLights)
+    {
+
     }
     public void removeLight(int index)
     {

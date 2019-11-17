@@ -11,19 +11,26 @@ struct PointLight
     float max_intensity; //Always less than 1
     float falloff;
 };
+struct EnvironmentLight
+{
+    float intensity;
+    vec3 color;
+};
 
-vec3 computePointLight(PointLight pl,vec2 pos,vec3 icol)
+vec3 computePointLight(PointLight pl,vec2 pos)
 {
     float distSq=dot(pos-pl.pos,pos-pl.pos);
 
-    float factor=pl.max_intensity/(1+distSq*pl.falloff);
-    float adj_factor=factor>0.01?factor:0;
+    float adj_factor=pl.max_intensity/(1+distSq*pl.falloff);
 
-    return mix(icol,pl.color,adj_factor)*adj_factor;
+    adj_factor=adj_factor>0.01?adj_factor:0;
+    return pl.color*adj_factor;
 }
 
 uniform PointLight ptLights[MAX_NUM_POINT_LIGHTS];
 uniform int point_light_count;
+
+uniform EnvironmentLight envLight;
 
 uniform sampler2D biomeTex;
 
@@ -37,7 +44,11 @@ void main()
     vec3 final_col=vec3(0,0,0);
 
     for(int i=0;i<point_light_count;i++)
-    final_col+=computePointLight(ptLights[i],posF,base_col.rgb);
+    final_col+=computePointLight(ptLights[i],posF);
 
-    color=vec4(final_col,base_col.a);
+    //Compute environment light
+    //final_col+=mix(base_col.rgb,envLight.color,envLight.intensity)*envLight.intensity;
+    final_col+=envLight.color*envLight.intensity;
+
+    color=vec4(final_col*base_col.rgb,base_col.a);
 }

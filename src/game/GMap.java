@@ -1,7 +1,5 @@
 package game;
 
-import base.BShader;
-import base.FBO;
 import base.SShader;
 import base.Texture2D;
 import org.joml.Vector2f;

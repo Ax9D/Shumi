@@ -1,7 +1,6 @@
 package game.components;
 
 import base.Camera2D;
-import game.World;
 import org.joml.Vector2f;
 import org.json.JSONException;
 import org.json.JSONObject;
