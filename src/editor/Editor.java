@@ -1,9 +1,7 @@
 package editor;
 
-import base.Camera2D;
-import base.Game;
-import base.MatrixMath;
-import base.WindowInfo;
+import base.*;
+import game.ob2D;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -17,11 +15,20 @@ public class Editor {
 	Game game;
 	Vector2f mouseWorldPos;
 	private Matrix4f arMat;
+
+	private boolean hasPicked;
+
+	private Object pickedObject2D;
+	private PickedType pickedType;
+
 	public Editor(Game game)
 	{
 		this.game=game;
 		mouseWorldPos=new Vector2f();
 		arMat=game.getRenderer().getARMat();
+		pickedObject2D=null;
+		hasPicked=false;
+
 	}
 	public void updateMousePos()
 	{
@@ -36,14 +43,23 @@ public class Editor {
 
 		mousePosMatrix.invert();
 
-		Vector4f mouseWorldPosV4=WindowInfo.getGLScreenPos().mul(mousePosMatrix);
+		Vector4f mouseWorldPosV4= MouseHandler.getGLScreenPos().mul(mousePosMatrix);
 
 		mouseWorldPos.x=mouseWorldPosV4.x;
 		mouseWorldPos.y=mouseWorldPosV4.y;
 	}
-	public void run()
+	public void update()
 	{
 		updateMousePos();
+		boolean hasLeftClicked=MouseHandler.mouseLeftClicked();
+
+		if(hasLeftClicked) {
+			;
+		}
+	}
+	public void run()
+	{
+		update();
 		game.run();
 	}
 }

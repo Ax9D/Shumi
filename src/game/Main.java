@@ -2,10 +2,12 @@ package game;
 
 import base.Game;
 import base.KeyboardHandler;
+import base.MouseHandler;
 import base.WindowInfo;
 import editor.Editor;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.windows.WINDOWPLACEMENT;
 
 import java.awt.*;
 
@@ -13,9 +15,6 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Main {
-
-	static long window;
-
 	public static boolean doEditor=true;
 
 	public static void init()
@@ -28,23 +27,23 @@ public class Main {
 		glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-		window=glfwCreateWindow(WindowInfo.WIDTH, WindowInfo.HEIGHT, "", 0, 0);
-		if(window==0)
+		WindowInfo.window=glfwCreateWindow(WindowInfo.WIDTH, WindowInfo.HEIGHT, "", 0, 0);
+		if(WindowInfo.window==0)
 		{
 			fail("Failed to crete Window");
 		}
-		glfwMakeContextCurrent(window);
+		glfwMakeContextCurrent(WindowInfo.window);
 		GL.createCapabilities();
 
 		glfwSwapInterval(1);
 
-		glfwSetKeyCallback(window, (w,key,scancode,action,mods)->{
+		glfwSetKeyCallback(WindowInfo.window, (w, key, scancode, action, mods)->{
 			if(key==GLFW_KEY_ESCAPE && action==GLFW_RELEASE)
-				glfwSetWindowShouldClose(window, true);
+				glfwSetWindowShouldClose(WindowInfo.window, true);
 		});
-		glfwSetCursorPosCallback(window,(w,xpos,ypos)->{
-			WindowInfo.mouseX=(float)xpos;
-			WindowInfo.mouseY=(float)ypos;
+		glfwSetCursorPosCallback(WindowInfo.window,(w,xpos,ypos)->{
+			MouseHandler.mouseX=(float)xpos;
+			MouseHandler.mouseY=(float)ypos;
 		});
 
 		System.out.println(GL11.glGetString(GL11.GL_VERSION));
@@ -58,31 +57,29 @@ public class Main {
 
 
 		Game g = new Game();
-		glfwShowWindow(window);
+		glfwShowWindow(WindowInfo.window);
 		if(doEditor)
 		{
-			KeyboardHandler.window = window;
 			Editor e=new Editor(g);
-			while (!glfwWindowShouldClose(window)) {
-				glfwSetWindowTitle(window, "FPS: " + Math.round(1 / Game.tDelta));
+			while (!glfwWindowShouldClose(WindowInfo.window)) {
+				glfwSetWindowTitle(WindowInfo.window, "FPS: " + Math.round(1 / Game.tDelta));
 
 				e.run();
 
 				glfwPollEvents();
-				glfwSwapBuffers(window);
+				glfwSwapBuffers(WindowInfo.window);
 			}
 		}
 		else {
-			KeyboardHandler.window = window;
 
 			//glClearColor(0.64f,0.64f,0.64f,1.0f);
-			while (!glfwWindowShouldClose(window)) {
-				glfwSetWindowTitle(window, "FPS: " + Math.round(1 / Game.tDelta));
+			while (!glfwWindowShouldClose(WindowInfo.window)) {
+				glfwSetWindowTitle(WindowInfo.window, "FPS: " + Math.round(1 / Game.tDelta));
 
 				g.run();
 
 				glfwPollEvents();
-				glfwSwapBuffers(window);
+				glfwSwapBuffers(WindowInfo.window);
 			}
 		}
 		g.exit();

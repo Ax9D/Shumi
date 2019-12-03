@@ -5,9 +5,8 @@ import static org.lwjgl.glfw.GLFW.glfwGetKey;
 
 
 public class KeyboardHandler {
-	 public static long window;
 	 public static boolean isPressed(int key)
 	 {
-		 return glfwGetKey(window, key)==GLFW_PRESS;
+		 return glfwGetKey(WindowInfo.window, key)==GLFW_PRESS;
 	 }
 }
