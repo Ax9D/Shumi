@@ -40,13 +40,23 @@ public class Main {
 		glfwSetKeyCallback(WindowInfo.window, (w, key, scancode, action, mods)->{
 			if(key==GLFW_KEY_ESCAPE && action==GLFW_RELEASE)
 				glfwSetWindowShouldClose(WindowInfo.window, true);
+
+			//KeyboardHandler.updateKeyState(key,action);
+			KeyboardHandler.handleKeyEvents(key,action);
 		});
 		glfwSetCursorPosCallback(WindowInfo.window,(w,xpos,ypos)->{
 			MouseHandler.mouseX=(float)xpos;
 			MouseHandler.mouseY=(float)ypos;
 		});
+		glfwSetMouseButtonCallback(WindowInfo.window,(w,button,action,mods)->
+		{
+			MouseHandler.handleButtonEvents(button,action);
+		});
+
 
 		System.out.println(GL11.glGetString(GL11.GL_VERSION));
+
+		KeyboardHandler.addEventListener((key,action)->{if(key==GLFW_KEY_TAB && action==GLFW_RELEASE)System.out.println("TAB DESU YO");});
 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);

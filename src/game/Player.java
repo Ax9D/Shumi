@@ -13,9 +13,28 @@ public class Player extends ob2D {
 	public Player(Model m, Vector2f pos, Vector2f size) {
 		super(m, pos, size, "player");
 
+
+
+		//Key Handling setup
+		KeyboardHandler.addEventListener((key,action)->{
+
+			boolean pressed_or_repeated=action==GLFW_PRESS || action==GLFW_REPEAT;
+
+			if(pressed_or_repeated) {
+				if (key==GLFW_KEY_LEFT)
+					pos.x -= walkSpeed;
+				else if (key==GLFW_KEY_RIGHT)
+					pos.x += walkSpeed;
+				else if (key==GLFW_KEY_UP)
+					pos.y += walkSpeed;
+				else if (key==GLFW_KEY_DOWN)
+					pos.y -= walkSpeed;
+			}
+		});
 	}
 
 	public void update() {
+		/*
 		if (KeyboardHandler.isPressed(GLFW_KEY_LEFT))
 			pos.x -= walkSpeed;
 		else if (KeyboardHandler.isPressed(GLFW_KEY_RIGHT))
@@ -24,5 +43,6 @@ public class Player extends ob2D {
 			pos.y += walkSpeed;
 		else if (KeyboardHandler.isPressed(GLFW_KEY_DOWN))
 			pos.y -= walkSpeed;
+		 */
 	}
 }

@@ -2,6 +2,7 @@ package game.components;
 
 import base.Game;
 import base.KeyboardHandler;
+import base.WindowInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +33,7 @@ public class PlayerMovement extends Component {
 
     public void update() {
         if (KeyboardHandler.isPressed(GLFW_KEY_W)) {
+           // System.out.println(glfwGetKeyName(GLFW_KEY_W,glfwGetKeyScancode(GLFW_KEY_W))+" "+glfwGetKey(WindowInfo.window,GLFW_KEY_W));
             parent.pos.y += walkSpeed * Game.tDelta;
             walkDirection = Direction.UP;
         } else if (KeyboardHandler.isPressed(GLFW_KEY_S)) {

@@ -85,7 +85,9 @@ public class World {
              for(Map.Entry<String,Component> c:x.getValue().entrySet())
              {
                  //JAVA IS WEIRD
-                 c.getValue().update();
+                 Component c_=c.getValue();
+                 if(c_.enabled)
+                    c_.update();
              }
          }
 

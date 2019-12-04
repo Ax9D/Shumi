@@ -18,6 +18,7 @@ public class Renderer {
     private Matrix4f cmat;
     private Matrix4f ar_correction_matrix;
 
+
     public Renderer(Camera2D c) {
         this.c = c;
         ar_correction_matrix=new Matrix4f();
@@ -66,10 +67,10 @@ public class Renderer {
         m.vao.unbind();
     }
 
-    public void setAspectRatio(float ar)
+    public void setAspectRatio(float ar,float scale)
     {
-        ar*=2;
-        ar_correction_matrix.setOrtho2D(-ar,ar,-2,2);
+        ar*=scale;
+        ar_correction_matrix.setOrtho2D(-ar,ar,-scale,scale);
     }
     public void renderWorld(World w) {
 

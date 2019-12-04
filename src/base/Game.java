@@ -38,11 +38,11 @@ public class Game {
 	 * static { quad = new Model(quadVerts, quadInds, quadtCoords); genericTex = new
 	 * Texture2D("test.png"); quad.setTexture(genericTex); }
 	 */
-	World w;
-	Loader l;
-	Camera2D c;
+	public World w;
+	public Loader l;
+	public Camera2D c;
 
-	Renderer r;
+	public Renderer r;
 
 	FBO screenFBO;
 
@@ -52,6 +52,8 @@ public class Game {
 	Model screenQuad;
 
 	private long prevTime;
+
+	public static long frameTimeMillis;
 
 	public static float tDelta;
 
@@ -92,7 +94,7 @@ public class Game {
 		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
 
 		r=new Renderer(c);
-        r.setAspectRatio((float)WindowInfo.WIDTH/WindowInfo.HEIGHT);
+        r.setAspectRatio((float)WindowInfo.WIDTH/WindowInfo.HEIGHT,2);
 
 
 		screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT);
@@ -113,30 +115,25 @@ public class Game {
 		screenShader.use();
 		screenShader.setInt("texSamp",0);
 	}
-	public Camera2D getCamera()
-	{
-		return c;
-	}
-	public Renderer getRenderer()
-	{
-		return r;
-	}
 	public void update() {
+
 		w.update();
 	}
 
 	public void draw(){
 		//Renderer.render(w,c,bs);
+
 		r.renderGame(w,screenFBO,screenQuad,screenShader);
+
+		long curTime=System.currentTimeMillis();
+		frameTimeMillis=curTime-prevTime;
+		tDelta=frameTimeMillis/1000.0f;
+		prevTime=curTime;
 	}
 	public void run() {
-		long curTime=System.currentTimeMillis();
-
-		tDelta=(curTime-prevTime)/1000.0f;
 
 		update();
 		draw();
-		prevTime=curTime;
 	}
 
 	public void exit() {
