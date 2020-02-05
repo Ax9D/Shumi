@@ -1,5 +1,6 @@
-package base;
+package input_handling;
 
+import base.WindowInfo;
 import org.joml.Vector4f;
 
 import java.util.ArrayList;
@@ -9,11 +10,13 @@ import static org.lwjgl.glfw.GLFW.*;
 public class MouseHandler {
 
     static ArrayList<MButtonEventFn> mButtonEventFns;
+    static ArrayList<MScrollEventFn> mScrollEventFns;
 
     public static float mouseX, mouseY;
 
     static{
         mButtonEventFns=new ArrayList<MButtonEventFn>();
+        mScrollEventFns=new ArrayList<MScrollEventFn>();
     }
 
 
@@ -27,10 +30,19 @@ public class MouseHandler {
     {
         mButtonEventFns.add(fn);
     }
+    public static void addScrollEventListener(MScrollEventFn fn)
+    {
+        mScrollEventFns.add(fn);
+    }
     public static void handleButtonEvents(int button,int action)
     {
         for(MButtonEventFn fn:mButtonEventFns)
             fn.execute(button,action);
+    }
+    public static void handleScrollEvents(double amt)
+    {
+        for(MScrollEventFn fn:mScrollEventFns)
+            fn.execute(amt);
     }
     public static boolean mouseLeftClicked()
     {

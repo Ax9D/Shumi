@@ -1,6 +1,7 @@
-package base;
+package input_handling;
 
-import java.lang.reflect.Array;
+import base.WindowInfo;
+
 import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.*;

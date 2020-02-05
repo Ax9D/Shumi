@@ -1,15 +1,12 @@
 package game;
 
 import base.Game;
-import base.KeyboardHandler;
-import base.MouseHandler;
+import input_handling.KeyboardHandler;
+import input_handling.MouseHandler;
 import base.WindowInfo;
 import editor.Editor;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.system.windows.WINDOWPLACEMENT;
-
-import java.awt.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -47,16 +44,18 @@ public class Main {
 		glfwSetCursorPosCallback(WindowInfo.window,(w,xpos,ypos)->{
 			MouseHandler.mouseX=(float)xpos;
 			MouseHandler.mouseY=(float)ypos;
+
+			//Edit.
 		});
 		glfwSetMouseButtonCallback(WindowInfo.window,(w,button,action,mods)->
 		{
 			MouseHandler.handleButtonEvents(button,action);
 		});
-
+		glfwSetScrollCallback(WindowInfo.window,(w,xoff,yoff)->{
+			MouseHandler.handleScrollEvents(yoff);
+		});
 
 		System.out.println(GL11.glGetString(GL11.GL_VERSION));
-
-		KeyboardHandler.addEventListener((key,action)->{if(key==GLFW_KEY_TAB && action==GLFW_RELEASE)System.out.println("TAB DESU YO");});
 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);

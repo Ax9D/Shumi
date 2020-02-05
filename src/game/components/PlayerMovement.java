@@ -1,8 +1,7 @@
 package game.components;
 
 import base.Game;
-import base.KeyboardHandler;
-import base.WindowInfo;
+import input_handling.KeyboardHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +24,28 @@ public class PlayerMovement extends Component {
 
     public PlayerMovement(float walkSpeed) {
         this.walkSpeed = walkSpeed;
+        //Key Handling setup
+/*        KeyboardHandler.addEventListener((key,action)->{
+
+            boolean pressed_or_repeated=action==GLFW_PRESS || action==GLFW_REPEAT;
+
+            if(pressed_or_repeated)
+            {
+                if (key==GLFW_KEY_W) {
+                    parent.pos.y += walkSpeed * Game.tDelta;
+                    walkDirection = Direction.UP;
+                } else if (key==GLFW_KEY_S) {
+                    parent.pos.y -= walkSpeed * Game.tDelta;
+                    walkDirection = Direction.DOWN;
+                } else if (key==GLFW_KEY_A) {
+                    parent.pos.x -= walkSpeed * Game.tDelta;
+                    walkDirection = Direction.LEFT;
+                } else if (key==GLFW_KEY_D) {
+                    parent.pos.x += walkSpeed * Game.tDelta;
+                    walkDirection = Direction.RIGHT;
+                }
+            }
+        });*/
     }
 
     public void init() {
@@ -32,8 +53,8 @@ public class PlayerMovement extends Component {
     }
 
     public void update() {
+
         if (KeyboardHandler.isPressed(GLFW_KEY_W)) {
-           // System.out.println(glfwGetKeyName(GLFW_KEY_W,glfwGetKeyScancode(GLFW_KEY_W))+" "+glfwGetKey(WindowInfo.window,GLFW_KEY_W));
             parent.pos.y += walkSpeed * Game.tDelta;
             walkDirection = Direction.UP;
         } else if (KeyboardHandler.isPressed(GLFW_KEY_S)) {
@@ -46,6 +67,5 @@ public class PlayerMovement extends Component {
             parent.pos.x += walkSpeed * Game.tDelta;
             walkDirection = Direction.RIGHT;
         }
-
     }
 }

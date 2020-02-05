@@ -3,10 +3,10 @@ package editor;
 import base.*;
 import game.components.CameraController;
 import game.components.ComponentHandler;
-import game.ob2D;
+import input_handling.KeyboardHandler;
+import input_handling.MouseHandler;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -18,28 +18,37 @@ public class Editor {
 	private Vector2f lastClickMouseWorldPos;
 	private Matrix4f arMat;
 
-	private EditorState editorState;
-
-	private boolean edit;
 	private boolean isDrag;
 	private EditMode emode;
+
+	float scrollSpeed;
 	public Editor(Game game)
 	{
 		this.game=game;
 		mouseWorldPos=new Vector2f();
 		lastClickMouseWorldPos=new Vector2f();
 		arMat=game.r.getARMat();
-		edit=false;
+
 		isDrag=false;
 
 		emode=new EditMode(game,mouseWorldPos);
 		//Disable camera follow
 		ComponentHandler.getAllByComponent(CameraController.class).get(0).disable();
 
+		scrollSpeed=0.1f;
 
-		KeyboardHandler.addEventListener((key,action)->{
-			if(key== GLFW_KEY_TAB && action==GLFW_RELEASE)
-				edit=!edit;
+		KeyboardHandler.addEventListener((key, action)->{
+			if(key== GLFW_KEY_TAB && action==GLFW_RELEASE) {
+				emode.enabled = !emode.enabled;
+				System.out.println(emode.enabled?"Entering edit mode":"Exiting edit mode");
+			}
+		});
+		MouseHandler.addScrollEventListener((amt)->{
+
+			System.out.println(amt);
+			float new_scale=game.r.getScale()*(float)(1-scrollSpeed*amt);
+			game.r.adjustScale(new_scale);
+
 		});
 	}
 	public void updateMousePos()
@@ -59,6 +68,7 @@ public class Editor {
 
 		mouseWorldPos.x=mouseWorldPosV4.x;
 		mouseWorldPos.y=mouseWorldPosV4.y;
+
 	}
 	public void updateEditorCamera()
 	{
@@ -69,8 +79,10 @@ public class Editor {
 	{
 		updateMousePos();
 
-		if(edit)
+		if(emode.enabled)
 			emode.update();
+
+
 		else {
 			game.update();
 
@@ -86,7 +98,6 @@ public class Editor {
 			isDrag = false;
 		else
 			updateEditorCamera();
-
 		}
 	}
 

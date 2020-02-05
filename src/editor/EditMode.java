@@ -1,12 +1,9 @@
 package editor;
 
 import base.Game;
-import base.KeyboardHandler;
-import base.MouseHandler;
+import input_handling.MouseHandler;
 import game.ob2D;
 import org.joml.Vector2f;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFW.*;
 
 import java.util.ArrayList;
 
@@ -23,15 +20,18 @@ public class EditMode {
     private Vector2f mouseWorldPos;
     private Vector2f oldObjectPos;
 
+    boolean enabled;
+
     public EditMode(Game game, Vector2f mouseWorldPos)
     {
         this.game=game;
         this.mouseWorldPos=mouseWorldPos;
         this.oldObjectPos=null;
         hasPicked=false;
+        enabled=false;
 
         MouseHandler.addButtonEventListener((button,action)->{
-            if(button==GLFW_MOUSE_BUTTON_LEFT && action==GLFW_PRESS)
+            if(button==GLFW_MOUSE_BUTTON_LEFT && action==GLFW_PRESS && enabled)
             {
                 if(hasPicked) {
                     hasPicked = false;
@@ -71,7 +71,7 @@ public class EditMode {
 
         for(ob2D b2D:obList)
         {
-            if(!((mouseWorldPos.x<b2D.pos.x-b2D.size.x || mouseWorldPos.x>b2D.pos.x+b2D.size.x) && (mouseWorldPos.y<b2D.pos.y-b2D.size.y || mouseWorldPos.y>b2D.pos.y+b2D.size.y) ))
+            if(!( (mouseWorldPos.x<b2D.pos.x-b2D.size.x || mouseWorldPos.x>b2D.pos.x+b2D.size.x) || (mouseWorldPos.y<b2D.pos.y-b2D.size.y || mouseWorldPos.y>b2D.pos.y+b2D.size.y) ))
                 return b2D;
         }
         return null;

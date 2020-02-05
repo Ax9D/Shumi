@@ -94,8 +94,8 @@ public class Game {
 		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
 
 		r=new Renderer(c);
-        r.setAspectRatio((float)WindowInfo.WIDTH/WindowInfo.HEIGHT,2);
-
+		r.setScale(2);
+        r.setAspectRatio((float)WindowInfo.WIDTH/WindowInfo.HEIGHT);
 
 		screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT);
 		screenShader=new BShader("src/screenV.glsl","src/screenF.glsl");
