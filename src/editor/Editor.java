@@ -23,7 +23,7 @@ public class Editor {
 
 	float scrollSpeed;
 	public Editor(Game game)
-	{
+    {
 		this.game=game;
 		mouseWorldPos=new Vector2f();
 		lastClickMouseWorldPos=new Vector2f();
@@ -81,7 +81,6 @@ public class Editor {
 
 		if(emode.enabled)
 			emode.update();
-
 
 		else {
 			game.update();

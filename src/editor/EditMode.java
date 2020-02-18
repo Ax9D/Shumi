@@ -13,12 +13,13 @@ public class EditMode {
 
     private boolean hasPicked;
 
-    private Object pickedObject;
+    private ob2D pickedObject;
     private PickedType pickedType;
 
     Game game;
     private Vector2f mouseWorldPos;
-    private Vector2f oldObjectPos;
+
+    private Vector2f lastPickedObjectPos;
 
     boolean enabled;
 
@@ -26,7 +27,6 @@ public class EditMode {
     {
         this.game=game;
         this.mouseWorldPos=mouseWorldPos;
-        this.oldObjectPos=null;
         hasPicked=false;
         enabled=false;
 
@@ -36,28 +36,25 @@ public class EditMode {
                 if(hasPicked) {
                     hasPicked = false;
                     System.out.println("Objekt dropped");
-                /*
-                switch(pickedType)
-                {
-                    case ob2D:
-                        oldObjectPos.x=mouseWorldPos.x;
-                        oldObjectPos.y=mouseWorldPos.y;
-                        ((ob2D)pickedObject).pos=oldObjectPos;
-                }*/
+
+                    //Update to new mouse drop coordinates
+                    lastPickedObjectPos.x=mouseWorldPos.x;
+                    lastPickedObjectPos.y=mouseWorldPos.y;
+
+                    //Reassign vector object
+                    pickedObject.pos=lastPickedObjectPos;
                 }
                 else {
-                    ob2D picked = findPickedObject();
-                    if (picked != null)
+                    pickedObject = findPickedObject();
+                    if (pickedObject != null)
                     {
                         hasPicked=true;
                         pickedType=PickedType.ob2D;
-                        System.out.println("Objekt found");
-                    /*
-                    oldObjectPos=picked.pos;
-                    picked.pos=mouseWorldPos;
 
-                    pickedObject=picked;
-*/
+                        lastPickedObjectPos=pickedObject.pos;
+                        pickedObject.pos=mouseWorldPos;
+                        System.out.println("Objekt picked");
+
                     }
                 }
             }

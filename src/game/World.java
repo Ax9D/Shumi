@@ -65,7 +65,7 @@ public class World {
         ComponentHandler.getAllByComponent(CameraController.class).get(0).update();
         */
         //time+=1;
-        envLight.intensity=1*Math.abs((float)Math.sin(time*0.001f));
+        envLight.intensity=0.5f*Math.abs((float)Math.sin(time*0.001f));
         gm.ts.use();
         gm.ts.updateEnvironmentLight(envLight);
         gm.ts.stop();
@@ -79,30 +79,19 @@ public class World {
 
         ob2D p =pm.parent;
 
-
-         for(Map.Entry<String,HashMap<String,Component>> x:ComponentHandler.cmp.entrySet())
-         {
-             for(Map.Entry<String,Component> c:x.getValue().entrySet())
-             {
-                 //JAVA IS WEIRD
-                 Component c_=c.getValue();
-                 if(c_.enabled)
-                    c_.update();
-             }
-         }
+        for(Map.Entry<String,ArrayList<Component>> et:ComponentHandler.database.entrySet())
+        {
+            for(Component c:et.getValue())
+            {
+                if(c.enabled)
+                    c.update();
+            }
+        }
 
         for (int i = 1; i < ob2Ds.size(); i++)
             BPhysics.handlePlayerFOCollision(p, ob2Ds.get(i));
-        // for (ob2D b : ob2Ds)
-        // runComponents(b);
 
-        // Test code --> Remove
-        // b.getComponent(BasicAnimation.class).run();
-
-        // p.update();
+        time+=1;
     }
-    /*
-     * public void runComponents(ob2D b) { for (Entry<String, Component> en :
-     * b.comps.entrySet()) { en.getValue().run(); } }
-     */
+
 }

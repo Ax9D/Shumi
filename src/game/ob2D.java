@@ -6,10 +6,11 @@ import game.components.Component;
 import game.components.ComponentHandler;
 import org.joml.Vector2f;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ob2D {
-	public Model m;
+	public Model m;//Remove due to redundance.
 
 	public Vector2f pos;
 
@@ -42,12 +43,15 @@ public class ob2D {
 		 */
 		String className = c.getClass().getName();
 		System.out.println("Adding " + className);
-		HashMap<String,Component> cmpList = ComponentHandler.cmp.get(className);
+
+
+		ArrayList<Component> cmpList = ComponentHandler.database.get(className);
 
 		if (cmpList == null)
-			ComponentHandler.cmp.put(className, cmpList = new HashMap<String,Component>());
+			ComponentHandler.database.put(className, cmpList = new ArrayList<Component>());
 
-		cmpList.put(id,c);
+		cmpList.add(c);
+
 		componentList.put(className,c);
 
 		c.setParent(this);
@@ -60,17 +64,6 @@ public class ob2D {
 		return componentList.get(className);
 	}
 
-	/*
-	 * public Component[] getRawComponents() { Component[] ret = new
-	 * Component[comps.size()]; int c = 0; for (Entry<String, Component> en :
-	 * comps.entrySet()) { ret[c++] = en.getValue(); } return ret; }
-	 */
-	public void removeComponent(Class c) {
-		String className = c.getName();
-		HashMap<String, Component> cmpList = ComponentHandler.cmp.get(className);
-		cmpList.remove(id);
-		componentList.remove(className);
-	}
 	public void delete()
 	{
 		/*for(Entry<Class,Boolean> ent:comps.entrySet())

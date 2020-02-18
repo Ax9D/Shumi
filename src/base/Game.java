@@ -121,7 +121,6 @@ public class Game {
 	}
 
 	public void draw(){
-		//Renderer.render(w,c,bs);
 
 		r.renderGame(w,screenFBO,screenQuad,screenShader);
 
@@ -129,11 +128,13 @@ public class Game {
 		frameTimeMillis=curTime-prevTime;
 		tDelta=frameTimeMillis/1000.0f;
 		prevTime=curTime;
+
 	}
 	public void run() {
 
 		update();
 		draw();
+
 	}
 
 	public void exit() {

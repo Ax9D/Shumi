@@ -18,50 +18,7 @@ public class Loader {
     static{
         defaultTex=new Texture2D("test.png");
     }
-    /*
-     * public static Texture2D loadIMG(String path) { int[] w=new int[1]; int[]
-     * h=new int[1]; int[] ch=new int[1];
-     *
-     * var imageBuffer=stbi_load(path, w, h, ch,4);
-     *
-     * if(imageBuffer==null) throw new
-     * RuntimeException("Failed to Load texture: "+path+"\n"+stbi_failure_reason());
-     *
-     * System.out.println(imageBuffer);
-     *
-     * int tex=glGenTextures(); glBindTexture(GL_TEXTURE_2D, tex);
-     *
-     * glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-     * glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-     * GL_LINEAR_MIPMAP_LINEAR); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-     * GL_CLAMP_TO_EDGE); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-     * GL_CLAMP_TO_EDGE);
-     *
-     * glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w[0], h[0],0,
-     * GL_RGBA,GL_UNSIGNED_BYTE,imageBuffer);
-     *
-     * glBindTexture(GL_TEXTURE_2D,0);
-     *
-     * stbi_image_free(imageBuffer);
-     *
-     * textures.add(tex);
-     *
-     * A return new Texture2D(tex); } public static void delete() { int[] iAr=new
-     * int[textures.size()]; for(int i=0;i<iAr.length;i++) { iAr[i]=textures.get(i);
-     * } glDeleteTextures(iAr); } private static ByteBuffer loadBytes(String path) {
-     *
-     * File f=new File(path);
-     *
-     * ByteBuffer ret=BufferUtils.createByteBuffer((int)f.length());
-     *
-     * try { Scanner sc=new Scanner(new FileInputStream(f)); while(sc.hasNextByte())
-     * ret.put(sc.nextByte());
-     *
-     * } catch (FileNotFoundException e) { e.printStackTrace(); } ret.flip(); return
-     * ret;
-     *
-     * }
-     */
+
     public Loader(World w, String rspath, String gmpath) {
         this.w = w;
         loadGame(rspath, gmpath);
