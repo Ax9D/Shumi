@@ -6,18 +6,18 @@ import org.lwjgl.opengl.GL30;
 import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 
-public class Model {
+public class Shape {
 	public VAO vao;
 	public int eboID;
 	public int ic;
 
-	public Model(VAO vao, int eboID, int ic) {
+	public Shape(VAO vao, int eboID, int ic) {
 		this.vao = vao;
 		this.eboID = eboID;
 		this.ic = ic;
 	}
 
-	public Model(float[] verts, int[] inds, float[] tCoords) {
+	public Shape(float[] verts, int[] inds, float[] tCoords) {
 		vao = new VAO();
 		vao.loadToVBO(verts, 2);
 		vao.loadToVBO(tCoords, 2);

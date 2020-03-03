@@ -38,7 +38,7 @@ public class Renderer {
     }
 
     public void render(ob2D b, BShader bs) {
-        Model m = b.m;
+        Shape m = b.sh;
 
         m.vao.bind();
 
@@ -88,6 +88,7 @@ public class Renderer {
     {
         return scale;
     }
+
     public void renderWorld(World w) {
 
         SShader ss=w.sceneShader;
@@ -99,9 +100,9 @@ public class Renderer {
 
         ss.use();
 
-        for (Entry<Model, HashMap<ob2D, Boolean>> et : w.modelObpair.entrySet()) {
-            Model m = et.getKey();
-            m.load();
+        for (Entry<Shape, HashMap<ob2D, Boolean>> et : w.modelObpair.entrySet()) {
+            Shape sh = et.getKey();
+            sh.load();
 
             glActiveTexture(GL_TEXTURE0);
 
@@ -116,15 +117,15 @@ public class Renderer {
                 ss.setMatrix("ratio_mat",ar_correction_matrix);
 
 
-                glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
+                glDrawElements(GL_TRIANGLES, sh.ic, GL_UNSIGNED_INT, 0);
 
                 // b.tex.unbind();
             }
 
 
             //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-            m.unload();
-            // m.vao.unbind();
+            sh.unload();
+            // sh.vao.unbind();
         }
         //bs.stop();
 
@@ -196,7 +197,7 @@ public class Renderer {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        Model m= ResourceManager.basicQuad;
+        Shape m= ResourceManager.basicQuad;
 
         SShader ms = map.ts;
 
@@ -238,7 +239,7 @@ public class Renderer {
         m.unload();
     }
 
-    public void renderGame(World w, FBO fbo, Model screenQuad, BShader screenShader) {
+    public void renderGame(World w, FBO fbo, Shape screenQuad, BShader screenShader) {
         fbo.bind();
 
         //Clear world

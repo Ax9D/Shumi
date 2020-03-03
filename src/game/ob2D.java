@@ -1,6 +1,6 @@
 package game;
 
-import base.Model;
+import base.Shape;
 import base.Texture2D;
 import game.components.Component;
 import game.components.ComponentHandler;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ob2D {
-	public Model m;//Remove due to redundance.
+	public Shape sh;//Remove due to redundance.
 
 	public Vector2f pos;
 
@@ -24,8 +24,8 @@ public class ob2D {
 
 	private HashMap<String,Component> componentList;
 
-	public ob2D(Model m, Vector2f pos, Vector2f size, String name) {
-		this.m = m;
+	public ob2D(Shape sh, Vector2f pos, Vector2f size, String name) {
+		this.sh = sh;
 		this.pos = pos;
 		this.size = size;
 		this.name = name;
@@ -59,14 +59,13 @@ public class ob2D {
 
 	public <T> Component getComponent(Class<T> c) {
 		String className = c.getName();
-		/*
-		 * Object req = comps.get(className); return c.cast(req);*/
 		return componentList.get(className);
 	}
 
 	public void delete()
 	{
-		/*for(Entry<Class,Boolean> ent:comps.entrySet())
+	    /*
+		for(Entry<Class,Boolean> ent:comps.entrySet())
 		{
 			Class cmpName=ent.getKey();
 

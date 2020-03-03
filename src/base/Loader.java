@@ -43,7 +43,7 @@ public class Loader {
             int[] indices = Common.getIntArrFromJSON(jo.getJSONArray("indices"));
             float[] texCoords = Common.getFloatArrFromJSON(jo.getJSONArray("textureCoords"));
 
-            Model m = new Model(vertices, indices, texCoords);
+            Shape m = new Shape(vertices, indices, texCoords);
             // m.setTexture(rs.textures.get(tid));
 
             ResourceManager.addModel(m, mid);
@@ -118,7 +118,7 @@ public class Loader {
             Vector2f pos = new Vector2f(posArr[0], posArr[1]);
             Vector2f size = new Vector2f(sizeArr[0], sizeArr[1]);
 
-            Model m=ResourceManager.getModel(mid);
+            Shape m=ResourceManager.getModel(mid);
             ob2D b = new ob2D(m, pos, size, bid);
 
             if (!jo.has("texture"))

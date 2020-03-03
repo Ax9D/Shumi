@@ -4,20 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ResourceManager {
-    private static HashMap<String, Model> models;
+    private static HashMap<String, Shape> models;
     private static HashMap<String, Texture2D> textures;
     private static HashMap<String, BShader> shaders;
 
-    public static Model basicQuad;
+    public static Shape basicQuad;
 
     static {
-        models = new HashMap<String, Model>();
+        models = new HashMap<String, Shape>();
         textures = new HashMap<String, Texture2D>();
         shaders = new HashMap<String, BShader>();
     }
 
 
-    public static void addModel(Model m, String id) {
+    public static void addModel(Shape m, String id) {
         models.put(id, m);
     }
 
@@ -29,7 +29,7 @@ public class ResourceManager {
         shaders.put(id, s);
 
     }
-    public static Model getModel(String id)
+    public static Shape getModel(String id)
     {
         if(id.equals("generic_quad"))
             return basicQuad;
@@ -41,7 +41,7 @@ public class ResourceManager {
         return textures.get(id);
     }
     public static void delete() {
-        for (Map.Entry<String, Model> entry : models.entrySet())
+        for (Map.Entry<String, Shape> entry : models.entrySet())
             entry.getValue().delete();
         for (Map.Entry<String, Texture2D> entry : textures.entrySet())
             entry.getValue().delete();

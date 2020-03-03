@@ -15,23 +15,26 @@ public class BoundingBox extends Component {
     }
 
 	public float left, right, top,bottom;
-	private float xExtent,yExtent;
+	private float xratio,yratio;
+	private float xoffset,yoffset;
 
 	public void init()
 	{
-		this.xExtent=parent.size.x;
-		this.yExtent=parent.size.y;
+		this.xratio=1;
+		this.yratio=1;
+		this.xoffset=this.yoffset=0;
 	}
-	public void init(float xExtent,float yExtent)
+	public void init(float xratio,float yratio)
 	{
-		this.xExtent=xExtent;
-		this.yExtent=yExtent;
+		this.xratio=xratio;
+		this.yratio=yratio;
 	}
 	public void compute()
 	{
-		left=parent.pos.x-xExtent;
-		right=parent.pos.x+xExtent;
-		top=parent.pos.y+yExtent;
-		bottom=parent.pos.y-yExtent;
+
+		left=parent.pos.x-xoffset-(parent.size.x)*xratio;
+		right=parent.pos.x+xoffset+(parent.size.x)*xratio;
+		top=parent.pos.y+yoffset+(parent.size.y)*yratio;
+		bottom=parent.pos.y-yoffset-(parent.size.y)*yratio;
 	}
 }

@@ -31,6 +31,10 @@
 		{
 			"id":"stone",
 			"path":"stone.png"
+		},
+		{
+			"id": "tree",
+			"path": "tree.png"
 		}
 	],
 	"models":[

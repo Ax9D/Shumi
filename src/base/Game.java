@@ -1,6 +1,5 @@
 package base;
 
-import game.Main;
 import game.World;
 import game.components.CameraController;
 import game.components.ComponentHandler;
@@ -49,7 +48,7 @@ public class Game {
 	BShader screenShader;
 	BShader simpleShader;
 
-	Model screenQuad;
+	Shape screenQuad;
 
 	private long prevTime;
 
@@ -72,10 +71,10 @@ public class Game {
 
 		w = new World();
 
-        ResourceManager.basicQuad=new Model(quadVerts,quadInds,quadUV);
+        ResourceManager.basicQuad=new Shape(quadVerts,quadInds,quadUV);
         w.modelObpair.put(ResourceManager.basicQuad,new HashMap<ob2D,Boolean>());
 
-        screenQuad=new Model(new float[]{
+        screenQuad=new Shape(new float[]{
                 -1f, 1f,
                 1f, 1f,
                 1f, -1f,

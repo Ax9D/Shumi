@@ -1,11 +1,10 @@
 package game;
 
-import base.Model;
+import base.Shape;
 import base.SShader;
 import game.components.Component;
 import game.components.ComponentHandler;
 import game.components.PlayerMovement;
-import org.ietf.jgss.GSSCredential;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -18,7 +17,7 @@ public class World {
     public ArrayList<PointLight> pointLights;
     public EnvironmentLight envLight;
 
-    public HashMap<Model, HashMap<ob2D,Boolean>> modelObpair;
+    public HashMap<Shape, HashMap<ob2D,Boolean>> modelObpair;
 
     public GMap gm;
 
@@ -27,7 +26,7 @@ public class World {
     public SShader sceneShader;
 
     public World() {
-        modelObpair = new HashMap<Model, HashMap<ob2D,Boolean>>();
+        modelObpair = new HashMap<Shape, HashMap<ob2D,Boolean>>();
         sceneShader=new SShader("src/vertex.glsl","src/fragment.glsl");
         pointLights=new ArrayList<PointLight>();
         time=0;
@@ -52,7 +51,7 @@ public class World {
     public void deleteOb2D(ob2D b)
     {
         b.delete();
-        modelObpair.get(b.m).remove(b);
+        modelObpair.get(b.sh).remove(b);
     }
     public void update() {
 
