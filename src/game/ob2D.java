@@ -1,5 +1,6 @@
 package game;
 
+import base.ResourceManager;
 import base.Shape;
 import base.Texture2D;
 import game.components.Component;
@@ -8,6 +9,7 @@ import org.joml.Vector2f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ob2D {
 	public Shape sh;//Remove due to redundance.
@@ -31,6 +33,7 @@ public class ob2D {
 		this.name = name;
 		this.id = genID();
 		componentList=new HashMap<String,Component>();
+		this.tex=ResourceManager.basicTex;
 	}
 
 	private String genID() {
@@ -57,20 +60,35 @@ public class ob2D {
 		c.setParent(this);
 	}
 
-	public <T> Component getComponent(Class<T> c) {
+	public <T> T getComponent(Class<T> c) {
 		String className = c.getName();
-		return componentList.get(className);
+		return (T)componentList.get(className);
 	}
+	public <T> void removeComponent(Class<T> c)
+	{
+		String className=c.getName();
+		Component x=componentList.remove(className);
 
+		//TODO: Optimize
+		ComponentHandler.database.get(className).remove(x);
+	}
+	public ArrayList<Component> getAllComponents()
+	{
+		ArrayList<Component> ret=new ArrayList<Component>();
+		for(Map.Entry<String,Component> i:componentList.entrySet())
+			ret.add(i.getValue());
+		return ret;
+	}
 	public void delete()
 	{
-	    /*
-		for(Entry<Class,Boolean> ent:comps.entrySet())
-		{
-			Class cmpName=ent.getKey();
-
-			ComponentHandler.cmp.get(cmpName).remove(id);
-		}*/
+		new Thread(()->{
+			for(Map.Entry<String,Component> c:componentList.entrySet())
+			{
+				String componentName=c.getKey();
+				Component component=c.getValue();
+				ComponentHandler.database.get(componentName).remove(component);
+			}
+		}).start();
 	}
 
 }

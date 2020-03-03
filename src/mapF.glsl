@@ -23,7 +23,6 @@ vec3 computePointLight(PointLight pl,vec2 pos)
 
     float adj_factor=pl.max_intensity/(1+distSq*pl.falloff);
 
-    adj_factor=adj_factor>0.01?adj_factor:0;
     return pl.color*adj_factor;
 }
 

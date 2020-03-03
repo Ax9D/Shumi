@@ -7,6 +7,7 @@ import game.ob2D;
 import org.joml.Vector2f;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Game {
 
@@ -72,7 +73,7 @@ public class Game {
 		w = new World();
 
         ResourceManager.basicQuad=new Shape(quadVerts,quadInds,quadUV);
-        w.modelObpair.put(ResourceManager.basicQuad,new HashMap<ob2D,Boolean>());
+        w.modelObpair.put(ResourceManager.basicQuad,new HashSet<ob2D>());
 
         screenQuad=new Shape(new float[]{
                 -1f, 1f,

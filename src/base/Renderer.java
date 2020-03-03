@@ -8,6 +8,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map.Entry;
 
 import static org.lwjgl.opengl.GL30.*;
@@ -100,21 +101,35 @@ public class Renderer {
 
         ss.use();
 
-        for (Entry<Shape, HashMap<ob2D, Boolean>> et : w.modelObpair.entrySet()) {
+
+
+        w.p.sh.load();
+        glActiveTexture(GL_TEXTURE0);
+        w.p.tex.bind();
+
+        tmat = MatrixMath.get2DTMat(w.p.pos, w.p.size);
+
+        ss.setMatrix("tmat", tmat);
+        ss.setMatrix("ratio_mat",ar_correction_matrix);
+
+
+        glDrawElements(GL_TRIANGLES, w.p.sh.ic, GL_UNSIGNED_INT, 0);
+
+
+
+        for (Entry<Shape, HashSet<ob2D>> et : w.modelObpair.entrySet()) {
             Shape sh = et.getKey();
             sh.load();
 
             glActiveTexture(GL_TEXTURE0);
 
 
-            for (Entry<ob2D, Boolean> be : et.getValue().entrySet()) {
-                ob2D b = be.getKey();
+            for (ob2D b : et.getValue() ){
                 b.tex.bind();
 
                 tmat = MatrixMath.get2DTMat(b.pos, b.size);
 
                 ss.setMatrix("tmat", tmat);
-                ss.setMatrix("ratio_mat",ar_correction_matrix);
 
 
                 glDrawElements(GL_TRIANGLES, sh.ic, GL_UNSIGNED_INT, 0);
@@ -243,7 +258,7 @@ public class Renderer {
         fbo.bind();
 
         //Clear world
-        glClearColor(1f, 0.64f, 0.64f, 1.0f);
+        glClearColor(0.516f, 0.734f, 0.809f, 1.0f);
         //glClearColor(0f, 0f, 0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 

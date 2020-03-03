@@ -9,11 +9,13 @@ public class ResourceManager {
     private static HashMap<String, BShader> shaders;
 
     public static Shape basicQuad;
+    public static Texture2D basicTex;
 
     static {
         models = new HashMap<String, Shape>();
         textures = new HashMap<String, Texture2D>();
         shaders = new HashMap<String, BShader>();
+        basicTex=new Texture2D("test.png");
     }
 
 

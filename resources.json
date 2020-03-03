@@ -1,10 +1,6 @@
 {
 	"textures":[
 	{
-		"id":"failed_to_load",
-		"path":"test.png"
-	},
-	{
 		"id":"an1",
 		"path":"an1.png"
 	},
@@ -34,7 +30,8 @@
 		},
 		{
 			"id": "tree",
-			"path": "tree.png"
+			"path": "tree.png",
+			"interpolation": "nearest"
 		}
 	],
 	"models":[

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Loader {
     World w;
@@ -28,7 +29,18 @@ public class Loader {
             JSONObject jo = ja.getJSONObject(i);
             String tid = jo.getString("id");
             String path = jo.getString("path");
-            ResourceManager.addTexture2D(new Texture2D(path), tid);
+            Texture2D tex;
+            ResourceManager.addTexture2D(tex=new Texture2D(path), tid);
+            if(jo.has("interpolation"))
+            {
+                switch(jo.getString("interpolation"))
+                {
+                    case "linear":
+                        break;
+                    case "nearest":
+                        tex.setNearest();
+                }
+            }
         }
     }
 
@@ -47,7 +59,7 @@ public class Loader {
             // m.setTexture(rs.textures.get(tid));
 
             ResourceManager.addModel(m, mid);
-            w.modelObpair.put(m,new HashMap<ob2D,Boolean>());
+            w.modelObpair.put(m,new HashSet<ob2D>());
         }
     }
 
@@ -74,6 +86,7 @@ public class Loader {
                 case "PlayerMovement":
                     float walkSpeed = (float) jo.getDouble("walkSpeed");
                     c = new PlayerMovement(walkSpeed);
+
                     break;
 
 
@@ -106,7 +119,6 @@ public class Loader {
     }
 
     private void getOb2Ds(JSONArray ja) throws JSONException {
-        ArrayList<ob2D> obs = new ArrayList<ob2D>();
         for (int i = 0; i < ja.length(); i++) {
             JSONObject jo = ja.getJSONObject(i);
             String bid = jo.getString("id");
@@ -129,13 +141,11 @@ public class Loader {
             }
 
             getComponents(b, jo.getJSONArray("components"));
-
-            obs.add(b);
-            var objectList=w.modelObpair.get(m);
-
-            objectList.put(b,true);
+            if(!bid.equals("player"))
+                w.addOb2D(b);
+            else
+                w.p=b;
         }
-        w.ob2Ds = obs;
     }
     public Path[] getPaths(JSONArray ja) throws JSONException {
         int n=ja.length();

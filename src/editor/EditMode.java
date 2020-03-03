@@ -6,6 +6,7 @@ import game.ob2D;
 import org.joml.Vector2f;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -64,7 +65,7 @@ public class EditMode {
 
     private ob2D findPickedObject()
     {
-        ArrayList<ob2D> obList=game.w.ob2Ds;
+        HashSet<ob2D> obList=game.w.ob2Ds;
 
         for(ob2D b2D:obList)
         {

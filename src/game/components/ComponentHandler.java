@@ -14,8 +14,9 @@ public class ComponentHandler {
 		database = new HashMap<String,ArrayList<Component>>();
 	}
 
-	public static <T> ArrayList<Component> getAllByComponent(Class<T> c) {
-		String className = c.getName();
+	public static <T extends Component> ArrayList<Component> getAllByComponent(Class<T> c) {
+			String className = c.getName();
+
 
 		ArrayList<Component> ret = database.get(className);
 
