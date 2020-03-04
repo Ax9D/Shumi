@@ -1,5 +1,6 @@
 package game;
 
+import base.FBO;
 import base.Game;
 import input_handling.KeyboardHandler;
 import input_handling.MouseHandler;
@@ -55,6 +56,9 @@ public class Main {
 			MouseHandler.handleScrollEvents(yoff);
 		});
 
+
+
+
 		System.out.println(GL11.glGetString(GL11.GL_VERSION));
 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -67,6 +71,7 @@ public class Main {
 
 		Game g = new Game();
 		glfwShowWindow(WindowInfo.window);
+		glViewport(0,0,WindowInfo.WIDTH,WindowInfo.HEIGHT);
 		if(doEditor)
 		{
 			Editor e=new Editor(g);

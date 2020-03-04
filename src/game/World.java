@@ -56,7 +56,7 @@ public class World {
             gm.ts.addPointLights(pointLights);
             gm.ts.updateEnvironmentLight(envLight);
 
-            for(int i=0;i<10000;i++)
+            for(int i=0;i<1000;i++)
             {
                 ob2D x;
                 addOb2D(x=new ob2D(ResourceManager.basicQuad,new Vector2f((float)Math.random()*16-8,(float)Math.random()*16-8),new Vector2f((float)(Math.random()*0.125f)),"asdf"));

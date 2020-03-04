@@ -6,6 +6,6 @@ import org.joml.Vector4f;
 
 public class WindowInfo {
     public static long window;
-    public static final int WIDTH=800;
-    public static final int HEIGHT=600;
+    public static int WIDTH=800;
+    public static int HEIGHT=600;
 }

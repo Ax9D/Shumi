@@ -58,4 +58,9 @@ public class FBO {
     {
         glBindFramebuffer(GL_FRAMEBUFFER,0);
     }
+    public void delete()
+    {
+        glDeleteFramebuffers(fboID);
+        tex.delete();
+    }
 }

@@ -9,6 +9,9 @@ import org.joml.Vector2f;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
+import static org.lwjgl.opengl.GL11.glViewport;
+
 public class Game {
 
     static float[] quadVerts;
@@ -60,14 +63,20 @@ public class Game {
 	float averageframeTime;
 
 	public Game() {
-		/*
-		 *
-		 * test = new ob2D(quad, new Vector2f(0.25f, 0), new Vector2f(0.5f, 0.5f));
-		 *
-		 * c = new Camera2D(new Vector2f(0.25f, 0), new Vector2f(1, 1), 0.01f);
-		 *
-		 * p = new Player(quad, new Vector2f(0.25f, 0), new Vector2f(0.25f, 0.25f));
-		 */
+
+
+		glfwSetWindowSizeCallback(WindowInfo.window,(w,width,height)->{
+
+			glViewport(0,0,width,height);
+			WindowInfo.WIDTH=width;
+			WindowInfo.HEIGHT=height;
+			r.setAspectRatio((float)width/height);
+			FBO oldscreenFBO=screenFBO;
+			oldscreenFBO.delete();
+			screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT);
+		});
+
+
 		prevTime=System.currentTimeMillis();
 
 		w = new World();
