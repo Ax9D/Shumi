@@ -40,7 +40,8 @@ public class Editor {
 		KeyboardHandler.addEventListener((key, action)->{
 			if(key== GLFW_KEY_TAB && action==GLFW_RELEASE) {
 				emode.enabled = !emode.enabled;
-				System.out.println(emode.enabled?"Entering edit mode":"Exiting edit mode");
+				if(!emode.enabled)
+					emode.reset();
 			}
 		});
 		MouseHandler.addScrollEventListener((amt)->{
@@ -103,7 +104,7 @@ public class Editor {
 
 	public void run()
 	{
-		update();
 		game.draw();
+		update();
 	}
 }

@@ -3,12 +3,12 @@ package base;
 import game.GMap;
 import game.Tile;
 import game.World;
+import game.components.BoundingBox;
 import game.ob2D;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 import java.util.Map.Entry;
 
 import static org.lwjgl.opengl.GL30.*;
@@ -22,10 +22,22 @@ public class Renderer {
     private float scale;
     private float ar;
 
+    private float camxExtent;
+    private float camyExtent;
+
+    public ArrayList<ob2D> visible;
+
+    private static Comparator<ob2D> spriteCompare=(ob2D a,ob2D b)-> {
+        BoundingBox ba = a.getComponent(BoundingBox.class);
+        BoundingBox bb = b.getComponent(BoundingBox.class);
+
+        return ba.top > bb.top ? 1 : -1;
+    };
 
     public Renderer(Camera2D c) {
         this.c = c;
         ar_correction_matrix=new Matrix4f();
+        visible=new ArrayList<ob2D>();
     }
     public Matrix4f getARMat()
     {
@@ -37,7 +49,6 @@ public class Renderer {
         w.sceneShader.setMatrix("cmat",cmat);
         w.sceneShader.stop();
     }
-
     public void render(ob2D b, BShader bs) {
         Shape m = b.sh;
 
@@ -75,22 +86,45 @@ public class Renderer {
     {
         ar_correction_matrix.setOrtho2D(-ar*scale,ar*scale,-scale,scale);
         this.ar=ar;
+        camxExtent=ar*scale;
     }
     public void adjustScale(float scale)
     {
         this.scale=scale;
         setAspectRatio(ar);
-    }
-    public void setScale(float scale)
-    {
-        this.scale=scale;
+        camyExtent=scale;
     }
     public float getScale()
     {
         return scale;
     }
+    private void pruneVisible(World w)
+    {
+        float left=c.pos.x-camxExtent;
+        float right=c.pos.x+camxExtent;
+        float top=c.pos.y+camyExtent;
+        float bottom=c.pos.y-camyExtent;
 
+        visible.clear();
+
+        float bposx,bposy,bleft,bright,btop,bbottom,bsizex,bsizey;
+        for(ob2D b:w.ob2Ds) {
+            bposx=b.pos.x;
+            bposy=b.pos.y;
+            bsizex=b.size.x;
+            bsizey=b.size.y;
+            bleft = bposx - bsizex;
+            bright = bposx + bsizex;
+            btop = bposy + bsizey;
+            bbottom = bposy - bsizey;
+            if (!(bright<=left || bleft>=right || bbottom>=top || btop<=bottom))
+                visible.add(b);
+        }
+        Collections.sort(visible,spriteCompare);
+    }
     public void renderWorld(World w) {
+
+        pruneVisible(w);
 
         SShader ss=w.sceneShader;
         GMap gm = w.gm;
@@ -115,7 +149,7 @@ public class Renderer {
 
         glDrawElements(GL_TRIANGLES, w.p.sh.ic, GL_UNSIGNED_INT, 0);
 
-
+        /*
 
         for (Entry<Shape, HashSet<ob2D>> et : w.modelObpair.entrySet()) {
             Shape sh = et.getKey();
@@ -136,77 +170,24 @@ public class Renderer {
 
                 // b.tex.unbind();
             }
+*/          int prev=-1;
+            for(ob2D x:visible)
+            {
+                if(x.sh.vao.vao!=prev) {
+                    x.sh.load();
+                    prev=x.sh.vao.vao;
+                }
+                glActiveTexture(GL_TEXTURE0);
+                x.tex.bind();
+                tmat=MatrixMath.get2DTMat(x.pos,x.size);
+                ss.setMatrix("tmat",tmat);
+                glDrawElements(GL_TRIANGLES,x.sh.ic,GL_UNSIGNED_INT,0);
 
-
-            //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-            sh.unload();
-            // sh.vao.unbind();
-        }
-        //bs.stop();
-
-
-    }
-
-   /* public void renderGMaptoTexture(GMap map, BShader bs) {
-
-
-        FBO fbo = map.mapTexFBO;
-
-        glViewport(0,0,fbo.width,fbo.height);
-        fbo.bind();
-
-        Model m = ResourceManager.basicQuad;
-
-        m.load();
-
-        BShader ms = map.ts;
-
-        ms.use();
-
-
-
-        Vector2f origin = new Vector2f(0);
-        //System.out.println(map.size);
-        Vector2f gzerozero = new Vector2f(origin.x - 1 + map.tileSize, origin.y + 1 - map.tileSize);
-
-        Matrix4f tmat = MatrixMath.get2DTMat(origin, 1);
-
-        ms.setMatrix("tmat", tmat);
-        map.biomeTex.bind();
-
-        glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
-
-        //End of biome rendering
-
-
-        bs.use();
-
-        float tileSkip = map.tileSize * 2;
-
-        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-        glEnable(GL_BLEND);
-
-        for(Tile t:map.tiles)
-        {
-            t.tex.bind();
-            Vector2f pos=new Vector2f(gzerozero.x+t.gridPos.x*tileSkip,gzerozero.y-t.gridPos.y*tileSkip);
-            tmat=MatrixMath.get2DTMat(pos,map.tileSize);
-            bs.setMatrix("tmat",tmat);
-            glDrawElements(GL_TRIANGLES,m.ic,GL_UNSIGNED_INT,0);
-        }
-
-        m.unload();
-
-        fbo.unbind();
-
-        glViewport(0,0, Main.WIDTH, Main.HEIGHT);
-        //m.vao.unbind();
-
-        glDisable(GL_BLEND);
+            }
 
 
     }
-*/
+
     public void renderGMap(GMap map, SShader ss) {
 
         glEnable(GL_BLEND);

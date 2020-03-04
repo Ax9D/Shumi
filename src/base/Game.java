@@ -94,17 +94,13 @@ public class Game {
 		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
 
 		r=new Renderer(c);
-		r.setScale(2);
+		r.adjustScale(2);
         r.setAspectRatio((float)WindowInfo.WIDTH/WindowInfo.HEIGHT);
 
 		screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT);
 		screenShader=new BShader("src/screenV.glsl","src/screenF.glsl");
 		simpleShader=new BShader("src/simplevertex.glsl","src/simplefragment.glsl");
 
-		// w.ob2Ds.get(0).addComponent(new BasicAnimation(new Texture2D[] { new
-		// Texture2D("an1.png"),
-		// new Texture2D("an2.png"), new Texture2D("an3.png"), new Texture2D("an4.png")
-		// }, 10));
 
 		System.out.println("Initialized.\n"+
 							"Loaded resources and world in "+(System.currentTimeMillis()-prevTime)+"ms");
@@ -116,7 +112,6 @@ public class Game {
 		screenShader.setInt("texSamp",0);
 	}
 	public void update() {
-
 		w.update();
 	}
 

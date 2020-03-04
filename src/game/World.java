@@ -1,5 +1,6 @@
 package game;
 
+import base.Renderer;
 import base.ResourceManager;
 import base.Shape;
 import base.SShader;
@@ -28,14 +29,14 @@ public class World {
     public SShader sceneShader;
 
     public ob2D p;
-    LinkedList<ob2D> test;
+    public ArrayList<ob2D> visible;
 
     public World() {
         modelObpair = new HashMap<Shape, HashSet<ob2D>>();
         sceneShader=new SShader("src/vertex.glsl","src/fragment.glsl");
         pointLights=new ArrayList<PointLight>();
         ob2Ds=new HashSet<ob2D>();
-        test=new LinkedList<ob2D>();
+        visible=new ArrayList<ob2D>();
         time=0;
     }
     public void init()
@@ -71,7 +72,6 @@ public class World {
     public void addOb2D(ob2D b)
     {
         ob2Ds.add(b);
-        test.add(b);
         modelObpair.get(b.sh).add(b);
     }
     public void deleteOb2D(ob2D b)
@@ -82,15 +82,6 @@ public class World {
     }
     public void update() {
 
-        /*
-        for (LoopAnimation ba : ComponentHandler.getAllByComponent(LoopAnimation.class))
-            ba.update();
-
-
-
-        ComponentHandler.getAllByComponent(CameraController.class).get(0).update();
-        */
-        //time+=1;
         envLight.intensity=0.2f;
         gm.ts.use();
         gm.ts.updateEnvironmentLight(envLight);
@@ -108,9 +99,6 @@ public class World {
                     c.update();
             }
         }
-
-        ob2D[] obArray=new ob2D[ob2Ds.size()];
-        ob2Ds.toArray(obArray);
        for (ob2D x:ob2Ds) {
             BPhysics.handlePlayerFOCollision(p, x);
        }

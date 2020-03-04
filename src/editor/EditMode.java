@@ -23,7 +23,6 @@ public class EditMode {
     private Vector2f lastPickedObjectPos;
 
     boolean enabled;
-
     public EditMode(Game game, Vector2f mouseWorldPos)
     {
         this.game=game;
@@ -34,16 +33,17 @@ public class EditMode {
         MouseHandler.addButtonEventListener((button,action)->{
             if(button==GLFW_MOUSE_BUTTON_LEFT && action==GLFW_PRESS && enabled)
             {
-                if(hasPicked) {
-                    hasPicked = false;
+                if(hasPicked)
+                {
                     System.out.println("Objekt dropped");
 
                     //Update to new mouse drop coordinates
-                    lastPickedObjectPos.x=mouseWorldPos.x;
-                    lastPickedObjectPos.y=mouseWorldPos.y;
+                    lastPickedObjectPos.x = mouseWorldPos.x;
+                    lastPickedObjectPos.y = mouseWorldPos.y;
 
                     //Reassign vector object
-                    pickedObject.pos=lastPickedObjectPos;
+                    pickedObject.pos = lastPickedObjectPos;
+                    hasPicked=false;
                 }
                 else {
                     pickedObject = findPickedObject();
@@ -63,12 +63,29 @@ public class EditMode {
 
     }
 
+    public void reset()
+    {
+        //TODO:Eliminate code duplication
+        if(hasPicked) {
+            System.out.println("Objekt dropped");
+
+            //Update to new mouse drop coordinates
+            lastPickedObjectPos.x = mouseWorldPos.x;
+            lastPickedObjectPos.y = mouseWorldPos.y;
+
+            //Reassign vector object
+            pickedObject.pos = lastPickedObjectPos;
+            hasPicked = false;
+        }
+    }
     private ob2D findPickedObject()
     {
-        HashSet<ob2D> obList=game.w.ob2Ds;
+        ArrayList<ob2D> obList=game.r.visible;
 
-        for(ob2D b2D:obList)
+        ob2D b2D;
+        for(int i=obList.size()-1;i>=0;i--)
         {
+            b2D=obList.get(i);
             if(!( (mouseWorldPos.x<b2D.pos.x-b2D.size.x || mouseWorldPos.x>b2D.pos.x+b2D.size.x) || (mouseWorldPos.y<b2D.pos.y-b2D.size.y || mouseWorldPos.y>b2D.pos.y+b2D.size.y) ))
                 return b2D;
         }
