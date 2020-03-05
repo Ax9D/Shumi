@@ -24,28 +24,6 @@ public class PlayerMovement extends Component {
 
     public PlayerMovement(float walkSpeed) {
         this.walkSpeed = walkSpeed;
-        //Key Handling setup
-/*        KeyboardHandler.addEventListener((key,action)->{
-
-            boolean pressed_or_repeated=action==GLFW_PRESS || action==GLFW_REPEAT;
-
-            if(pressed_or_repeated)
-            {
-                if (key==GLFW_KEY_W) {
-                    parent.pos.y += walkSpeed * Game.tDelta;
-                    walkDirection = Direction.UP;
-                } else if (key==GLFW_KEY_S) {
-                    parent.pos.y -= walkSpeed * Game.tDelta;
-                    walkDirection = Direction.DOWN;
-                } else if (key==GLFW_KEY_A) {
-                    parent.pos.x -= walkSpeed * Game.tDelta;
-                    walkDirection = Direction.LEFT;
-                } else if (key==GLFW_KEY_D) {
-                    parent.pos.x += walkSpeed * Game.tDelta;
-                    walkDirection = Direction.RIGHT;
-                }
-            }
-        });*/
     }
 
     public void init() {
@@ -53,7 +31,6 @@ public class PlayerMovement extends Component {
     }
 
     public void update() {
-
         if (KeyboardHandler.isPressed(GLFW_KEY_W)) {
             parent.pos.y += walkSpeed * Game.tDelta;
             walkDirection = Direction.UP;

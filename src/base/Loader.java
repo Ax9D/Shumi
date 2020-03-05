@@ -8,8 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class Loader {
@@ -59,7 +57,6 @@ public class Loader {
             // m.setTexture(rs.textures.get(tid));
 
             ResourceManager.addModel(m, mid);
-            w.modelObpair.put(m,new HashSet<ob2D>());
         }
     }
 

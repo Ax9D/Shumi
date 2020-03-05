@@ -18,26 +18,19 @@ public class ob2D {
 
 	public Vector2f size;
 
-	public String id;
-
 	public String name;
 
 	public Texture2D tex;
 
-	private HashMap<String,Component> componentList;
+	public HashMap<String,Component> compList;
 
 	public ob2D(Shape sh, Vector2f pos, Vector2f size, String name) {
 		this.sh = sh;
 		this.pos = pos;
 		this.size = size;
 		this.name = name;
-		this.id = genID();
-		componentList=new HashMap<String,Component>();
 		this.tex=ResourceManager.basicTex;
-	}
-
-	private String genID() {
-		return name;
+		compList=new HashMap<String,Component>();
 	}
 
 	public <T extends Component> void addComponent(T c) {
@@ -54,41 +47,39 @@ public class ob2D {
 			ComponentHandler.database.put(className, cmpList = new ArrayList<Component>());
 
 		cmpList.add(c);
-
-		componentList.put(className,c);
+		compList.putIfAbsent(className,c);
 
 		c.setParent(this);
 	}
 
 	public <T> T getComponent(Class<T> c) {
 		String className = c.getName();
-		return (T)componentList.get(className);
+		return (T)compList.get(className);
 	}
 	public <T> void removeComponent(Class<T> c)
 	{
 		String className=c.getName();
-		Component x=componentList.remove(className);
-
-		//TODO: Optimize
+		Component x=compList.remove(className);
 		ComponentHandler.database.get(className).remove(x);
 	}
 	public ArrayList<Component> getAllComponents()
 	{
 		ArrayList<Component> ret=new ArrayList<Component>();
-		for(Map.Entry<String,Component> i:componentList.entrySet())
-			ret.add(i.getValue());
+		Component comp;
+		for(Map.Entry<String,Component> i:compList.entrySet()) {
+			comp=i.getValue();
+			ret.add(comp);
+		}
 		return ret;
 	}
 	public void delete()
 	{
-		new Thread(()->{
-			for(Map.Entry<String,Component> c:componentList.entrySet())
+			for(Map.Entry<String,Component> x:compList.entrySet())
 			{
-				String componentName=c.getKey();
-				Component component=c.getValue();
-				ComponentHandler.database.get(componentName).remove(component);
+				Component c=x.getValue();
+				ComponentHandler.database.get(x.getKey()).remove(c);
 			}
-		}).start();
+
 	}
 
 }

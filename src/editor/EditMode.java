@@ -1,15 +1,14 @@
 package editor;
 
 import base.Game;
-import input_handling.MouseHandler;
 import game.ob2D;
+import input_handling.MouseHandler;
 import org.joml.Vector2f;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 public class EditMode {
 

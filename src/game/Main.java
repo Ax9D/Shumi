@@ -1,11 +1,10 @@
 package game;
 
-import base.FBO;
 import base.Game;
-import input_handling.KeyboardHandler;
-import input_handling.MouseHandler;
 import base.WindowInfo;
 import editor.Editor;
+import input_handling.KeyboardHandler;
+import input_handling.MouseHandler;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 

@@ -1,6 +1,8 @@
 package editor;
 
-import base.*;
+import base.Camera2D;
+import base.Game;
+import base.MatrixMath;
 import game.components.CameraController;
 import game.components.ComponentHandler;
 import input_handling.KeyboardHandler;
@@ -9,7 +11,8 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
 public class Editor {
 	Game game;

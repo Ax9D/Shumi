@@ -6,7 +6,6 @@ import game.components.ComponentHandler;
 import game.ob2D;
 import org.joml.Vector2f;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
@@ -28,19 +27,8 @@ public class Game {
 				1.0f  , -1.0f,
 				-1.0f  , -1.0f};
 	}
-	/*
-	 * BShader bs; ob2D test; Camera2D c; static Model quad; Player p; static
-	 * Texture2D genericTex;
-	 *
-	 * static float[] quadVerts = { -1f, 1f, 1f, 1f, 1f, -1f, -1f, -1f }; static
-	 * int[] quadInds = { 0, 3, 1, 1, 3, 2 };
-	 *
-	 * static float[] quadtCoords = { 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f
-	 * };
-	 *
-	 * static { quad = new Model(quadVerts, quadInds, quadtCoords); genericTex = new
-	 * Texture2D("test.png"); quad.setTexture(genericTex); }
-	 */
+
+
 	public World w;
 	public Loader l;
 	public Camera2D c;
@@ -60,7 +48,6 @@ public class Game {
 
 	public static float tDelta;
 
-	float averageframeTime;
 
 	public Game() {
 
@@ -82,7 +69,6 @@ public class Game {
 		w = new World();
 
         ResourceManager.basicQuad=new Shape(quadVerts,quadInds,quadUV);
-        w.modelObpair.put(ResourceManager.basicQuad,new HashSet<ob2D>());
 
         screenQuad=new Shape(new float[]{
                 -1f, 1f,

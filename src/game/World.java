@@ -1,9 +1,8 @@
 package game;
 
-import base.Renderer;
 import base.ResourceManager;
-import base.Shape;
 import base.SShader;
+import base.Shape;
 import game.components.BoundingBox;
 import game.components.Component;
 import game.components.ComponentHandler;
@@ -11,16 +10,16 @@ import game.components.PlayerMovement;
 import input_handling.KeyboardHandler;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFW;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class World {
     public HashSet<ob2D> ob2Ds;
     public ArrayList<PointLight> pointLights;
     public EnvironmentLight envLight;
-
-    public HashMap<Shape, HashSet<ob2D>> modelObpair;
 
     public GMap gm;
 
@@ -28,11 +27,11 @@ public class World {
 
     public SShader sceneShader;
 
-    public ob2D p;
     public ArrayList<ob2D> visible;
 
+    public ob2D p;
+
     public World() {
-        modelObpair = new HashMap<Shape, HashSet<ob2D>>();
         sceneShader=new SShader("src/vertex.glsl","src/fragment.glsl");
         pointLights=new ArrayList<PointLight>();
         ob2Ds=new HashSet<ob2D>();
@@ -56,29 +55,22 @@ public class World {
             gm.ts.addPointLights(pointLights);
             gm.ts.updateEnvironmentLight(envLight);
 
-            for(int i=0;i<1000;i++)
+            for(int i=0;i<100;i++)
             {
                 ob2D x;
                 addOb2D(x=new ob2D(ResourceManager.basicQuad,new Vector2f((float)Math.random()*16-8,(float)Math.random()*16-8),new Vector2f((float)(Math.random()*0.125f)),"asdf"));
                 x.addComponent(new BoundingBox());
             }
-        KeyboardHandler.addEventListener((key,action)->{
-           /*if(key== GLFW.GLFW_KEY_F && action==GLFW.GLFW_RELEASE) {
-                deleteOb2D(test.removeLast());
-                System.out.println("Deleted");
-            }*/
-        });
+            System.out.println(ComponentHandler.database.toString());
     }
     public void addOb2D(ob2D b)
     {
         ob2Ds.add(b);
-        modelObpair.get(b.sh).add(b);
     }
     public void deleteOb2D(ob2D b)
     {
         b.delete();
         ob2Ds.remove(b);
-        modelObpair.get(b.sh).remove(b);
     }
     public void update() {
 

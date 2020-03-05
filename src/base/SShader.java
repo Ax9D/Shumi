@@ -3,7 +3,6 @@ package base;
 import game.DirectionalLight;
 import game.EnvironmentLight;
 import game.PointLight;
-import game.components.PlayerMovement;
 
 import java.util.ArrayList;
 

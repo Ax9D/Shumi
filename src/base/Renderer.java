@@ -1,15 +1,13 @@
 package base;
 
-import game.GMap;
-import game.Tile;
-import game.World;
+import game.*;
 import game.components.BoundingBox;
-import game.ob2D;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
-import java.util.*;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static org.lwjgl.opengl.GL30.*;
 
@@ -117,7 +115,7 @@ public class Renderer {
             bright = bposx + bsizex;
             btop = bposy + bsizey;
             bbottom = bposy - bsizey;
-            if (!(bright<=left || bleft>=right || bbottom>=top || btop<=bottom))
+            if (BPhysics.isCollision(left,right,bleft,bright,bottom,top,bbottom,btop))
                 visible.add(b);
         }
         Collections.sort(visible,spriteCompare);
