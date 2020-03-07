@@ -1,21 +1,11 @@
 package game;
 
-import base.GSystem;
-import base.ResourceManager;
-import base.SShader;
-import base.Shape;
+import base.*;
 import game.components.BoundingBox;
-import game.components.Component;
-import game.components.ComponentHandler;
-import game.components.PlayerMovement;
-import input_handling.KeyboardHandler;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class World {
     public HashSet<ob2D> ob2Ds;
@@ -31,6 +21,14 @@ public class World {
     public ArrayList<ob2D> visible;
 
     public ob2D p;
+
+    private static Comparator<ob2D> spriteCompare=(ob2D a,ob2D b)-> {
+        BoundingBox ba = a.getComponent(BoundingBox.class);
+        BoundingBox bb = b.getComponent(BoundingBox.class);
+
+        return ba.top > bb.top ? 1 : -1;
+    };
+
 
     public World() {
         sceneShader=new SShader("src/vertex.glsl","src/fragment.glsl");
@@ -72,6 +70,35 @@ public class World {
         ob2Ds.remove(b);
         b.delete();
     }
+
+    private void pruneVisible()
+    {
+        View v=GSystem.view;
+        Camera2D c=v.camera2D;
+        float left=c.pos.x-v.camxExtent;
+        float right=c.pos.x+v.camxExtent;
+        float top=c.pos.y+v.camyExtent;
+        float bottom=c.pos.y-v.camyExtent;
+
+        visible.clear();
+
+        float bposx,bposy,bleft,bright,btop,bbottom,bsizex,bsizey;
+        for(ob2D b:ob2Ds) {
+            bposx=b.pos.x;
+            bposy=b.pos.y;
+            bsizex=b.size.x;
+            bsizey=b.size.y;
+            bleft = bposx - bsizex;
+            bright = bposx + bsizex;
+            btop = bposy + bsizey;
+            bbottom = bposy - bsizey;
+            if (BPhysics.isCollision(left,right,bleft,bright,bottom,top,bbottom,btop))
+                visible.add(b);
+        }
+        Collections.sort(visible,spriteCompare);
+
+
+    }
     public void update() {
 
 
@@ -88,6 +115,7 @@ public class World {
             BPhysics.handlePlayerFOCollision(p, x);
        }
 
+       pruneVisible();
        time+=1;
     }
 

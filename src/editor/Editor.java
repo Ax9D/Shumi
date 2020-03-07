@@ -1,11 +1,7 @@
 package editor;
 
-import base.Camera2D;
-import base.GSystem;
-import base.Game;
-import base.MatrixMath;
+import base.*;
 import game.components.CameraController;
-import game.components.ComponentHandler;
 import input_handling.KeyboardHandler;
 import input_handling.MouseHandler;
 import org.joml.Matrix4f;
@@ -31,7 +27,9 @@ public class Editor {
 		this.game=game;
 		mouseWorldPos=new Vector2f();
 		lastClickMouseWorldPos=new Vector2f();
-		arMat= GSystem.renderer.getARMat();
+		View gameView= GSystem.view;
+
+		arMat=gameView.ar_correction_matrix;
 
 		isDrag=false;
 
@@ -51,8 +49,8 @@ public class Editor {
 		MouseHandler.addScrollEventListener((amt)->{
 
 			System.out.println(amt);
-			float new_scale=GSystem.renderer.getScale()*(float)(1-scrollSpeed*amt);
-			GSystem.renderer.adjustScale(new_scale);
+			float new_scale=gameView.scale*(float)(1-scrollSpeed*amt);
+			gameView.adjustScale(new_scale);
 
 		});
 	}
@@ -60,7 +58,7 @@ public class Editor {
 	{
 		Matrix4f mousePosMatrix;
 
-		Camera2D gameCam=GSystem.renderer.c;
+		Camera2D gameCam=GSystem.view.camera2D;
 		Matrix4f cameraMat= MatrixMath.get2DTMat(new Vector2f(-gameCam.pos.x,-gameCam.pos.y),1);
 
 		mousePosMatrix=new Matrix4f(arMat);
@@ -78,7 +76,7 @@ public class Editor {
 	public void updateEditorCamera()
 	{
 		Vector2f diff=new Vector2f(lastClickMouseWorldPos.x-mouseWorldPos.x,lastClickMouseWorldPos.y-mouseWorldPos.y);
-		GSystem.renderer.c.pos.add(diff);
+		GSystem.view.camera2D.pos.add(diff);
 	}
 	public void update()
 	{

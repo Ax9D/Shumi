@@ -1,5 +1,6 @@
 package base;
 
+import UI.UI;
 import game.World;
 import game.components.CameraController;
 import game.components.ComponentHandler;
@@ -53,7 +54,7 @@ public class Game {
 			glViewport(0,0,width,height);
 			WindowInfo.WIDTH=width;
 			WindowInfo.HEIGHT=height;
-			GSystem.renderer.setAspectRatio((float)width/height);
+			GSystem.view.adjustAspectRatio((float)width/height);
 			FBO oldscreenFBO=screenFBO;
 			oldscreenFBO.delete();
 			screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT);
@@ -63,12 +64,12 @@ public class Game {
 		prevTime=System.currentTimeMillis();
 
 		World w=new World();
-		GSystem.setWorld(w);
+		GSystem.world=w;
 
         ResourceManager rm=new ResourceManager();
 
         rm.basicQuad=new Shape(quadVerts,quadInds,quadUV);
-        GSystem.setRsManager(rm);
+        GSystem.rsmanager=rm;
 
         screenQuad=new Shape(new float[]{
                 -1f, 1f,
@@ -85,19 +86,20 @@ public class Game {
                 -1f, -1f
         },quadInds,quadUV);*/
 
-		GSystem.setcomponentHandler(new ComponentHandler());
+		GSystem.componentHandler=new ComponentHandler();
 
 		Loader l = new Loader(w, "resources.json", "gamedata.json");
 		Camera2D c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
 
-		Renderer r=new Renderer(c);
+		Renderer r=new Renderer();
 
 
-		GSystem.setLoader(l);
-		GSystem.setRenderer(r);
+		GSystem.loader=l;
+		GSystem.renderer=r;
 
-		r.adjustScale(2);
-        r.setAspectRatio((float)WindowInfo.WIDTH/WindowInfo.HEIGHT);
+
+        GSystem.view=new View(c,(float)WindowInfo.WIDTH/WindowInfo.HEIGHT,2);
+        GSystem.ui=new UI();
 
 		screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT);
 		screenShader=new BShader("src/screenV.glsl","src/screenF.glsl");
@@ -118,11 +120,13 @@ public class Game {
 	public void update() {
 		GSystem.componentHandler.updateComponents();
 		GSystem.world.update();
+		GSystem.ui.update();
 	}
 
 	public void draw(){
 
 		GSystem.renderer.renderGame(screenFBO,screenQuad,screenShader);
+
 
 		long curTime=System.currentTimeMillis();
 		frameTimeMillis=curTime-prevTime;

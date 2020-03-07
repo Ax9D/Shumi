@@ -81,7 +81,7 @@ public class EditMode {
     }
     private ob2D findPickedObject()
     {
-        ArrayList<ob2D> obList= GSystem.renderer.visible;
+        ArrayList<ob2D> obList= GSystem.world.visible;
 
         ob2D b2D;
         for(int i=obList.size()-1;i>=0;i--)

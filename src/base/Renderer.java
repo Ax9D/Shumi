@@ -1,51 +1,23 @@
 package base;
 
 import game.*;
-import game.components.BoundingBox;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import static org.lwjgl.opengl.GL30.*;
 
 public class Renderer {
-
-    public Camera2D c;
-    private Matrix4f cmat;
+    public Matrix4f cmat;
     private Matrix4f ar_correction_matrix;
-
-    private float scale;
-    private float ar;
-
-    private float camxExtent;
-    private float camyExtent;
-
-    public ArrayList<ob2D> visible;
-
-    private static Comparator<ob2D> spriteCompare=(ob2D a,ob2D b)-> {
-        BoundingBox ba = a.getComponent(BoundingBox.class);
-        BoundingBox bb = b.getComponent(BoundingBox.class);
-
-        return ba.top > bb.top ? 1 : -1;
-    };
-
-    public Renderer(Camera2D c) {
-        this.c = c;
-        ar_correction_matrix=new Matrix4f();
-        visible=new ArrayList<ob2D>();
-    }
-    public Matrix4f getARMat()
-    {
-        return ar_correction_matrix;
+    public Renderer() {
     }
     public void setState() {
+        Camera2D c=GSystem.view.camera2D;
         cmat = MatrixMath.get2DTMat(new Vector2f(-c.pos.x, -c.pos.y), 1);
         GSystem.world.sceneShader.use();
         GSystem.world.sceneShader.setMatrix("cmat",cmat);
         GSystem.world.sceneShader.stop();
+        ar_correction_matrix=GSystem.view.ar_correction_matrix;
     }
     public void render(ob2D b, BShader bs) {
         Shape m = b.sh;
@@ -79,51 +51,9 @@ public class Renderer {
 
         m.vao.unbind();
     }
-
-    public void setAspectRatio(float ar)
-    {
-        ar_correction_matrix.setOrtho2D(-ar*scale,ar*scale,-scale,scale);
-        this.ar=ar;
-        camxExtent=ar*scale;
-    }
-    public void adjustScale(float scale)
-    {
-        this.scale=scale;
-        setAspectRatio(ar);
-        camyExtent=scale;
-    }
-    public float getScale()
-    {
-        return scale;
-    }
-    private void pruneVisible(World w)
-    {
-        float left=c.pos.x-camxExtent;
-        float right=c.pos.x+camxExtent;
-        float top=c.pos.y+camyExtent;
-        float bottom=c.pos.y-camyExtent;
-
-        visible.clear();
-
-        float bposx,bposy,bleft,bright,btop,bbottom,bsizex,bsizey;
-        for(ob2D b:w.ob2Ds) {
-            bposx=b.pos.x;
-            bposy=b.pos.y;
-            bsizex=b.size.x;
-            bsizey=b.size.y;
-            bleft = bposx - bsizex;
-            bright = bposx + bsizex;
-            btop = bposy + bsizey;
-            bbottom = bposy - bsizey;
-            if (BPhysics.isCollision(left,right,bleft,bright,bottom,top,bbottom,btop))
-                visible.add(b);
-        }
-        Collections.sort(visible,spriteCompare);
-    }
     public void renderWorld() {
 
         World w=GSystem.world;
-        pruneVisible(w);
 
         SShader ss=w.sceneShader;
         GMap gm = w.gm;
@@ -170,7 +100,7 @@ public class Renderer {
                 // b.tex.unbind();
             }
 */          int prev=-1;
-            for(ob2D x:visible)
+            for(ob2D x:w.visible)
             {
                 if(x.sh.vao.vao!=prev) {
                     x.sh.load();
