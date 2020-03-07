@@ -1,5 +1,6 @@
 package game;
 
+import base.GSystem;
 import base.ResourceManager;
 import base.Shape;
 import base.Texture2D;
@@ -29,7 +30,7 @@ public class ob2D {
 		this.pos = pos;
 		this.size = size;
 		this.name = name;
-		this.tex=ResourceManager.basicTex;
+		this.tex= GSystem.rsmanager.basicTex;
 		compList=new HashMap<String,Component>();
 	}
 
@@ -40,11 +41,10 @@ public class ob2D {
 		String className = c.getClass().getName();
 		System.out.println("Adding " + className);
 
-
-		ArrayList<Component> cmpList = ComponentHandler.database.get(className);
+		ArrayList<Component> cmpList = GSystem.componentHandler.database.get(className);
 
 		if (cmpList == null)
-			ComponentHandler.database.put(className, cmpList = new ArrayList<Component>());
+			GSystem.componentHandler.database.put(className, cmpList = new ArrayList<Component>());
 
 		cmpList.add(c);
 		compList.putIfAbsent(className,c);
@@ -60,7 +60,7 @@ public class ob2D {
 	{
 		String className=c.getName();
 		Component x=compList.remove(className);
-		ComponentHandler.database.get(className).remove(x);
+		GSystem.componentHandler.database.get(className).remove(x);
 	}
 	public ArrayList<Component> getAllComponents()
 	{
@@ -77,7 +77,7 @@ public class ob2D {
 			for(Map.Entry<String,Component> x:compList.entrySet())
 			{
 				Component c=x.getValue();
-				ComponentHandler.database.get(x.getKey()).remove(c);
+				GSystem.componentHandler.database.get(x.getKey()).remove(c);
 			}
 
 	}

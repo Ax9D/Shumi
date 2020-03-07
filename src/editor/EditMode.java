@@ -1,5 +1,6 @@
 package editor;
 
+import base.GSystem;
 import base.Game;
 import game.ob2D;
 import input_handling.MouseHandler;
@@ -80,7 +81,7 @@ public class EditMode {
     }
     private ob2D findPickedObject()
     {
-        ArrayList<ob2D> obList=game.r.visible;
+        ArrayList<ob2D> obList= GSystem.renderer.visible;
 
         ob2D b2D;
         for(int i=obList.size()-1;i>=0;i--)

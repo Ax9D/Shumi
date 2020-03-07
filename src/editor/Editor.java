@@ -1,6 +1,7 @@
 package editor;
 
 import base.Camera2D;
+import base.GSystem;
 import base.Game;
 import base.MatrixMath;
 import game.components.CameraController;
@@ -30,13 +31,13 @@ public class Editor {
 		this.game=game;
 		mouseWorldPos=new Vector2f();
 		lastClickMouseWorldPos=new Vector2f();
-		arMat=game.r.getARMat();
+		arMat= GSystem.renderer.getARMat();
 
 		isDrag=false;
 
 		emode=new EditMode(game,mouseWorldPos);
 		//Disable camera follow
-		ComponentHandler.getAllByComponent(CameraController.class).get(0).disable();
+		GSystem.componentHandler.getAllByComponent(CameraController.class).get(0).disable();
 
 		scrollSpeed=0.1f;
 
@@ -50,8 +51,8 @@ public class Editor {
 		MouseHandler.addScrollEventListener((amt)->{
 
 			System.out.println(amt);
-			float new_scale=game.r.getScale()*(float)(1-scrollSpeed*amt);
-			game.r.adjustScale(new_scale);
+			float new_scale=GSystem.renderer.getScale()*(float)(1-scrollSpeed*amt);
+			GSystem.renderer.adjustScale(new_scale);
 
 		});
 	}
@@ -59,7 +60,7 @@ public class Editor {
 	{
 		Matrix4f mousePosMatrix;
 
-		Camera2D gameCam=game.c;
+		Camera2D gameCam=GSystem.renderer.c;
 		Matrix4f cameraMat= MatrixMath.get2DTMat(new Vector2f(-gameCam.pos.x,-gameCam.pos.y),1);
 
 		mousePosMatrix=new Matrix4f(arMat);
@@ -77,7 +78,7 @@ public class Editor {
 	public void updateEditorCamera()
 	{
 		Vector2f diff=new Vector2f(lastClickMouseWorldPos.x-mouseWorldPos.x,lastClickMouseWorldPos.y-mouseWorldPos.y);
-		game.c.pos.add(diff);
+		GSystem.renderer.c.pos.add(diff);
 	}
 	public void update()
 	{

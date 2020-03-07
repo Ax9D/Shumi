@@ -1,5 +1,6 @@
 package game;
 
+import base.GSystem;
 import base.ResourceManager;
 import base.Texture2D;
 import org.joml.Vector2i;
@@ -31,10 +32,10 @@ public class Path  {
         switch(t)
         {
             case Stone:
-                tex= ResourceManager.getTexture("stone");
+                tex= GSystem.rsmanager.getTexture("stone");
                 break;
             case Dirt:
-                tex= ResourceManager.getTexture("dirt");
+                tex= GSystem.rsmanager.getTexture("dirt");
                 break;
             default:
                 throw new RuntimeException("Invalid path type: "+t);

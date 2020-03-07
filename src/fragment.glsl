@@ -45,9 +45,9 @@ void main()
 	for(int i=0;i<point_light_count;i++)
 	    final_col+=computePointLight(ptLights[i],posF);
 
-    //Compute environment light
-    //final_col+=mix(base_col.rgb,envLight.color,envLight.intensity)*envLight.intensity;
-    //final_col+=mix(base_col.rgb,envLight.color,0.1)*envLight.intensity;
+    final_col.r=min(final_col.r,200);
+    final_col.g=min(final_col.g,200);
+    final_col.b=min(final_col.b,200);
 
     final_col+=envLight.color*envLight.intensity;
 

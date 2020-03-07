@@ -29,11 +29,7 @@ public class Game {
 	}
 
 
-	public World w;
-	public Loader l;
-	public Camera2D c;
-
-	public Renderer r;
+	Camera2D c;
 
 	FBO screenFBO;
 
@@ -57,7 +53,7 @@ public class Game {
 			glViewport(0,0,width,height);
 			WindowInfo.WIDTH=width;
 			WindowInfo.HEIGHT=height;
-			r.setAspectRatio((float)width/height);
+			GSystem.renderer.setAspectRatio((float)width/height);
 			FBO oldscreenFBO=screenFBO;
 			oldscreenFBO.delete();
 			screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT);
@@ -66,9 +62,13 @@ public class Game {
 
 		prevTime=System.currentTimeMillis();
 
-		w = new World();
+		World w=new World();
+		GSystem.setWorld(w);
 
-        ResourceManager.basicQuad=new Shape(quadVerts,quadInds,quadUV);
+        ResourceManager rm=new ResourceManager();
+
+        rm.basicQuad=new Shape(quadVerts,quadInds,quadUV);
+        GSystem.setRsManager(rm);
 
         screenQuad=new Shape(new float[]{
                 -1f, 1f,
@@ -85,10 +85,17 @@ public class Game {
                 -1f, -1f
         },quadInds,quadUV);*/
 
-		l = new Loader(w, "resources.json", "gamedata.json");
-		c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
+		GSystem.setcomponentHandler(new ComponentHandler());
 
-		r=new Renderer(c);
+		Loader l = new Loader(w, "resources.json", "gamedata.json");
+		Camera2D c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
+
+		Renderer r=new Renderer(c);
+
+
+		GSystem.setLoader(l);
+		GSystem.setRenderer(r);
+
 		r.adjustScale(2);
         r.setAspectRatio((float)WindowInfo.WIDTH/WindowInfo.HEIGHT);
 
@@ -101,18 +108,21 @@ public class Game {
 							"Loaded resources and world in "+(System.currentTimeMillis()-prevTime)+"ms");
 
 		//Future me, please refactor this
-		((CameraController)ComponentHandler.getAllByComponent(CameraController.class).get(0)).setCamera(c);
+		((CameraController)GSystem.componentHandler.getAllByComponent(CameraController.class).get(0)).setCamera(c);
+
+
 
 		screenShader.use();
 		screenShader.setInt("texSamp",0);
 	}
 	public void update() {
-		w.update();
+		GSystem.componentHandler.updateComponents();
+		GSystem.world.update();
 	}
 
 	public void draw(){
 
-		r.renderGame(w,screenFBO,screenQuad,screenShader);
+		GSystem.renderer.renderGame(screenFBO,screenQuad,screenShader);
 
 		long curTime=System.currentTimeMillis();
 		frameTimeMillis=curTime-prevTime;
@@ -128,7 +138,8 @@ public class Game {
 	}
 
 	public void exit() {
-		ResourceManager.delete();
+
+		GSystem.rsmanager.delete();
 	}
 
 }

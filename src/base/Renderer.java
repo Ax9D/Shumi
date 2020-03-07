@@ -13,7 +13,7 @@ import static org.lwjgl.opengl.GL30.*;
 
 public class Renderer {
 
-    private Camera2D c;
+    public Camera2D c;
     private Matrix4f cmat;
     private Matrix4f ar_correction_matrix;
 
@@ -41,11 +41,11 @@ public class Renderer {
     {
         return ar_correction_matrix;
     }
-    public void setState(World w) {
+    public void setState() {
         cmat = MatrixMath.get2DTMat(new Vector2f(-c.pos.x, -c.pos.y), 1);
-        w.sceneShader.use();
-        w.sceneShader.setMatrix("cmat",cmat);
-        w.sceneShader.stop();
+        GSystem.world.sceneShader.use();
+        GSystem.world.sceneShader.setMatrix("cmat",cmat);
+        GSystem.world.sceneShader.stop();
     }
     public void render(ob2D b, BShader bs) {
         Shape m = b.sh;
@@ -120,8 +120,9 @@ public class Renderer {
         }
         Collections.sort(visible,spriteCompare);
     }
-    public void renderWorld(World w) {
+    public void renderWorld() {
 
+        World w=GSystem.world;
         pruneVisible(w);
 
         SShader ss=w.sceneShader;
@@ -191,7 +192,7 @@ public class Renderer {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        Shape m= ResourceManager.basicQuad;
+        Shape m= GSystem.rsmanager.basicQuad;
 
         SShader ms = map.ts;
 
@@ -233,7 +234,7 @@ public class Renderer {
         m.unload();
     }
 
-    public void renderGame(World w, FBO fbo, Shape screenQuad, BShader screenShader) {
+    public void renderGame(FBO fbo, Shape screenQuad, BShader screenShader) {
         fbo.bind();
 
         //Clear world
@@ -241,8 +242,8 @@ public class Renderer {
         //glClearColor(0f, 0f, 0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        setState(w);
-        renderWorld(w);
+        setState();
+        renderWorld();
 
         fbo.unbind();
 

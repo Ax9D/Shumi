@@ -1,5 +1,6 @@
 package game;
 
+import base.GSystem;
 import base.ResourceManager;
 import base.SShader;
 import base.Shape;
@@ -41,7 +42,7 @@ public class World {
     public void init()
     {
             float k=1f;
-            pointLights.add(new PointLight(new Vector2f(-k,0f),new Vector3f(1),1f,50f));
+            pointLights.add(new PointLight(new Vector2f(-k,0f),new Vector3f(1),0.5f,50f));
             pointLights.add(new PointLight(new Vector2f(k,0f),new Vector3f(.906f,0.676f,0.473f),1f,10f));
             pointLights.add(new PointLight(new Vector2f(0f,k),new Vector3f(1),1f,50f));
             pointLights.add(new PointLight(new Vector2f(0f,-k),new Vector3f(1),1f,50f));
@@ -55,13 +56,12 @@ public class World {
             gm.ts.addPointLights(pointLights);
             gm.ts.updateEnvironmentLight(envLight);
 
-            for(int i=0;i<100;i++)
+            for(int i=0;i<10;i++)
             {
                 ob2D x;
-                addOb2D(x=new ob2D(ResourceManager.basicQuad,new Vector2f((float)Math.random()*16-8,(float)Math.random()*16-8),new Vector2f((float)(Math.random()*0.125f)),"asdf"));
+                addOb2D(x=new ob2D(GSystem.rsmanager.basicQuad,new Vector2f((float)Math.random()*16-8,(float)Math.random()*16-8),new Vector2f((float)(Math.random()*0.125f)),"asdf"));
                 x.addComponent(new BoundingBox());
             }
-            System.out.println(ComponentHandler.database.toString());
     }
     public void addOb2D(ob2D b)
     {
@@ -69,12 +69,13 @@ public class World {
     }
     public void deleteOb2D(ob2D b)
     {
-        b.delete();
         ob2Ds.remove(b);
+        b.delete();
     }
     public void update() {
 
-        envLight.intensity=0.2f;
+
+        envLight.intensity=0.7f;
         gm.ts.use();
         gm.ts.updateEnvironmentLight(envLight);
         gm.ts.stop();
@@ -83,14 +84,6 @@ public class World {
         sceneShader.updateEnvironmentLight(envLight);
         sceneShader.stop();
 
-        for(Map.Entry<String,ArrayList<Component>> et:ComponentHandler.database.entrySet())
-        {
-            for(Component c:et.getValue())
-            {
-                if(c.enabled)
-                    c.update();
-            }
-        }
        for (ob2D x:ob2Ds) {
             BPhysics.handlePlayerFOCollision(p, x);
        }

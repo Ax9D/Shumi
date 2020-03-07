@@ -28,7 +28,7 @@ public class Loader {
             String tid = jo.getString("id");
             String path = jo.getString("path");
             Texture2D tex;
-            ResourceManager.addTexture2D(tex=new Texture2D(path), tid);
+            GSystem.rsmanager.addTexture2D(tex=new Texture2D(path), tid);
             if(jo.has("interpolation"))
             {
                 switch(jo.getString("interpolation"))
@@ -56,7 +56,7 @@ public class Loader {
             Shape m = new Shape(vertices, indices, texCoords);
             // m.setTexture(rs.textures.get(tid));
 
-            ResourceManager.addModel(m, mid);
+            GSystem.rsmanager.addModel(m, mid);
         }
     }
 
@@ -74,7 +74,7 @@ public class Loader {
                     Texture2D[] textures = new Texture2D[texIDs.length];
 
                     for (int j = 0; j < texIDs.length; j++)
-                        textures[j] = ResourceManager.getTexture(texIDs[j]);
+                        textures[j] = GSystem.rsmanager.getTexture(texIDs[j]);
 
                     c = new LoopAnimation(textures, frameRate);
                     break;
@@ -127,14 +127,14 @@ public class Loader {
             Vector2f pos = new Vector2f(posArr[0], posArr[1]);
             Vector2f size = new Vector2f(sizeArr[0], sizeArr[1]);
 
-            Shape m=ResourceManager.getModel(mid);
+            Shape m=GSystem.rsmanager.getModel(mid);
             ob2D b = new ob2D(m, pos, size, bid);
 
             if (!jo.has("texture"))
                 b.tex = defaultTex;
             else {
                 String tid = jo.getString("texture");
-                b.tex = ResourceManager.getTexture(tid);
+                b.tex = GSystem.rsmanager.getTexture(tid);
             }
 
             getComponents(b, jo.getJSONArray("components"));
@@ -181,7 +181,7 @@ public class Loader {
             gridPos=Common.getIntArrFromJSON(jo.getJSONArray("gridPos"));
             texID=jo.getString("texture");
 
-            ret[i]=new Tile(new Vector2f(gridPos[0],gridPos[1]),ResourceManager.getTexture(texID));
+            ret[i]=new Tile(new Vector2f(gridPos[0],gridPos[1]),GSystem.rsmanager.getTexture(texID));
         }
 
 
@@ -201,7 +201,7 @@ public class Loader {
 
         w.gm=new GMap(new Vector2f(posF[0],posF[1]),sizeF,ts,tileCount,tiles);
 
-        w.gm.biomeTex=ResourceManager.getTexture("grass");
+        w.gm.biomeTex=GSystem.rsmanager.getTexture("grass");
 
         ts.use();
 

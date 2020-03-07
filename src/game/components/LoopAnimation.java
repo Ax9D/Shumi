@@ -1,6 +1,7 @@
 package game.components;
 
 import base.Common;
+import base.GSystem;
 import base.ResourceManager;
 import base.Texture2D;
 import game.ob2D;
@@ -22,7 +23,7 @@ public class LoopAnimation extends Component {
         Texture2D[] textures = new Texture2D[texIDs.length];
 
         for (int j = 0; j < texIDs.length; j++)
-            textures[j] = ResourceManager.getTexture(texIDs[j]);
+            textures[j] = GSystem.rsmanager.getTexture(texIDs[j]);
 
         Component c=new LoopAnimation(textures, frameRate);
         return c;

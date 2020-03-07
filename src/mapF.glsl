@@ -49,5 +49,9 @@ void main()
     //final_col+=mix(base_col.rgb,envLight.color,envLight.intensity)*envLight.intensity;
     final_col+=envLight.color*envLight.intensity;
 
+    final_col.r=min(final_col.r,200);
+    final_col.g=min(final_col.g,200);
+    final_col.b=min(final_col.b,200);
+
     color=vec4(final_col*base_col.rgb,base_col.a);
 }

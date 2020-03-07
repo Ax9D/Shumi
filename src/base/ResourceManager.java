@@ -2,47 +2,47 @@ package base;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.MissingResourceException;
 
 public class ResourceManager {
-    private static HashMap<String, Shape> models;
-    private static HashMap<String, Texture2D> textures;
-    private static HashMap<String, BShader> shaders;
+    HashMap<String, Shape> models;
+    HashMap<String, Texture2D> textures;
+    HashMap<String, BShader> shaders;
 
-    public static Shape basicQuad;
-    public static Texture2D basicTex;
+    public Shape basicQuad;
+    public Texture2D basicTex;
 
-    static {
+    public ResourceManager()
+    {
         models = new HashMap<String, Shape>();
         textures = new HashMap<String, Texture2D>();
         shaders = new HashMap<String, BShader>();
-        basicTex=new Texture2D("test.png");
-    }
+        basicTex = new Texture2D("test.png");}
 
-
-    public static void addModel(Shape m, String id) {
+    public void addModel(Shape m, String id) {
         models.put(id, m);
     }
 
-    public static void addTexture2D(Texture2D t, String id) {
+    public  void addTexture2D(Texture2D t, String id) {
         textures.put(id, t);
     }
 
-    public static void addShader(BShader s, String id) {
+    public  void addShader(BShader s, String id) {
         shaders.put(id, s);
 
     }
-    public static Shape getModel(String id)
+    public  Shape getModel(String id)
     {
         if(id.equals("generic_quad"))
             return basicQuad;
         else
             return models.get(id);
     }
-    public static Texture2D getTexture(String id)
+    public  Texture2D getTexture(String id)
     {
         return textures.get(id);
     }
-    public static void delete() {
+    public  void delete() {
         for (Map.Entry<String, Shape> entry : models.entrySet())
             entry.getValue().delete();
         for (Map.Entry<String, Texture2D> entry : textures.entrySet())
