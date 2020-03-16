@@ -75,7 +75,7 @@ public class Main {
 		{
 			Editor e=new Editor(g);
 			while (!glfwWindowShouldClose(WindowInfo.window)) {
-				glfwSetWindowTitle(WindowInfo.window, "FPS: " + Math.round(1 / Game.tDelta));
+				//glfwSetWindowTitle(WindowInfo.window, "FPS: " + Math.round(1 / Game.tDelta));
 
 				e.run();
 
@@ -87,7 +87,7 @@ public class Main {
 
 			//glClearColor(0.64f,0.64f,0.64f,1.0f);
 			while (!glfwWindowShouldClose(WindowInfo.window)) {
-				glfwSetWindowTitle(WindowInfo.window, "FPS: " + Math.round(1 / Game.tDelta));
+				//glfwSetWindowTitle(WindowInfo.window, "FPS: " + Math.round(1 / Game.tDelta));
 
 				g.run();
 

@@ -1,13 +1,13 @@
 package base;
 
 import UI.UI;
+import UI.UIRenderer;
+import UI.TextBox;
+import UI.*;
 import game.World;
 import game.components.CameraController;
 import game.components.ComponentHandler;
-import game.ob2D;
 import org.joml.Vector2f;
-
-import java.util.HashSet;
 
 import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.glViewport;
@@ -21,7 +21,6 @@ public class Game {
                            0.0f, 0.0f};
     static int[] quadInds={0, 3, 1, 1, 3, 2};
 
-    static float aspect_ratio=600.0f/800;
     static {
 		quadVerts = new float[]{-1.0f , 1.0f,
 				1.0f  , 1.0f,
@@ -45,7 +44,8 @@ public class Game {
 
 	public static float tDelta;
 
-
+	UIRenderer ur;
+	TextBox fps;
 	public Game() {
 
 
@@ -54,10 +54,14 @@ public class Game {
 			glViewport(0,0,width,height);
 			WindowInfo.WIDTH=width;
 			WindowInfo.HEIGHT=height;
-			GSystem.view.adjustAspectRatio((float)width/height);
+			float ar=(float)width/height;
+			GSystem.view.adjustAspectRatio(ar);
+			//GSystem.uirenderer.ar_correction_matrix.setOrtho2D(-ar,ar,-1,1);
+			GSystem.uirenderer.ar_correction_matrix.setOrtho2D(0,WindowInfo.WIDTH,0,WindowInfo.HEIGHT);
 			FBO oldscreenFBO=screenFBO;
 			oldscreenFBO.delete();
 			screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT);
+
 		});
 
 
@@ -113,9 +117,15 @@ public class Game {
 		((CameraController)GSystem.componentHandler.getAllByComponent(CameraController.class).get(0)).setCamera(c);
 
 
+		ur=new UIRenderer();
+		fps=new TextBox("",new Vector2f(.90f,1f),0.01f,0.01f,0.2f);
+		fps.setFont("Arial");
+		fps.setColor(Color.GREEN);
 
+		GSystem.uirenderer=ur;
 		screenShader.use();
 		screenShader.setInt("texSamp",0);
+
 	}
 	public void update() {
 		GSystem.componentHandler.updateComponents();
@@ -127,6 +137,8 @@ public class Game {
 
 		GSystem.renderer.renderGame(screenFBO,screenQuad,screenShader);
 
+		fps.setString("FPS:"+Math.round(1/tDelta));
+		ur.renderText(fps);
 
 		long curTime=System.currentTimeMillis();
 		frameTimeMillis=curTime-prevTime;

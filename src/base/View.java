@@ -27,8 +27,16 @@ public class View {
     }
     public void adjustAspectRatio(float ar)
     {
-        ar_correction_matrix.setOrtho2D(-ar * scale, ar * scale, -scale, scale);
+        if(ar>1) {
+            ar_correction_matrix.setOrtho2D(-ar * scale, ar * scale, -scale, scale);
+            camxExtent = ar * scale;
+            camyExtent=scale;
+        }
+        else {
+            ar_correction_matrix.setOrtho2D(-scale, scale, - scale/ar, scale/ar);
+            camyExtent=scale/ar;
+            camxExtent=scale;
+        }
         this.ar = ar;
-        camxExtent = ar * scale;
     }
 }

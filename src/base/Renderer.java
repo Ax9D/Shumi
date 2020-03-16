@@ -60,7 +60,7 @@ public class Renderer {
 
         Matrix4f tmat;
 
-        renderGMap(gm, ss);
+        renderGMap(gm);
 
         ss.use();
 
@@ -78,28 +78,7 @@ public class Renderer {
 
         glDrawElements(GL_TRIANGLES, w.p.sh.ic, GL_UNSIGNED_INT, 0);
 
-        /*
-
-        for (Entry<Shape, HashSet<ob2D>> et : w.modelObpair.entrySet()) {
-            Shape sh = et.getKey();
-            sh.load();
-
-            glActiveTexture(GL_TEXTURE0);
-
-
-            for (ob2D b : et.getValue() ){
-                b.tex.bind();
-
-                tmat = MatrixMath.get2DTMat(b.pos, b.size);
-
-                ss.setMatrix("tmat", tmat);
-
-
-                glDrawElements(GL_TRIANGLES, sh.ic, GL_UNSIGNED_INT, 0);
-
-                // b.tex.unbind();
-            }
-*/          int prev=-1;
+          int prev=-1;
             for(ob2D x:w.visible)
             {
                 if(x.sh.vao.vao!=prev) {
@@ -117,12 +96,12 @@ public class Renderer {
 
     }
 
-    public void renderGMap(GMap map, SShader ss) {
+    public void renderGMap(GMap map) {
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        Shape m= GSystem.rsmanager.basicQuad;
+        Shape m = GSystem.rsmanager.basicQuad;
 
         SShader ms = map.ts;
 
@@ -131,7 +110,7 @@ public class Renderer {
         ms.use();
 
         ms.setMatrix("cmat", cmat);
-        ms.setMatrix("ratio_mat",ar_correction_matrix);
+        ms.setMatrix("ratio_mat", ar_correction_matrix);
 
         Matrix4f tmat = MatrixMath.get2DTMat(map.pos, map.size);
 
@@ -142,26 +121,6 @@ public class Renderer {
         glDrawElements(GL_TRIANGLES, m.ic, GL_UNSIGNED_INT, 0);
 
         //End of biome rendering
-
-        ss.use();
-        ss.setMatrix("ratio_mat",ar_correction_matrix);
-
-        float tileSkip = map.tileSize * 2;
-
-
-        //System.out.println(map.size);
-        Vector2f gzerozero = new Vector2f(map.pos.x - map.size + map.tileSize, map.pos.y + map.size - map.tileSize);
-
-        for(Tile t:map.tiles)
-        {
-            t.tex.bind();
-            Vector2f pos=new Vector2f(gzerozero.x+t.gridPos.x*tileSkip,gzerozero.y-t.gridPos.y*tileSkip);
-            tmat=MatrixMath.get2DTMat(pos,map.tileSize);
-            ss.setMatrix("tmat",tmat);
-            glDrawElements(GL_TRIANGLES,m.ic,GL_UNSIGNED_INT,0);
-        }
-
-        m.unload();
     }
 
     public void renderGame(FBO fbo, Shape screenQuad, BShader screenShader) {

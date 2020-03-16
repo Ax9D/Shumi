@@ -1,5 +1,7 @@
 package base;
 
+import java.nio.ByteBuffer;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL33.glGenerateMipmap;
@@ -38,6 +40,20 @@ public class Texture2D {
 		System.out.println("Created Texture:"+tex);
 
 	}
+	public Texture2D(ByteBuffer imageBuffer,int w,int h)
+	{
+		tex=glGenTextures();
+		bind();
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageBuffer);
+
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		unbind();
+	}
+
 	public Texture2D setNearest()
 	{
 		bind();

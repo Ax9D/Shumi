@@ -1,8 +1,7 @@
 package base;
-
-import UI.UI;
 import game.World;
 import game.components.ComponentHandler;
+import UI.*;
 
 public class GSystem {
     public static World world;
@@ -12,4 +11,5 @@ public class GSystem {
     public static ComponentHandler componentHandler;
     public static View view;
     public static UI ui;
+    public static UIRenderer uirenderer;
 }

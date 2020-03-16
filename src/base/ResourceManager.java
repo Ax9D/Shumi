@@ -1,5 +1,7 @@
 package base;
 
+import UI.GFont;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -8,6 +10,9 @@ public class ResourceManager {
     HashMap<String, Shape> models;
     HashMap<String, Texture2D> textures;
     HashMap<String, BShader> shaders;
+    HashMap<String, GFont> fonts;
+
+    GFont defaultFont;
 
     public Shape basicQuad;
     public Texture2D basicTex;
@@ -17,7 +22,10 @@ public class ResourceManager {
         models = new HashMap<String, Shape>();
         textures = new HashMap<String, Texture2D>();
         shaders = new HashMap<String, BShader>();
-        basicTex = new Texture2D("test.png");}
+        fonts=new HashMap<String,GFont>();
+        basicTex = new Texture2D("test.png");
+        defaultFont=new GFont("Arial",true);
+    }
 
     public void addModel(Shape m, String id) {
         models.put(id, m);
@@ -31,12 +39,20 @@ public class ResourceManager {
         shaders.put(id, s);
 
     }
+    public void addFont(GFont f,String fontName)
+    {
+        fonts.put(fontName,f);
+    }
     public  Shape getModel(String id)
     {
         if(id.equals("generic_quad"))
             return basicQuad;
         else
             return models.get(id);
+    }
+    public  GFont getFont(String fontName)
+    {
+        return fonts.getOrDefault(fontName,defaultFont);
     }
     public  Texture2D getTexture(String id)
     {

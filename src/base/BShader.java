@@ -51,6 +51,11 @@ public class BShader {
 
 		glUniformMatrix4fv(loc, false, asFloat);
 	}
+	public void setVector3f(String vname, Vector3f vec) {
+		int loc = glGetUniformLocation(program, vname);
+
+		glUniform3f(loc,vec.x,vec.y,vec.z);
+	}
 	public int getInt(String vname)
 	{
 		int loc=glGetUniformLocation(program,vname);
@@ -89,6 +94,10 @@ public class BShader {
 	public void setInt(String vname, int x) {
 		int loc = glGetUniformLocation(program, vname);
 		glUniform1i(loc, x);
+	}
+	public void setFloat(String vname, float x) {
+		int loc = glGetUniformLocation(program, vname);
+		glUniform1f(loc, x);
 	}
 	public void delete() {
 		glDeleteProgram(program);
