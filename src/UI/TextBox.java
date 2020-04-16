@@ -26,7 +26,7 @@ public class TextBox {
         getWords();
         setFont("");
         computeWords();
-        setColor(Color.WHITE);
+        setColor(Color.BLACK);
     }
 
     private void getWords() {

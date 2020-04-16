@@ -50,7 +50,8 @@ public class UIRenderer {
 
         float w;
 
-        Glyph c;
+        char c;
+        Glyph g;
         for(int i=0;i<tbox.words.length && ypos+fontHeight>yMax;i++)
         {
             if(xpos+tbox.wordWidths[i]*tbox.textSize>xMax) {
@@ -60,29 +61,39 @@ public class UIRenderer {
             //Draw word
             for(int j=0;j<tbox.words[i].length();j++)
             {
-                c=tbox.font.glyphs[tbox.words[i].charAt(j)];
-                c.tex.bind();
+                c=tbox.words[i].charAt(j);
+                if(c=='\n')
+                {
+                    //Move to next line
+                    ypos-=fontHeight*2;
+                    xpos=tbox.topLeft.x*WindowInfo.WIDTH;
+                }
+                else {
+                    g = tbox.font.glyphs[c];
+                    g.tex.bind();
 
-                w=c.width*tbox.textSize;
+                    w = g.width * tbox.textSize;
 
-                pos.x=xpos+w;
-                pos.y=ypos-fontHeight;
+                    pos.x = xpos + w;
+                    pos.y = ypos - fontHeight;
 
-                size.x=w;
-                size.y=fontHeight;
+                    size.x = w;
+                    size.y = fontHeight;
 
-                textShader.setMatrix("tmat", MatrixMath.get2DTMat(pos,size));
+                    textShader.setMatrix("tmat", MatrixMath.get2DTMat(pos, size));
 
-                glDrawElements(GL_TRIANGLES,sh.ic,GL_UNSIGNED_INT,0);
+                    glDrawElements(GL_TRIANGLES, sh.ic, GL_UNSIGNED_INT, 0);
 
-                xpos+=2*w;
+                    xpos += 2 * w;
+                }
             }
+                //If not last word
                 if(i!=tbox.words.length-1) {
                     //Draw a space after word
-                    c = tbox.font.glyphs[' '];
-                    c.tex.bind();
+                    g = tbox.font.glyphs[' '];
+                    g.tex.bind();
 
-                    w = c.width * tbox.textSize;
+                    w = g.width * tbox.textSize;
 
                     pos.x = xpos + w;
                     pos.y = ypos - fontHeight;

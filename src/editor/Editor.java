@@ -47,8 +47,6 @@ public class Editor {
 			}
 		});
 		MouseHandler.addScrollEventListener((amt)->{
-
-			System.out.println(amt);
 			float new_scale=gameView.scale*(float)(1-scrollSpeed*amt);
 			gameView.adjustScale(new_scale);
 

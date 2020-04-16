@@ -2,6 +2,7 @@ package game;
 
 import base.*;
 import game.components.BoundingBox;
+import game.components.LoopAnimation;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -54,12 +55,17 @@ public class World {
             gm.ts.addPointLights(pointLights);
             gm.ts.updateEnvironmentLight(envLight);
 
-            for(int i=0;i<10000;i++)
+            for(int i=0;i<10;i++)
             {
                 ob2D x;
                 addOb2D(x=new ob2D(GSystem.rsmanager.basicQuad,new Vector2f((float)Math.random()*16-8,(float)Math.random()*16-8),new Vector2f((float)(Math.random()*0.125f)),"asdf"));
                 x.addComponent(new BoundingBox());
             }
+            Texture2D t=new Texture2D("player.png");
+            t.setNearest();
+            p.tex=t;
+            p.getComponent(LoopAnimation.class).disable();
+            p.size=new Vector2f(0.18f);
     }
     public void addOb2D(ob2D b)
     {
