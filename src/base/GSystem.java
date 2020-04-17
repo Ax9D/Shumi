@@ -1,4 +1,5 @@
 package base;
+import game.SaveSystem;
 import game.World;
 import game.components.ComponentHandler;
 import UI.*;
@@ -12,4 +13,5 @@ public class GSystem {
     public static View view;
     public static UI ui;
     public static UIRenderer uirenderer;
+    public static SaveSystem saveSystem;
 }

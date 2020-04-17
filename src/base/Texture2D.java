@@ -40,6 +40,10 @@ public class Texture2D {
 		System.out.println("Created Texture:"+tex);
 
 	}
+	public Texture2D(Vector2f color)
+	{
+
+	}
 	public Texture2D(ByteBuffer imageBuffer,int w,int h)
 	{
 		tex=glGenTextures();

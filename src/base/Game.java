@@ -55,8 +55,8 @@ public class Game {
 		glfwSetWindowSizeCallback(WindowInfo.window,(w,width,height)->{
 
 			glViewport(0,0,width,height);
-			WindowInfo.WIDTH=width;
-			WindowInfo.HEIGHT=height;
+			WindowInfo.updateWindow(width,height);
+
 			float ar=(float)width/height;
 			GSystem.view.adjustAspectRatio(ar);
 			//GSystem.uirenderer.ar_correction_matrix.setOrtho2D(-ar,ar,-1,1);

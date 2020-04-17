@@ -2,6 +2,7 @@ package UI;
 
 import base.Color;
 import base.GSystem;
+import base.WindowInfo;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -17,6 +18,7 @@ public class TextBox {
     int[] wordWidths;
 
     Vector3f textColor;
+    public Frame parent;
 
     public TextBox(String str, Vector2f topLeft, float width, float height, float textSize) {
         this.str = str;
@@ -27,8 +29,12 @@ public class TextBox {
         setFont("");
         computeWords();
         setColor(Color.BLACK);
+        this.parent= WindowInfo.windowFrame;
     }
-
+    public void setParent(Frame p)
+    {
+        this.parent=p;
+    }
     private void getWords() {
         words = str.split(" ");
         wordWidths = new int[words.length];

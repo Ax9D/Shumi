@@ -1,8 +1,11 @@
 package UI;
 
 import base.*;
+import base.Shape;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
+
+import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
@@ -41,22 +44,29 @@ public class UIRenderer {
 
         float fontHeight=tbox.font.fontHeight*tbox.textSize;
 
-        float xpos=tbox.topLeft.x*WindowInfo.WIDTH;
-        float ypos=tbox.topLeft.y*WindowInfo.HEIGHT;
+        Frame parentFrame=tbox.parent;
 
 
-        float xMax=(tbox.topLeft.x+tbox.size.x)*WindowInfo.WIDTH;
-        float yMax=(tbox.topLeft.y-tbox.size.y)*WindowInfo.HEIGHT;
+        float xpos=(parentFrame.topLeft.x+tbox.topLeft.x*parentFrame.width)*WindowInfo.WIDTH;
+        float ypos=(parentFrame.topLeft.y+tbox.topLeft.y*parentFrame.height)*WindowInfo.HEIGHT;
+
+
+        float xMax=xpos+tbox.size.x*WindowInfo.WIDTH;
+        float yMax=ypos-tbox.size.y*WindowInfo.HEIGHT;
 
         float w;
 
         char c;
         Glyph g;
-        for(int i=0;i<tbox.words.length && ypos+fontHeight>yMax;i++)
+        float xpos_,ypos_;
+        xpos_=xpos;
+        ypos_=ypos;
+        System.out.println(fontHeight);
+        for(int i=0;i<tbox.words.length && ypos_+fontHeight>yMax;i++)
         {
-            if(xpos+tbox.wordWidths[i]*tbox.textSize>xMax) {
-                ypos -= fontHeight*2;//Proceed to next Line
-                xpos=tbox.topLeft.x*WindowInfo.WIDTH;
+            if(xpos_+tbox.wordWidths[i]*tbox.textSize>xMax) {
+                ypos_ -= fontHeight*2;//Proceed to next Line
+                xpos_=xpos;
             }
             //Draw word
             for(int j=0;j<tbox.words[i].length();j++)
@@ -65,8 +75,8 @@ public class UIRenderer {
                 if(c=='\n')
                 {
                     //Move to next line
-                    ypos-=fontHeight*2;
-                    xpos=tbox.topLeft.x*WindowInfo.WIDTH;
+                    ypos_-=fontHeight*2;
+                    xpos_=xpos;
                 }
                 else {
                     g = tbox.font.glyphs[c];
@@ -74,8 +84,8 @@ public class UIRenderer {
 
                     w = g.width * tbox.textSize;
 
-                    pos.x = xpos + w;
-                    pos.y = ypos - fontHeight;
+                    pos.x = xpos_ + w;
+                    pos.y = ypos_ - fontHeight;
 
                     size.x = w;
                     size.y = fontHeight;
@@ -84,7 +94,7 @@ public class UIRenderer {
 
                     glDrawElements(GL_TRIANGLES, sh.ic, GL_UNSIGNED_INT, 0);
 
-                    xpos += 2 * w;
+                    xpos_ += 2 * w;
                 }
             }
                 //If not last word
@@ -95,8 +105,8 @@ public class UIRenderer {
 
                     w = g.width * tbox.textSize;
 
-                    pos.x = xpos + w;
-                    pos.y = ypos - fontHeight;
+                    pos.x = xpos_ + w;
+                    pos.y = ypos_ - fontHeight;
 
                     size.x = w;
                     size.y = fontHeight;
@@ -105,7 +115,7 @@ public class UIRenderer {
 
                     glDrawElements(GL_TRIANGLES, sh.ic, GL_UNSIGNED_INT, 0);
 
-                    xpos += 2 * w;
+                    xpos_ += 2 * w;
                 }
         }
         glDisable(GL_BLEND);
