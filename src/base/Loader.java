@@ -8,14 +8,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.HashSet;
 
 public class Loader {
     World w;
     static Texture2D defaultTex;
+    private static final String assetsDirPath="assets";
+    private static final String textureDirPath=Paths.get(assetsDirPath,"textures").toString();
 
     static{
-        defaultTex=new Texture2D("test.png");
+        defaultTex=new Texture2D("assets/textures/test.png");
     }
 
     public Loader(World w, String rspath, String gmpath) {
@@ -25,10 +29,13 @@ public class Loader {
     private void getTextures(JSONArray ja) throws JSONException {
         for (int i = 0; i < ja.length(); i++) {
             JSONObject jo = ja.getJSONObject(i);
-            String tid = jo.getString("id");
             String path = jo.getString("path");
+            //Get only file name without the extension
+            String id=path.substring(0,path.lastIndexOf('.'));
+            //Convert / to . --> player/walk/up becomes player.walk.up
+            id=id.replace('/','.');
             Texture2D tex;
-            GSystem.rsmanager.addTexture2D(tex=new Texture2D(path), tid);
+            GSystem.rsmanager.addTexture2D(tex=new Texture2D(textureDirPath+"/"+path),id);
             if(jo.has("interpolation"))
             {
                 switch(jo.getString("interpolation"))
@@ -36,9 +43,10 @@ public class Loader {
                     case "linear":
                         break;
                     case "nearest":
-                        tex.setNearest();
                 }
             }
+
+            tex.setNearest();
         }
     }
 
@@ -141,51 +149,11 @@ public class Loader {
             if(!bid.equals("player"))
                 w.addOb2D(b);
             else
-                w.p=b;
+                {
+                    w.p=b;
+                    w.addOb2D(w.p);
+                }
         }
-    }
-    public Path[] getPaths(JSONArray ja) throws JSONException {
-        int n=ja.length();
-        Path[] ret=new Path[n];
-
-        int[] gridPos;
-        int ntiles;
-        Path.PathType type;
-        Path.PathDirection dir;
-
-        for(int i=0;i<n;i++)
-        {
-            JSONObject jo=ja.getJSONObject(i);
-            type=Path.PathType.valueOf(jo.getString("type"));
-            gridPos=Common.getIntArrFromJSON(jo.getJSONArray("gridPos"));
-            ntiles=jo.getInt("ntiles");
-            dir=Path.PathDirection.valueOf(jo.getString("direction"));
-
-            ret[i]=new Path(type,new Vector2i(gridPos[0],gridPos[1]),ntiles,dir);
-        }
-
-
-        return ret;
-    }
-
-    public Tile[] getTiles(JSONArray ja) throws JSONException {
-        int n=ja.length();
-        Tile[] ret=new Tile[n];
-
-        int[] gridPos;
-        String texID;
-
-        for(int i=0;i<n;i++)
-        {
-            JSONObject jo=ja.getJSONObject(i);
-            gridPos=Common.getIntArrFromJSON(jo.getJSONArray("gridPos"));
-            texID=jo.getString("texture");
-
-            ret[i]=new Tile(new Vector2f(gridPos[0],gridPos[1]),GSystem.rsmanager.getTexture(texID));
-        }
-
-
-        return ret;
     }
     public void getGMaps(JSONArray ja) throws JSONException
     {
@@ -193,13 +161,11 @@ public class Loader {
         float[] posF=Common.getFloatArrFromJSON(jo.getJSONArray("pos"));
         float sizeF=(float)jo.getDouble("size");
 
-        Tile[] tiles=getTiles(jo.getJSONArray("tiles"));
-
         int tileCount=jo.getInt("tileCount");
 
         var ts=new SShader("src/vertex.glsl","src/mapF.glsl");
 
-        w.gm=new GMap(new Vector2f(posF[0],posF[1]),sizeF,ts,tileCount,tiles);
+        w.gm=new GMap(new Vector2f(posF[0],posF[1]),sizeF,ts,tileCount);
 
         w.gm.biomeTex=GSystem.rsmanager.getTexture("grass");
 

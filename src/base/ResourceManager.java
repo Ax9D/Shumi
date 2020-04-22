@@ -2,9 +2,7 @@ package base;
 
 import UI.GFont;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.MissingResourceException;
+import java.util.*;
 
 public class ResourceManager {
     HashMap<String, Shape> models;
@@ -20,10 +18,10 @@ public class ResourceManager {
     public ResourceManager()
     {
         models = new HashMap<String, Shape>();
-        textures = new HashMap<String, Texture2D>();
+        textures = new LinkedHashMap<String, Texture2D>();
         shaders = new HashMap<String, BShader>();
         fonts=new HashMap<String,GFont>();
-        basicTex = new Texture2D("test.png");
+        basicTex = new Texture2D("assets/textures/test.png");
         defaultFont=new GFont("Arial",true);
     }
 
@@ -58,6 +56,26 @@ public class ResourceManager {
     {
         return textures.get(id);
     }
+    public  Texture2D[] getTextures(String search)
+    {
+        //NOT REGEX
+        ArrayList<Texture2D> retList=new ArrayList<Texture2D>();
+        Texture2D[] ret=null;
+       for(Map.Entry<String,Texture2D> texture:textures.entrySet())
+       {
+
+           if(texture.getKey().startsWith(search)) {
+               retList.add(texture.getValue());
+
+               System.out.println(texture.getKey());
+           }
+       }
+
+       retList.toArray(ret=new Texture2D[retList.size()]);
+
+       return ret;
+    }
+
     public  void delete() {
         for (Map.Entry<String, Shape> entry : models.entrySet())
             entry.getValue().delete();

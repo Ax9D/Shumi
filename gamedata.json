@@ -14,7 +14,7 @@
 		},	
 		{
 			"type":"PlayerMovement",
-			"walkSpeed":1
+			"walkSpeed":5
 		},
 		{
 			"type": "BoundingBox",
@@ -30,11 +30,11 @@
 	]
 },
 {
-	"id":"test_quad",
+	"id":"tree",
 	"model":"generic_quad",
 	"texture":"tree",
 	"pos":[0,0],
-	"size":[0.5,0.5],
+	"size":[5,5],
 	"components":[
 		{
 			"type": "BoundingBox",
@@ -47,14 +47,6 @@
 		"id": "main_world",
 		"pos": [0,0],
 		"size": 5,
-		"tileCount": 50,
-
-		"tiles": [{
-			"gridPos": [0,0],
-			"texture": "dirt"
-		},{
-			"gridPos": [1,1],
-			"texture": "stone"
-		}]
+		"tileCount": 50
 	}]
 }

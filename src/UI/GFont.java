@@ -66,9 +66,12 @@ public class GFont {
         ByteBuffer imgBuff= ImageUtils.toByteBuffer(img,glyphWidth,fontHeight);
 
         Texture2D tex=new Texture2D(imgBuff,glyphWidth,fontHeight);
+        tex.setNearest();
 
         if(!antialias)
             tex.setNearest();
+        else
+            tex.setLinear();
 
         Glyph ret=new Glyph(tex,glyphWidth,fontHeight);
 

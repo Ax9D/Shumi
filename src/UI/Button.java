@@ -1,5 +1,8 @@
 package UI;
 
-public class Button {
+public class Button implements UIElement {
+    public void render()
+    {
 
+    }
 }

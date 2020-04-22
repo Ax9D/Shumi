@@ -3,10 +3,15 @@ layout(location=0) in vec2 pos;
 layout(location=1) in vec2 tCoords;
 
 uniform mat4 tmat;
+uniform mat4 cmat;
+uniform mat4 ratio_mat;
 
 out vec2 tC;
+
 void main()
 {
-    gl_Position=tmat*vec4(pos,0.0,1.0);
+    vec4 projected_pos=ratio_mat*cmat*tmat*vec4(pos,0,1.0);
+    gl_Position=projected_pos;
+
     tC=tCoords;
 }

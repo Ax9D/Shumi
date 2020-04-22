@@ -13,6 +13,14 @@ public class MatrixMath {
 		ret.scale(s.x,s.y,1);
 		return ret;
 	}
+	public static Matrix4f get2DTMat(float x,float y,float sx,float sy)
+	{
+		Matrix4f ret=new Matrix4f();
+		ret.identity();
+		ret.translate(x,y,0.0f);
+		ret.scale(sx,sy,1);
+		return ret;
+	}
 	public static Matrix4f get2DTMat(Vector2f t,Vector2f s,float r)
 	{
 		Matrix4f ret=new Matrix4f();

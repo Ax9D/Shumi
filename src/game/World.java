@@ -3,8 +3,11 @@ package game;
 import base.*;
 import game.components.BoundingBox;
 import game.components.LoopAnimation;
+import game.components.PlayerAnimation;
+import game.components.PlayerMovement;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.*;
 
@@ -27,7 +30,7 @@ public class World {
         BoundingBox ba = a.getComponent(BoundingBox.class);
         BoundingBox bb = b.getComponent(BoundingBox.class);
 
-        return ba.top > bb.top ? 1 : -1;
+        return ba.bottom < bb.bottom ? 1 : -1;
     };
 
 
@@ -41,13 +44,12 @@ public class World {
     public void init()
     {
             float k=1f;
-            pointLights.add(new PointLight(new Vector2f(-k,0f),new Vector3f(1),0.5f,50f));
-            pointLights.add(new PointLight(new Vector2f(k,0f),new Vector3f(.906f,0.676f,0.473f),1f,10f));
-            pointLights.add(new PointLight(new Vector2f(0f,k),new Vector3f(1),1f,50f));
-            pointLights.add(new PointLight(new Vector2f(0f,-k),new Vector3f(1),1f,50f));
-            envLight=new EnvironmentLight(new Vector3f(1),1f);
+            pointLights.add(new PointLight(new Vector2f(-k,0f),new Vector3f(255,230,146).div(255),10f,0.5f));
+            envLight=new EnvironmentLight(new Vector3f(25, 25, 112).div(255),1f);
+            envLight=new EnvironmentLight(new Vector3f(255).div(255),0.5f);
 
-            sceneShader.use();
+
+        sceneShader.use();
             sceneShader.addPointLights(pointLights);
             sceneShader.updateEnvironmentLight(envLight);
 
@@ -55,7 +57,7 @@ public class World {
             gm.ts.addPointLights(pointLights);
             gm.ts.updateEnvironmentLight(envLight);
 
-            for(int i=0;i<10;i++)
+            for(int i=0;i<0;i++)
             {
                 ob2D x;
                 addOb2D(x=new ob2D(GSystem.rsmanager.basicQuad,new Vector2f((float)Math.random()*16-8,(float)Math.random()*16-8),new Vector2f((float)(Math.random()*0.125f)),"asdf"));
@@ -65,7 +67,31 @@ public class World {
             t.setNearest();
             p.tex=t;
             p.getComponent(LoopAnimation.class).disable();
-            p.size=new Vector2f(0.18f);
+
+            p.addComponent(new PlayerAnimation(8,GSystem.rsmanager.getTextures("player.walk.left"),GSystem.rsmanager.getTextures("player.walk.right"),
+                                                            GSystem.rsmanager.getTextures("player.walk.up"),GSystem.rsmanager.getTextures("player.walk.down"),t));
+
+
+            BoundingBox bb= p.getComponent(BoundingBox.class);
+
+            bb.xratio=0.2f;
+            bb.yratio=0.125f/2;
+            bb.yoffset=-1.6f;
+
+
+            bb=find("tree").getComponent(BoundingBox.class);
+            bb.xratio=0.3f;
+            bb.yratio=0.1f;
+            bb.xoffset=-0.60f;
+            bb.yoffset=-4.5f;
+
+            gm.biomeTex.isColor=true;
+            gm.biomeTex.setLinear();
+            gm.biomeTex.color=new Vector4f(108, 209, 90,255).div(255);
+
+            gm.size=200;
+            gm.tileSize=0.125f;
+            p.size=new Vector2f(1.8f);
     }
     public void addOb2D(ob2D b)
     {
@@ -76,7 +102,13 @@ public class World {
         ob2Ds.remove(b);
         b.delete();
     }
-
+    public ob2D find(String id)
+    {
+        for(ob2D x:ob2Ds)
+            if(x.name.equals(id))
+                return x;
+            return null;
+    }
     private void pruneVisible()
     {
         View v=GSystem.view;
@@ -106,9 +138,6 @@ public class World {
 
     }
     public void update() {
-
-
-        envLight.intensity=0.7f;
         gm.ts.use();
         gm.ts.updateEnvironmentLight(envLight);
         gm.ts.stop();
@@ -118,7 +147,8 @@ public class World {
         sceneShader.stop();
 
        for (ob2D x:ob2Ds) {
-            BPhysics.handlePlayerFOCollision(p, x);
+            if(x!=p)
+                BPhysics.handlePlayerFOCollision(p, x);
        }
 
        pruneVisible();

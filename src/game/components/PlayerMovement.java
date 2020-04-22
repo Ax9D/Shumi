@@ -31,18 +31,27 @@ public class PlayerMovement extends Component {
     }
 
     public void update() {
+        PlayerAnimation aniCompoment=parent.getComponent(PlayerAnimation.class);
+
         if (KeyboardHandler.isPressed(GLFW_KEY_W)) {
             parent.pos.y += walkSpeed * Game.tDelta;
             walkDirection = Direction.UP;
+            aniCompoment.currentAnimationState= PlayerAnimation.walkingUp;
         } else if (KeyboardHandler.isPressed(GLFW_KEY_S)) {
             parent.pos.y -= walkSpeed * Game.tDelta;
             walkDirection = Direction.DOWN;
+            aniCompoment.currentAnimationState= PlayerAnimation.walkingDown;
         } else if (KeyboardHandler.isPressed(GLFW_KEY_A)) {
             parent.pos.x -= walkSpeed * Game.tDelta;
             walkDirection = Direction.LEFT;
+            aniCompoment.currentAnimationState= PlayerAnimation.walkingLeft;
         } else if (KeyboardHandler.isPressed(GLFW_KEY_D)) {
             parent.pos.x += walkSpeed * Game.tDelta;
             walkDirection = Direction.RIGHT;
+            aniCompoment.currentAnimationState= PlayerAnimation.walkingRight;
         }
+        else
+            aniCompoment.currentAnimationState= PlayerAnimation.standing;
+
     }
 }

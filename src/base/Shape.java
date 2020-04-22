@@ -16,7 +16,6 @@ public class Shape {
 		this.eboID = eboID;
 		this.ic = ic;
 	}
-
 	public Shape(float[] verts, int[] inds, float[] tCoords) {
 		vao = new VAO();
 		vao.loadToVBO(verts, 2);

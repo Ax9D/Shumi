@@ -2,6 +2,8 @@ package base;
 
 import org.joml.Matrix4f;
 
+import java.util.ArrayList;
+
 public class View {
     public Camera2D camera2D;
     public float ar;
@@ -11,12 +13,15 @@ public class View {
     public float camxExtent;
     public float camyExtent;
 
+    private ArrayList<Runnable> onChangeLambdas;
+
     public View(Camera2D camera2D, float ar, float scale)
     {
         this.camera2D = camera2D;
         this.scale=scale;
         camyExtent=scale;
         ar_correction_matrix=new Matrix4f();
+        onChangeLambdas=new ArrayList<Runnable>();
         adjustAspectRatio(ar);
     }
     public void adjustScale(float scale)
@@ -24,6 +29,15 @@ public class View {
             this.scale = scale;
             adjustAspectRatio(ar);
             camyExtent = scale;
+    }
+    public void onChange(Runnable r)
+    {
+        onChangeLambdas.add(r);
+    }
+    public void processChange()
+    {
+        for(Runnable r:onChangeLambdas)
+            r.run();
     }
     public void adjustAspectRatio(float ar)
     {

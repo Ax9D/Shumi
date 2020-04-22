@@ -14,4 +14,5 @@ public class GSystem {
     public static UI ui;
     public static UIRenderer uirenderer;
     public static SaveSystem saveSystem;
+    public static boolean debug=true;
 }

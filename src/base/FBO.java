@@ -12,17 +12,28 @@ import static org.lwjgl.opengl.GL33.*;
 
 public class FBO {
     private int fboID;
-    public Texture2D tex;
+    public Texture2D[] tex;
 
     public int width,height;
-    public FBO(int width,int height)
+    public FBO(int width,int height,int ncolor_attachments)
     {
         this.width=width;
         this.height=height;
-        tex=new Texture2D(width,height);
         fboID=glGenFramebuffers();
+
         bind();
-        glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,tex.getID(),0);
+        //There's probably a better way than this
+        int[] cbufList=new int[ncolor_attachments];
+        tex=new Texture2D[ncolor_attachments];
+
+        for(int i=0;i<ncolor_attachments;i++) {
+
+            tex[i]=new Texture2D(width,height);
+            tex[i].bind();
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, tex[i].getID(), 0);
+            cbufList[i]=GL_COLOR_ATTACHMENT0+i;
+        }
+        glDrawBuffers(cbufList);
         unbind();
     }
     public void saveToDisk(String name)
@@ -61,6 +72,7 @@ public class FBO {
     public void delete()
     {
         glDeleteFramebuffers(fboID);
-        tex.delete();
+        for(int i=0;i<tex.length;i++)
+            tex[i].delete();
     }
 }

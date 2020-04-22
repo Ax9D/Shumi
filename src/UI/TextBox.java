@@ -2,7 +2,6 @@ package UI;
 
 import base.Color;
 import base.GSystem;
-import base.WindowInfo;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -29,7 +28,7 @@ public class TextBox {
         setFont("");
         computeWords();
         setColor(Color.BLACK);
-        this.parent= WindowInfo.windowFrame;
+        this.parent= GSystem.ui.windowFrame;
     }
     public void setParent(Frame p)
     {

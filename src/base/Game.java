@@ -3,42 +3,37 @@ package base;
 import UI.UI;
 import UI.UIRenderer;
 import UI.TextBox;
-import UI.*;
 import game.World;
 import game.components.CameraController;
 import game.components.ComponentHandler;
+import input_handling.KeyboardHandler;
 import org.joml.Vector2f;
 
-import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
+import static base.GSystem.world;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glViewport;
+import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER_SRGB;
 
 public class Game {
 
 	float[] fpses;
 	int fpsesIx;
-    static float[] quadVerts;
+    static float[] quadVerts=new float[]{-1.0f , 1.0f,
+			 1.0f  , 1.0f,
+			1.0f  , -1.0f,
+			-1.0f  , -1.0f};;
     static float[] quadUV={0.0f, 1.0f,
                            1.0f, 1.0f,
                            1.0f, 0.0f,
                            0.0f, 0.0f};
     static int[] quadInds={0, 3, 1, 1, 3, 2};
 
-    static {
-		quadVerts = new float[]{-1.0f , 1.0f,
-				1.0f  , 1.0f,
-				1.0f  , -1.0f,
-				-1.0f  , -1.0f};
-	}
-
 
 	Camera2D c;
 
 	FBO screenFBO;
 
-	BShader screenShader;
-	BShader simpleShader;
-
-	Shape screenQuad;
 
 	private long prevTime;
 
@@ -52,65 +47,39 @@ public class Game {
 	public Game() {
 
 		fpsesIx=0;
-		glfwSetWindowSizeCallback(WindowInfo.window,(w,width,height)->{
-
-			glViewport(0,0,width,height);
-			WindowInfo.updateWindow(width,height);
-
-			float ar=(float)width/height;
-			GSystem.view.adjustAspectRatio(ar);
-			//GSystem.uirenderer.ar_correction_matrix.setOrtho2D(-ar,ar,-1,1);
-			GSystem.uirenderer.ar_correction_matrix.setOrtho2D(0,WindowInfo.WIDTH,0,WindowInfo.HEIGHT);
-			FBO oldscreenFBO=screenFBO;
-			oldscreenFBO.delete();
-			screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT);
-		});
 
 		fpses=new float[20];
 
 		prevTime=System.currentTimeMillis();
-
-		World w=new World();
-		GSystem.world=w;
-
         ResourceManager rm=new ResourceManager();
 
         rm.basicQuad=new Shape(quadVerts,quadInds,quadUV);
+
         GSystem.rsmanager=rm;
-
-        screenQuad=new Shape(new float[]{
-                -1f, 1f,
-                1f, 1f,
-                1f, -1f,
-                -1f, -1f
-        },quadInds,quadUV);
-/*
-
-        screenRect=new Model(new float[]{
-                -1f, 1f,
-                1f, 1f,
-                1f, -1f,
-                -1f, -1f
-        },quadInds,quadUV);*/
 
 		GSystem.componentHandler=new ComponentHandler();
 
-		Loader l = new Loader(w, "resources.json", "gamedata.json");
-		Camera2D c = new Camera2D(new Vector2f(), new Vector2f(1, 1), 1f);
-
-		Renderer r=new Renderer();
-
-
-		GSystem.loader=l;
-		GSystem.renderer=r;
+		Camera2D c = new Camera2D(new Vector2f(), 1f);
 
 
         GSystem.view=new View(c,(float)WindowInfo.WIDTH/WindowInfo.HEIGHT,2);
-        GSystem.ui=new UI();
 
-		screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT);
-		screenShader=new BShader("src/screenV.glsl","src/screenF.glsl");
-		simpleShader=new BShader("src/simplevertex.glsl","src/simplefragment.glsl");
+
+        GSystem.view.onChange(()->{
+        	FBO oldscreenFBO=screenFBO;
+        	oldscreenFBO.delete();
+        	screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT,2);
+		});
+
+		GSystem.world=new World();
+
+		GSystem.loader= new Loader(GSystem.world, "resources.json", "gamedata.json");
+
+		GSystem.renderer=new Renderer();
+
+		GSystem.ui=new UI();
+
+		screenFBO=new FBO(WindowInfo.WIDTH,WindowInfo.HEIGHT,2);
 
 
 		System.out.println("Initialized.\n"+
@@ -123,13 +92,32 @@ public class Game {
 		ur=new UIRenderer();
 		fps=new TextBox("",new Vector2f(.90f,1f),0.01f,0.01f,0.2f);
 		fps.setFont("Arial");
-		fps.setColor(Color.BLACK);
+		fps.setColor(Color.WHITE);
 
 		GSystem.uirenderer=ur;
-		screenShader.use();
-		screenShader.setInt("texSamp",0);
 
 		test=new TextBox("",new Vector2f(0f,1f),1f,1f,0.2f);
+
+
+		glfwSetWindowSizeCallback(WindowInfo.window,(w,width,height)->{
+
+			glViewport(0,0,width,height);
+			WindowInfo.updateWindow(width,height);
+
+			float ar=(float)width/height;
+
+			GSystem.view.adjustAspectRatio(ar);
+
+			GSystem.view.processChange();
+		});
+
+		KeyboardHandler.addEventListener((key,action)->{
+
+			if(key==GLFW_KEY_F2 && action==GLFW_PRESS)
+			GSystem.debug=!GSystem.debug;
+
+		});
+		glEnable( GL_FRAMEBUFFER_SRGB );
 		/*test.setString("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis, tellus sed sollicitudin vulputate, urna ipsum placerat lectus, at maximus turpis nibh quis orci. Curabitur non sapien risus. Maecenas ut augue efficitur, feugiat turpis in, maximus nisl. Etiam nulla justo, porta a risus eget, mattis interdum augue. Proin suscipit libero ex, sit amet viverra justo dapibus vitae. Phasellus pretium mi sed ex malesuada vehicula aliquam pharetra diam. Aenean maximus aliquet bibendum. Etiam maximus viverra sodales. Mauris feugiat urna ornare mauris mattis accumsan. Sed sit amet neque et est vehicula pulvinar at lacinia mi. Sed ultricies ante nec ultrices ullamcorper.\n" +
 				"\n" +
 				"Pellentesque euismod sem et est gravida blandit. Curabitur vehicula eget nibh et aliquet. Duis a tellus ligula. Aliquam dignissim ac nibh sit amet dapibus. Praesent ac condimentum leo. Nullam quis dictum purus. Fusce auctor consectetur ultricies. Morbi sed diam sit amet diam porttitor accumsan ac vel nisi. Proin lectus nibh, mollis eu commodo vitae, semper ac urna. Aenean nibh ante, hendrerit quis lectus id, finibus cursus odio. In eget pulvinar leo. Aenean a interdum mauris, vel efficitur leo. Phasellus non libero tempor orci dignissim dictum ac id lectus. Pellentesque pretium, purus et fermentum ultrices, est nibh volutpat enim, at ullamcorper felis turpis id magna.\n" +
@@ -154,7 +142,7 @@ public class Game {
 	public void draw(){
 
 
-		GSystem.renderer.renderGame(screenFBO,screenQuad,screenShader);
+		GSystem.renderer.renderGame(screenFBO);
 
 		if(fpsesIx>fpses.length-1)
 			fpsesIx=0;
@@ -175,7 +163,6 @@ public class Game {
 
 		update();
 		draw();
-
 	}
 
 	public void exit() {

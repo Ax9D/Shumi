@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER_SRGB;
 
 public class Main {
 	public static boolean doEditor=true;
@@ -62,6 +63,7 @@ public class Main {
 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
+		//glEnable(GL_FRAMEBUFFER_SRGB);
 	}
 	public static void main(String[] args)
 	{

@@ -3,6 +3,7 @@ package base;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import static org.lwjgl.opengl.GL30.*;
 
@@ -55,6 +56,16 @@ public class BShader {
 		int loc = glGetUniformLocation(program, vname);
 
 		glUniform3f(loc,vec.x,vec.y,vec.z);
+	}
+	public void setVector4f(String vname, Vector4f vec) {
+		int loc = glGetUniformLocation(program, vname);
+
+		glUniform4f(loc,vec.x,vec.y,vec.z,vec.w);
+	}
+	public void setVector4f(String vname, float x,float y,float z,float w) {
+		int loc = glGetUniformLocation(program, vname);
+
+		glUniform4f(loc,x,y,z,w);
 	}
 	public int getInt(String vname)
 	{
@@ -110,5 +121,10 @@ public class BShader {
 		String infoLog = glGetShaderInfoLog(shader);
 		System.out.println(infoLog);
 		return shader;
+	}
+	public void textureColorCheck(Texture2D bound)
+	{
+		if(bound.isColor)
+			setVector4f("solidColor",bound.color);
 	}
 }

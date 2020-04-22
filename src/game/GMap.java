@@ -16,15 +16,12 @@ public class GMap {
 
     public float tileSize;
 
-   public Tile[] tiles;
-
-    public GMap(Vector2f pos, float size, SShader ts, int tileCount, Tile[] tiles)
+    public GMap(Vector2f pos, float size, SShader ts, int tileCount)
     {
         this.pos=pos;
         this.size=size;
 
         this.ts=ts;
-        this.tiles=tiles;
         this.tileSize=size/tileCount;
     }
 }

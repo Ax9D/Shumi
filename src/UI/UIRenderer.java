@@ -26,6 +26,14 @@ public class UIRenderer {
         ar_correction_matrix.setOrtho2D(0,WindowInfo.WIDTH,0,WindowInfo.HEIGHT);
         pos=new Vector2f();
         size=new Vector2f();
+
+        GSystem.view.onChange(()->{
+            GSystem.uirenderer.ar_correction_matrix.setOrtho2D(0,WindowInfo.WIDTH,0,WindowInfo.HEIGHT);
+        });
+    }
+    public void renderFrame(Frame frame)
+    {
+
     }
     public void renderText(TextBox tbox)
     {
@@ -61,7 +69,6 @@ public class UIRenderer {
         float xpos_,ypos_;
         xpos_=xpos;
         ypos_=ypos;
-        System.out.println(fontHeight);
         for(int i=0;i<tbox.words.length && ypos_+fontHeight>yMax;i++)
         {
             if(xpos_+tbox.wordWidths[i]*tbox.textSize>xMax) {

@@ -1,22 +1,10 @@
 package game.components;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class BoundingBox extends Component {
-
-    public static Component loadComponent(JSONObject jo) throws JSONException {
-        Component c=null;
-        String bType=jo.getString("bType");
-        if(bType.equals("basic")) {
-            c=new BoundingBox();
-        }
-        return c;
-    }
-
 	public float left, right, top,bottom;
-	private float xratio,yratio;
-	private float xoffset,yoffset;
+	public float xratio,yratio;
+	public float xoffset,yoffset;
+
 
 	public void init()
 	{
@@ -31,10 +19,21 @@ public class BoundingBox extends Component {
 	}
 	public void compute()
 	{
+		left=parent.pos.x+xoffset-parent.size.x*xratio;
+		right=parent.pos.x+xoffset+parent.size.x*xratio;
+		top=parent.pos.y+yoffset+parent.size.y*yratio;
+		bottom=parent.pos.y+yoffset-parent.size.y*yratio;
 
-		left=parent.pos.x-xoffset-(parent.size.x)*xratio;
-		right=parent.pos.x+xoffset+(parent.size.x)*xratio;
-		top=parent.pos.y+yoffset+(parent.size.y)*yratio;
-		bottom=parent.pos.y-yoffset-(parent.size.y)*yratio;
+		float t;
+		if(top<bottom) {
+			t=bottom;
+			bottom = top;
+			top=t;
+		}
+		if(right<left) {
+			t=left;
+			left = right;
+			right=t;
+		}
 	}
 }

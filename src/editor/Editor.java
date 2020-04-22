@@ -39,11 +39,16 @@ public class Editor {
 
 		scrollSpeed=0.1f;
 
+
 		KeyboardHandler.addEventListener((key, action)->{
 			if(key== GLFW_KEY_TAB && action==GLFW_RELEASE) {
 				emode.enabled = !emode.enabled;
-				if(!emode.enabled)
+
+				if(!emode.enabled) {
 					emode.reset();
+
+				}
+
 			}
 		});
 		MouseHandler.addScrollEventListener((amt)->{
