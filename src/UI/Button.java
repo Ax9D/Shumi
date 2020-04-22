@@ -1,8 +1,7 @@
 package UI;
 
 public class Button implements UIElement {
-    public void render()
-    {
+    public void render() {
 
     }
 }

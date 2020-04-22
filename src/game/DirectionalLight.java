@@ -9,12 +9,12 @@ public class DirectionalLight {
     float intensity;
     float beaminess;
     float length;
-    public DirectionalLight(Vector3f color, float intensity, Vector2f dir,float beaminess,float length)
-    {
-        this.color=color;
-        this.dir=dir;
-        this.intensity=intensity;
-        this.beaminess=beaminess;
-        this.length=length;
+
+    public DirectionalLight(Vector3f color, float intensity, Vector2f dir, float beaminess, float length) {
+        this.color = color;
+        this.dir = dir;
+        this.intensity = intensity;
+        this.beaminess = beaminess;
+        this.length = length;
     }
 }

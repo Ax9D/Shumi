@@ -5,6 +5,6 @@ layout(location=1) in vec2 tCoords;
 out vec2 tC;
 void main()
 {
-    gl_Position=vec4(pos,0.0,1.0);
+    gl_Position=vec4(pos, 0.0, 1.0);
     tC=tCoords;
 }

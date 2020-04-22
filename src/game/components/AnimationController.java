@@ -1,16 +1,15 @@
 package game.components;
 
 public class AnimationController extends Component {
-    public AnimationController()
-    {
+    public AnimationController() {
 
     }
-    public void init()
-    {
+
+    public void init() {
 
     }
-    public void update()
-    {
+
+    public void update() {
 
     }
 }

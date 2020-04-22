@@ -1,105 +1,103 @@
 {
-	"textures":[
-	{
-		"path":"an1.png"
-	},
-	{
-		"path":"an2.png"
-	},
-	{
-		"path":"an3.png"
-	},
-	{
-		"path":"an4.png"
-	},
-	{
-		"path":"grass.png"
-	},
-
-	{
-			"path":"dirt.png"
-	},
-		{
-			"path":"stone.png"
-		},
-		{
-			"path": "tree.png",
-			"interpolation": "nearest"
-		},
-		{
-			"path":"player/walk/up/1.png"
-		},
-		{
-			"path":"player/walk/up/2.png"
-		},
-		{
-			"path":"player/walk/up/3.png"
-		},
-		{
-			"path":"player/walk/up/4.png"
-		},
-		{
-			"path":"player/walk/up/5.png"
-		},
-		{
-			"path":"player/walk/up/6.png"
-		},
-		{
-			"path":"player/walk/down/1.png"
-		},
-		{
-			"path":"player/walk/down/2.png"
-		},
-		{
-			"path":"player/walk/down/3.png"
-		},
-		{
-			"path":"player/walk/down/4.png"
-		},
-		{
-			"path":"player/walk/down/5.png"
-		},
-		{
-			"path":"player/walk/down/6.png"
-		},
-		{
-			"path":"player/walk/left/1.png"
-		},
-		{
-			"path":"player/walk/left/2.png"
-		},
-		{
-			"path":"player/walk/left/3.png"
-		},
-		{
-			"path":"player/walk/left/4.png"
-		},
-		{
-			"path":"player/walk/left/5.png"
-		},
-		{
-			"path":"player/walk/left/6.png"
-		},
-		{
-			"path":"player/walk/right/1.png"
-		},
-		{
-			"path":"player/walk/right/2.png"
-		},
-		{
-			"path":"player/walk/right/3.png"
-		},
-		{
-			"path":"player/walk/right/4.png"
-		},
-		{
-			"path":"player/walk/right/5.png"
-		},
-		{
-			"path":"player/walk/right/6.png"
-		}
-	],
-	"models":[
-
-	]
+  "textures": [
+    {
+      "path": "an1.png"
+    },
+    {
+      "path": "an2.png"
+    },
+    {
+      "path": "an3.png"
+    },
+    {
+      "path": "an4.png"
+    },
+    {
+      "path": "grass.png"
+    },
+    {
+      "path": "dirt.png"
+    },
+    {
+      "path": "stone.png"
+    },
+    {
+      "path": "tree.png",
+      "interpolation": "nearest"
+    },
+    {
+      "path": "player/walk/up/1.png"
+    },
+    {
+      "path": "player/walk/up/2.png"
+    },
+    {
+      "path": "player/walk/up/3.png"
+    },
+    {
+      "path": "player/walk/up/4.png"
+    },
+    {
+      "path": "player/walk/up/5.png"
+    },
+    {
+      "path": "player/walk/up/6.png"
+    },
+    {
+      "path": "player/walk/down/1.png"
+    },
+    {
+      "path": "player/walk/down/2.png"
+    },
+    {
+      "path": "player/walk/down/3.png"
+    },
+    {
+      "path": "player/walk/down/4.png"
+    },
+    {
+      "path": "player/walk/down/5.png"
+    },
+    {
+      "path": "player/walk/down/6.png"
+    },
+    {
+      "path": "player/walk/left/1.png"
+    },
+    {
+      "path": "player/walk/left/2.png"
+    },
+    {
+      "path": "player/walk/left/3.png"
+    },
+    {
+      "path": "player/walk/left/4.png"
+    },
+    {
+      "path": "player/walk/left/5.png"
+    },
+    {
+      "path": "player/walk/left/6.png"
+    },
+    {
+      "path": "player/walk/right/1.png"
+    },
+    {
+      "path": "player/walk/right/2.png"
+    },
+    {
+      "path": "player/walk/right/3.png"
+    },
+    {
+      "path": "player/walk/right/4.png"
+    },
+    {
+      "path": "player/walk/right/5.png"
+    },
+    {
+      "path": "player/walk/right/6.png"
+    }
+  ],
+  "models": [
+  ]
 }

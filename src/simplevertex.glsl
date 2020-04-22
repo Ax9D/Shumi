@@ -10,7 +10,7 @@ out vec2 tC;
 
 void main()
 {
-    vec4 projected_pos=ratio_mat*cmat*tmat*vec4(pos,0,1.0);
+    vec4 projected_pos=ratio_mat*cmat*tmat*vec4(pos, 0, 1.0);
     gl_Position=projected_pos;
 
     tC=tCoords;

@@ -14,9 +14,9 @@ public class MouseHandler {
 
     public static float mouseX, mouseY;
 
-    static{
-        mButtonEventFns=new ArrayList<MButtonEventFn>();
-        mScrollEventFns=new ArrayList<MScrollEventFn>();
+    static {
+        mButtonEventFns = new ArrayList<MButtonEventFn>();
+        mScrollEventFns = new ArrayList<MScrollEventFn>();
     }
 
 
@@ -26,30 +26,30 @@ public class MouseHandler {
 
         return new Vector4f(glPosX, glPosY, 0, 1);
     }
-    public static void addButtonEventListener(MButtonEventFn fn)
-    {
+
+    public static void addButtonEventListener(MButtonEventFn fn) {
         mButtonEventFns.add(fn);
     }
-    public static void addScrollEventListener(MScrollEventFn fn)
-    {
+
+    public static void addScrollEventListener(MScrollEventFn fn) {
         mScrollEventFns.add(fn);
     }
-    public static void handleButtonEvents(int button,int action)
-    {
-        for(MButtonEventFn fn:mButtonEventFns)
-            fn.execute(button,action);
+
+    public static void handleButtonEvents(int button, int action) {
+        for (MButtonEventFn fn : mButtonEventFns)
+            fn.execute(button, action);
     }
-    public static void handleScrollEvents(double amt)
-    {
-        for(MScrollEventFn fn:mScrollEventFns)
+
+    public static void handleScrollEvents(double amt) {
+        for (MScrollEventFn fn : mScrollEventFns)
             fn.execute(amt);
     }
-    public static boolean mouseLeftClicked()
-    {
-        return glfwGetMouseButton(WindowInfo.window,GLFW_MOUSE_BUTTON_LEFT)==GLFW_PRESS;
+
+    public static boolean mouseLeftClicked() {
+        return glfwGetMouseButton(WindowInfo.window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
     }
-    public static boolean mouseLeftUnClicked()
-    {
-        return glfwGetMouseButton(WindowInfo.window,GLFW_MOUSE_BUTTON_LEFT)==GLFW_RELEASE;
+
+    public static boolean mouseLeftUnClicked() {
+        return glfwGetMouseButton(WindowInfo.window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE;
     }
 }

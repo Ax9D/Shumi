@@ -8,123 +8,129 @@ import org.joml.Vector4f;
 import static org.lwjgl.opengl.GL30.*;
 
 public class BShader {
-	private int program;
+    private int program;
 
-	public BShader(String vertexPath, String fragmentPath) {
-		String vertexCode = Common.getText(vertexPath);
-		String fragmentCode = Common.getText(fragmentPath);
+    public BShader(String vertexPath, String fragmentPath) {
+        String vertexCode = Common.getText(vertexPath);
+        String fragmentCode = Common.getText(fragmentPath);
 
-		int vertexShader = compile(vertexCode, GL_VERTEX_SHADER);
-		int fragmentShader = compile(fragmentCode, GL_FRAGMENT_SHADER);
+        int vertexShader = compile(vertexCode, GL_VERTEX_SHADER);
+        int fragmentShader = compile(fragmentCode, GL_FRAGMENT_SHADER);
 
-		program = glCreateProgram();
+        program = glCreateProgram();
 
-		glAttachShader(program, vertexShader);
-		glAttachShader(program, fragmentShader);
+        glAttachShader(program, vertexShader);
+        glAttachShader(program, fragmentShader);
 
-		glLinkProgram(program);
+        glLinkProgram(program);
 
-		String linkLog = glGetProgramInfoLog(program);
+        String linkLog = glGetProgramInfoLog(program);
 
-		System.out.println(linkLog);
+        System.out.println(linkLog);
 
-		glDetachShader(program, vertexShader);
-		glDetachShader(program, fragmentShader);
+        glDetachShader(program, vertexShader);
+        glDetachShader(program, fragmentShader);
 
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
 
-	}
-
-	public void use() {
-		glUseProgram(program);
-	}
-
-	public void stop() {
-		glUseProgram(0);
-	}
-
-	public void setMatrix(String vname, Matrix4f mat) {
-		int loc = glGetUniformLocation(program, vname);
-
-		float[] asFloat = new float[16];
-		mat.get(asFloat);
-
-		glUniformMatrix4fv(loc, false, asFloat);
-	}
-	public void setVector3f(String vname, Vector3f vec) {
-		int loc = glGetUniformLocation(program, vname);
-
-		glUniform3f(loc,vec.x,vec.y,vec.z);
-	}
-	public void setVector4f(String vname, Vector4f vec) {
-		int loc = glGetUniformLocation(program, vname);
-
-		glUniform4f(loc,vec.x,vec.y,vec.z,vec.w);
-	}
-	public void setVector4f(String vname, float x,float y,float z,float w) {
-		int loc = glGetUniformLocation(program, vname);
-
-		glUniform4f(loc,x,y,z,w);
-	}
-	public int getInt(String vname)
-	{
-		int loc=glGetUniformLocation(program,vname);
-		return glGetUniformi(program,loc);
-	}
-	public void setStructArray(String arrName,int index,String fieldName,float fieldValue)
-	{
-		String queryString=arrName+"["+index+"]."+fieldName;
-		int loc=glGetUniformLocation(program,queryString);
-		glUniform1f(loc,fieldValue);
-	}
-	public void setStructArray(String arrName, int index, String fieldName, Vector2f fieldValue)
-	{
-		String queryString=arrName+"["+index+"]."+fieldName;
-		int loc=glGetUniformLocation(program,queryString);
-		glUniform2f(loc,fieldValue.x,fieldValue.y);
-	}
-	public void setStruct(String structName,String fieldName,Vector3f fieldValue)
-    {
-        String queryString=structName+"."+fieldName;
-        int loc=glGetUniformLocation(program,queryString);
-        glUniform3f(loc,fieldValue.x,fieldValue.y,fieldValue.z);
     }
-    public void setStruct(String structName,String fieldName,float fieldValue)
-    {
-        String queryString=structName+"."+fieldName;
-        int loc=glGetUniformLocation(program,queryString);
-        glUniform1f(loc,fieldValue);
-    }
-	public void setStructArray(String arrName, int index, String fieldName, Vector3f fieldValue)
-	{
-		String queryString=arrName+"["+index+"]."+fieldName;
-		int loc=glGetUniformLocation(program,queryString);
-		glUniform3f(loc,fieldValue.x,fieldValue.y,fieldValue.z);
-	}
-	public void setInt(String vname, int x) {
-		int loc = glGetUniformLocation(program, vname);
-		glUniform1i(loc, x);
-	}
-	public void setFloat(String vname, float x) {
-		int loc = glGetUniformLocation(program, vname);
-		glUniform1f(loc, x);
-	}
-	public void delete() {
-		glDeleteProgram(program);
-	}
 
-	private int compile(String code, int type) {
-		int shader = glCreateShader(type);
-		glShaderSource(shader, code);
-		glCompileShader(shader);
-		String infoLog = glGetShaderInfoLog(shader);
-		System.out.println(infoLog);
-		return shader;
-	}
-	public void textureColorCheck(Texture2D bound)
-	{
-		if(bound.isColor)
-			setVector4f("solidColor",bound.color);
-	}
+    public void use() {
+        glUseProgram(program);
+    }
+
+    public void stop() {
+        glUseProgram(0);
+    }
+
+    public void setMatrix(String vname, Matrix4f mat) {
+        int loc = glGetUniformLocation(program, vname);
+
+        float[] asFloat = new float[16];
+        mat.get(asFloat);
+
+        glUniformMatrix4fv(loc, false, asFloat);
+    }
+
+    public void setVector3f(String vname, Vector3f vec) {
+        int loc = glGetUniformLocation(program, vname);
+
+        glUniform3f(loc, vec.x, vec.y, vec.z);
+    }
+
+    public void setVector4f(String vname, Vector4f vec) {
+        int loc = glGetUniformLocation(program, vname);
+
+        glUniform4f(loc, vec.x, vec.y, vec.z, vec.w);
+    }
+
+    public void setVector4f(String vname, float x, float y, float z, float w) {
+        int loc = glGetUniformLocation(program, vname);
+
+        glUniform4f(loc, x, y, z, w);
+    }
+
+    public int getInt(String vname) {
+        int loc = glGetUniformLocation(program, vname);
+        return glGetUniformi(program, loc);
+    }
+
+    public void setStructArray(String arrName, int index, String fieldName, float fieldValue) {
+        String queryString = arrName + "[" + index + "]." + fieldName;
+        int loc = glGetUniformLocation(program, queryString);
+        glUniform1f(loc, fieldValue);
+    }
+
+    public void setStructArray(String arrName, int index, String fieldName, Vector2f fieldValue) {
+        String queryString = arrName + "[" + index + "]." + fieldName;
+        int loc = glGetUniformLocation(program, queryString);
+        glUniform2f(loc, fieldValue.x, fieldValue.y);
+    }
+
+    public void setStruct(String structName, String fieldName, Vector3f fieldValue) {
+        String queryString = structName + "." + fieldName;
+        int loc = glGetUniformLocation(program, queryString);
+        glUniform3f(loc, fieldValue.x, fieldValue.y, fieldValue.z);
+    }
+
+    public void setStruct(String structName, String fieldName, float fieldValue) {
+        String queryString = structName + "." + fieldName;
+        int loc = glGetUniformLocation(program, queryString);
+        glUniform1f(loc, fieldValue);
+    }
+
+    public void setStructArray(String arrName, int index, String fieldName, Vector3f fieldValue) {
+        String queryString = arrName + "[" + index + "]." + fieldName;
+        int loc = glGetUniformLocation(program, queryString);
+        glUniform3f(loc, fieldValue.x, fieldValue.y, fieldValue.z);
+    }
+
+    public void setInt(String vname, int x) {
+        int loc = glGetUniformLocation(program, vname);
+        glUniform1i(loc, x);
+    }
+
+    public void setFloat(String vname, float x) {
+        int loc = glGetUniformLocation(program, vname);
+        glUniform1f(loc, x);
+    }
+
+    public void delete() {
+        glDeleteProgram(program);
+    }
+
+    private int compile(String code, int type) {
+        int shader = glCreateShader(type);
+        glShaderSource(shader, code);
+        glCompileShader(shader);
+        String infoLog = glGetShaderInfoLog(shader);
+        System.out.println(infoLog);
+        return shader;
+    }
+
+    public void textureColorCheck(Texture2D bound) {
+        if (bound.isColor)
+            setVector4f("solidColor", bound.color);
+    }
 }

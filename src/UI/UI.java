@@ -7,25 +7,25 @@ import java.util.ArrayList;
 public class UI {
     public Frame windowFrame;
     ArrayList<Frame> frames;
-    public UI()
-    {
-        windowFrame=new Frame(new Vector2f(0,0),1,1);
-        frames=new ArrayList<Frame>();
+
+    public UI() {
+        windowFrame = new Frame(new Vector2f(0, 0), 1, 1);
+        frames = new ArrayList<Frame>();
     }
-    public void update()
-    {
+
+    public void update() {
 
     }
-    public void addFrame()
-    {
+
+    public void addFrame() {
 
     }
-    public void addTextBox()
-    {
+
+    public void addTextBox() {
 
     }
-    public void render()
-    {
+
+    public void render() {
 
     }
 }

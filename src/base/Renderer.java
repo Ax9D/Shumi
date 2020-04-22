@@ -1,11 +1,14 @@
 package base;
 
-import game.*;
+import game.GMap;
+import game.World;
 import game.components.BoundingBox;
+import game.ob2D;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
-import static base.GSystem.*;
+import static base.GSystem.debug;
+import static base.GSystem.rsmanager;
 import static org.lwjgl.opengl.GL30.*;
 
 public class Renderer {
@@ -17,8 +20,11 @@ public class Renderer {
     private BShader screenShader;
     private BShader bloomShader;
     private BShader plainShader;
-    private Texture2D blue;
-    private Texture2D white;
+
+    private Texture2D boundingBoxDebugColor;
+    private Texture2D shapeDebugColor;
+
+    private Matrix4f tmat;
 
     public Renderer() {
         pingpongGaussian = new FBO[2];
@@ -30,8 +36,11 @@ public class Renderer {
         bloomShader = new BShader("src/screenV.glsl", "src/bloom.glsl");
         plainShader = new BShader("src/simplevertex.glsl", "src/simplefragment.glsl");
 
-        blue = new Texture2D(Color.BLUE_A);
-        white = new Texture2D(Color.WHITE_A);
+        tmat = new Matrix4f();
+        cmat = new Matrix4f();
+
+        boundingBoxDebugColor = new Texture2D(Color.BLUE_A);
+        shapeDebugColor = new Texture2D(Color.WHITE_A);
 
         GSystem.view.onChange(() -> {
             GSystem.renderer.pingpongGaussian[0].delete();
@@ -43,7 +52,8 @@ public class Renderer {
 
     public void setState() {
         Camera2D c = GSystem.view.camera2D;
-        cmat = MatrixMath.get2DTMat(new Vector2f(-c.pos.x, -c.pos.y), 1);
+
+        MatrixMath.get2DTMat(new Vector2f(-c.pos.x, -c.pos.y), 1, cmat);
         GSystem.world.sceneShader.use();
         GSystem.world.sceneShader.setMatrix("cmat", cmat);
         plainShader.use();
@@ -59,26 +69,14 @@ public class Renderer {
         SShader ss = w.sceneShader;
         GMap gm = w.gm;
 
-        Matrix4f tmat;
-
         renderGMap(gm);
 
         ss.use();
-        w.p.sh.load();
-
-        w.p.tex.bind();
-        ss.textureColorCheck(w.p.tex);
 
         glActiveTexture(GL_TEXTURE0);
 
-        tmat = MatrixMath.get2DTMat(w.p.pos, w.p.size);
-
-        ss.setMatrix("tmat", tmat);
         ss.setMatrix("ratio_mat", ar_correction_matrix);
 
-
-        w.p.sh.load();
-        glDrawElements(GL_TRIANGLES, rsmanager.basicQuad.ic, GL_UNSIGNED_INT, 0);
 
         int prev = -1;
         for (ob2D x : w.visible) {
@@ -86,17 +84,14 @@ public class Renderer {
                 x.sh.load();
                 prev = x.sh.vao.vao;
             }
-            glActiveTexture(GL_TEXTURE0);
             x.tex.bind();
             ss.textureColorCheck(x.tex);
-
-            tmat = MatrixMath.get2DTMat(x.pos, x.size);
+            MatrixMath.get2DTMat(x.pos, x.size, tmat);
             ss.setMatrix("tmat", tmat);
 
             glDrawElements(GL_TRIANGLES, rsmanager.basicQuad.ic, GL_UNSIGNED_INT, 0);
         }
     }
-
 
 
     public void renderGMap(GMap map) {
@@ -108,7 +103,7 @@ public class Renderer {
         ms.setMatrix("cmat", cmat);
         ms.setMatrix("ratio_mat", ar_correction_matrix);
 
-        Matrix4f tmat = MatrixMath.get2DTMat(map.pos, map.size);
+        MatrixMath.get2DTMat(map.pos, map.size, tmat);
 
         ms.setMatrix("tmat", tmat);
 
@@ -120,8 +115,8 @@ public class Renderer {
 
         //End of biome rendering
     }
-    public void postProcess(FBO fbo)
-    {
+
+    public void postProcess(FBO fbo) {
         //Draw brightness buffer to pp buffer 0
         screenShader.use();
         pingpongGaussian[0].bind();
@@ -130,82 +125,51 @@ public class Renderer {
         renderQuad();
 
 
-
-
-        int horizontal=0;
+        int horizontal = 0;
 
         gaussianShader.use();
 
         //~horizontal&1 flips the value of horizontal
-        for(int i=0;i<10;i++,horizontal=~horizontal&1)
-        {
+        for (int i = 0; i < 10; i++, horizontal = ~horizontal & 1) {
             pingpongGaussian[horizontal].tex[0].bind();
-            pingpongGaussian[~horizontal&1].bind();
+            pingpongGaussian[~horizontal & 1].bind();
 
-            gaussianShader.setInt("horizontal",horizontal);
+            gaussianShader.setInt("horizontal", horizontal);
             renderQuad();
         }
-        pingpongGaussian[~horizontal&1].unbind();
+        pingpongGaussian[~horizontal & 1].unbind();
     }
-    public void debugInfo()
-    {
+
+    public void debugInfo() {
 
         World w = GSystem.world;
 
         SShader ss = w.sceneShader;
-
-        Matrix4f tmat=MatrixMath.get2DTMat(w.p.pos,w.p.size);
-
-        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-
-        //Draw texture rect start
-        plainShader.use();
-
-        plainShader.setMatrix("tmat",tmat);
-        plainShader.setMatrix("ratio_mat",ar_correction_matrix);
-
-        white.bind();
-        plainShader.textureColorCheck(white);
-
-        glDrawArrays(GL_POLYGON,0,4);
-        //Draw texture rect end
-
-        //Draw bounding box rect start
-        blue.bind();
-        plainShader.textureColorCheck(blue);
-
-        BoundingBox b=w.p.getComponent(BoundingBox.class);
-
-        tmat=MatrixMath.get2DTMat(w.p.pos.x+b.xoffset,w.p.pos.y+b.yoffset,w.p.size.x*b.xratio,w.p.size.y*b.yratio);
-        plainShader.setMatrix("tmat",tmat);
-
-        glDrawArrays(GL_POLYGON,0,4);
-
-        glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
         //Draw bounding box rect end
 
-        ss.use();
+        BoundingBox b;
 
         int prev = -1;
         for (ob2D x : w.visible) {
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             plainShader.use();
 
-            tmat=MatrixMath.get2DTMat(x.pos,x.size);
-            plainShader.setMatrix("tmat",tmat);
+            MatrixMath.get2DTMat(x.pos, x.size, tmat);
+            plainShader.setMatrix("tmat", tmat);
             plainShader.setMatrix("ratio_mat", ar_correction_matrix);
 
-            white.bind();
-            plainShader.textureColorCheck(white);
+            shapeDebugColor.bind();
+            plainShader.textureColorCheck(shapeDebugColor);
 
             glDrawArrays(GL_POLYGON, 0, 4);
 
-            blue.bind();
-            plainShader.textureColorCheck(blue);
+            boundingBoxDebugColor.bind();
+            plainShader.textureColorCheck(boundingBoxDebugColor);
 
             b = x.getComponent(BoundingBox.class);
 
-            tmat = MatrixMath.get2DTMat(x.pos.x+b.xoffset,x.pos.y+b.yoffset,x.size.x*b.xratio,x.size.y*b.yratio);
+            MatrixMath.get2DTMat(x.pos.x + b.xoffset * x.size.x, x.pos.y + b.yoffset * x.size.y, x.size.x * b.xratio, x.size.y * b.yratio, tmat);
+
             plainShader.setMatrix("tmat", tmat);
 
             glDrawArrays(GL_POLYGON, 0, 4);
@@ -213,25 +177,26 @@ public class Renderer {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
     }
-    public void renderQuad()
-    {
+
+    public void renderQuad() {
         rsmanager.basicQuad.load();
 
         glDrawElements(GL_TRIANGLES, rsmanager.basicQuad.ic, GL_UNSIGNED_INT, 0);
 
         rsmanager.basicQuad.unload();
     }
-    public void renderQuadLines()
-    {
+
+    public void renderQuadLines() {
         rsmanager.basicQuad.vao.bind();
 
         rsmanager.basicQuad.vao.activateVPointers();
 
-        glDrawArrays(GL_LINES,0,4);
+        glDrawArrays(GL_LINES, 0, 4);
 
         rsmanager.basicQuad.vao.deactivateVPointers();
         rsmanager.basicQuad.vao.unbind();
     }
+
     public void renderGame(FBO fbo) {
         fbo.bind();
 
@@ -251,8 +216,8 @@ public class Renderer {
 
         bloomShader.use();
 
-        bloomShader.setInt("blurTexture",0);
-        bloomShader.setInt("colorTexture",1);
+        bloomShader.setInt("blurTexture", 0);
+        bloomShader.setInt("colorTexture", 1);
 
         glActiveTexture(GL_TEXTURE0);
         pingpongGaussian[0].tex[0].bind();
@@ -262,11 +227,11 @@ public class Renderer {
         //fbo.tex[1].bind();
 
         //screenShader.use();
-       // fbo.tex[0].bind();
+        // fbo.tex[0].bind();
         //pingpongGaussian[0].tex[0].bind();
         renderQuad();
 
-        if(debug)
+        if (debug)
             debugInfo();
     }
 }

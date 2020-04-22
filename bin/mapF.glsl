@@ -28,7 +28,7 @@ vec3 computePointLight(PointLight pl,vec2 pos)
     float diffuse=clamp(1-distance(pos,pl.pos)/5,0,1); //(1+distSq*pl.falloff);
 
     return pl.color*diffuse;*/
-    float distSq=dot(pos-pl.pos,pos-pl.pos);
+    float distSq=sqrt(dot(pos-pl.pos,pos-pl.pos));
 
     //float adj_factor=clamp(1-distance(pos,pl.pos)/10,0,1);
 

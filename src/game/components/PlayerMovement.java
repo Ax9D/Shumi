@@ -9,9 +9,9 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class PlayerMovement extends Component {
 
-	public enum Direction {
-		UP, DOWN, LEFT, RIGHT
-	}
+    public enum Direction {
+        UP, DOWN, LEFT, RIGHT
+    }
 
     public static Component loadComponent(JSONObject jo) throws JSONException {
         float walkSpeed = (float) jo.getDouble("walkSpeed");
@@ -31,27 +31,26 @@ public class PlayerMovement extends Component {
     }
 
     public void update() {
-        PlayerAnimation aniCompoment=parent.getComponent(PlayerAnimation.class);
+        PlayerAnimation aniCompoment = parent.getComponent(PlayerAnimation.class);
 
         if (KeyboardHandler.isPressed(GLFW_KEY_W)) {
             parent.pos.y += walkSpeed * Game.tDelta;
             walkDirection = Direction.UP;
-            aniCompoment.currentAnimationState= PlayerAnimation.walkingUp;
+            aniCompoment.currentAnimationState = PlayerAnimation.walkingUp;
         } else if (KeyboardHandler.isPressed(GLFW_KEY_S)) {
             parent.pos.y -= walkSpeed * Game.tDelta;
             walkDirection = Direction.DOWN;
-            aniCompoment.currentAnimationState= PlayerAnimation.walkingDown;
+            aniCompoment.currentAnimationState = PlayerAnimation.walkingDown;
         } else if (KeyboardHandler.isPressed(GLFW_KEY_A)) {
             parent.pos.x -= walkSpeed * Game.tDelta;
             walkDirection = Direction.LEFT;
-            aniCompoment.currentAnimationState= PlayerAnimation.walkingLeft;
+            aniCompoment.currentAnimationState = PlayerAnimation.walkingLeft;
         } else if (KeyboardHandler.isPressed(GLFW_KEY_D)) {
             parent.pos.x += walkSpeed * Game.tDelta;
             walkDirection = Direction.RIGHT;
-            aniCompoment.currentAnimationState= PlayerAnimation.walkingRight;
-        }
-        else
-            aniCompoment.currentAnimationState= PlayerAnimation.standing;
+            aniCompoment.currentAnimationState = PlayerAnimation.walkingRight;
+        } else
+            aniCompoment.currentAnimationState = PlayerAnimation.standing;
 
     }
 }

@@ -6,9 +6,9 @@ public class EnvironmentLight {
 
     public float intensity;
     public Vector3f color;
-    public EnvironmentLight(Vector3f color,float intensity)
-    {
-        this.color=color;
-        this.intensity=intensity;
+
+    public EnvironmentLight(Vector3f color, float intensity) {
+        this.color = color;
+        this.intensity = intensity;
     }
 }

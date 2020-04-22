@@ -9,6 +9,6 @@ uniform mat4 ratio_mat;
 out vec2 tC;
 void main()
 {
-    gl_Position=ratio_mat*tmat*vec4(pos,0,1.0);
+    gl_Position=ratio_mat*tmat*vec4(pos, 0, 1.0);
     tC=tCoords;
 }

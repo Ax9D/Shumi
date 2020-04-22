@@ -11,9 +11,9 @@ out vec2 posF;
 
 void main()
 {
-	vec4 projected_pos=ratio_mat*cmat*tmat*vec4(pos,0,1.0);
-	gl_Position=projected_pos;
+    vec4 projected_pos=ratio_mat*cmat*tmat*vec4(pos, 0, 1.0);
+    gl_Position=projected_pos;
 
-	tC=tCoords;
-	posF=(tmat*vec4(pos,0,1.0)).xy;
+    tC=tCoords;
+    posF=(tmat*vec4(pos, 0, 1.0)).xy;
 }

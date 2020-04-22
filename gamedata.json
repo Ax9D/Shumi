@@ -1,52 +1,74 @@
 {
-"ob2Ds":[
-{
-	"id":"player",
-	"model":"generic_quad",
-	"texture":"failed_to_load",
-	"pos":[0,0],
-	"size":[0.25,0.25],
-	"components":[
-		{
-			"type":"LoopAnimation",
-			"textures":["an1","an2","an3","an4"],
-			"frameRate":4
-		},	
-		{
-			"type":"PlayerMovement",
-			"walkSpeed":5
-		},
-		{
-			"type": "BoundingBox",
-			"bType": "basic"
-		},
-		{
-			"type": "CameraController",
-			"minHor":-0.5,
-			"maxHor": 0.5,
-			"minVer": -0.5,
-			"maxVer": 0.5
-		}
-	]
-},
-{
-	"id":"tree",
-	"model":"generic_quad",
-	"texture":"tree",
-	"pos":[0,0],
-	"size":[5,5],
-	"components":[
-		{
-			"type": "BoundingBox",
-			"bType": "basic"
-		}
-	]
-}
-],
-	"GMaps": [{
-		"id": "main_world",
-		"pos": [0,0],
-		"size": 5,
-		"tileCount": 50
-	}]
+  "ob2Ds": [
+    {
+      "id": "player",
+      "model": "generic_quad",
+      "texture": "failed_to_load",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        0.25,
+        0.25
+      ],
+      "components": [
+        {
+          "type": "LoopAnimation",
+          "textures": [
+            "an1",
+            "an2",
+            "an3",
+            "an4"
+          ],
+          "frameRate": 4
+        },
+        {
+          "type": "PlayerMovement",
+          "walkSpeed": 5
+        },
+        {
+          "type": "BoundingBox",
+          "bType": "basic"
+        },
+        {
+          "type": "CameraController",
+          "minHor": -0.5,
+          "maxHor": 0.5,
+          "minVer": -0.5,
+          "maxVer": 0.5
+        }
+      ]
+    },
+    {
+      "id": "tree",
+      "model": "generic_quad",
+      "texture": "tree",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        5,
+        5
+      ],
+      "components": [
+        {
+          "type": "BoundingBox",
+          "bType": "basic"
+        }
+      ]
+    }
+  ],
+  "GMaps": [
+    {
+      "id": "main_world",
+      "pos": [
+        0,
+        0
+      ],
+      "size": 5,
+      "tileCount": 50
+    }
+  ]
 }
