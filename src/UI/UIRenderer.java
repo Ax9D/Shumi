@@ -22,14 +22,14 @@ public class UIRenderer {
         textShader = new BShader("src/textV.glsl", "src/textF.glsl");
         ar_correction_matrix = new Matrix4f();
         ar_correction_matrix.identity();
-        ar_correction_matrix.setOrtho2D(0, WindowInfo.WIDTH, 0, WindowInfo.HEIGHT);
+        ar_correction_matrix.setOrtho2D(0, WindowInfo.WIDTH, 0,WindowInfo.HEIGHT );
         pos = new Vector2f();
         size = new Vector2f();
 
         tmat = new Matrix4f();
 
         GSystem.view.onChange(() -> {
-            GSystem.uirenderer.ar_correction_matrix.setOrtho2D(0, WindowInfo.WIDTH, 0, WindowInfo.HEIGHT);
+            ar_correction_matrix.setOrtho2D(0, WindowInfo.WIDTH,0,WindowInfo.HEIGHT);
         });
     }
 
@@ -46,10 +46,13 @@ public class UIRenderer {
 
         textShader.use();
 
-        textShader.setVector3f("textColor", tbox.textColor);
-        textShader.setMatrix("ratio_mat", ar_correction_matrix);
+        //textShader.setVector4f("textColor", tbox.textColor);
 
         glActiveTexture(GL_TEXTURE0);
+
+        textShader.setVector4f("textColor",tbox.textColor);
+
+        textShader.setMatrix("ratio_mat", ar_correction_matrix);
 
         float fontHeight = tbox.font.fontHeight * tbox.textSize;
 

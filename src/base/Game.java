@@ -8,6 +8,7 @@ import game.components.CameraController;
 import game.components.ComponentHandler;
 import input_handling.KeyboardHandler;
 import org.joml.Vector2f;
+import org.joml.Vector4f;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.glEnable;
@@ -45,6 +46,7 @@ public class Game {
     TextBox test;
 
     public Game() {
+
 
         fpsesIx = 0;
 
@@ -90,13 +92,13 @@ public class Game {
 
 
         ur = new UIRenderer();
-        fps = new TextBox("", new Vector2f(.90f, 1f), 0.01f, 0.01f, 10f);
-        fps.setFont("Arial");
-        fps.setColor(Color.WHITE);
+        fps = new TextBox("", new Vector2f(.90f, 0.95f), 0.2f, 0.1f, 9f);
+        fps.setFont("Tahoma");
+        fps.setColor(new Vector4f(1,1,1,0.5f));
 
         GSystem.uirenderer = ur;
 
-        test = new TextBox("", new Vector2f(0f, 1f), 1f, 1f, 0.2f);
+        test = new TextBox("", new Vector2f(0f, 1f), 1f, 1f, 10f);
 
 
         glfwSetWindowSizeCallback(WindowInfo.window, (w, width, height) -> {
@@ -150,7 +152,8 @@ public class Game {
             fpsesIx = 0;
 
         fpses[fpsesIx++] = 1 / tDelta;
-        fps.setString("FPS:" + Math.round(average(fpses)));
+
+        fps.setString("FPS: " + Math.round(average(fpses)));
 
         ur.renderText(fps);
         ur.renderText(test);

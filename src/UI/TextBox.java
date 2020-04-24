@@ -4,19 +4,20 @@ import base.Color;
 import base.GSystem;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 
-public class TextBox {
-    String str;
-    Vector2f size;
+public class TextBox{
     Vector2f topLeft;
+    Vector2f size;
+    String str;
     float textSize;
     GFont font;
 
     String[] words;
     int[] wordWidths;
 
-    Vector3f textColor;
+    Vector4f textColor;
     public Frame parent;
 
     public TextBox(String str, Vector2f topLeft, float width, float height, float textSize) {
@@ -41,6 +42,9 @@ public class TextBox {
     }
 
     public void setColor(Vector3f textColor) {
+        this.textColor = new Vector4f(textColor,1);
+    }
+    public void setColor(Vector4f textColor) {
         this.textColor = textColor;
     }
 
@@ -49,7 +53,6 @@ public class TextBox {
         getWords();
         computeWords();
     }
-
     private void computeWords() {
         if (words.length > 1) {
             wordWidths[0] = font.getWidth(words[0]);

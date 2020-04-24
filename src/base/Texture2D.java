@@ -1,5 +1,6 @@
 package base;
 
+import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import java.nio.ByteBuffer;
@@ -58,13 +59,17 @@ public class Texture2D {
         this.color = color;
         tex = -1;
     }
-
+    public Texture2D(Vector3f color)
+    {
+        isColor=true;
+        this.color=new Vector4f(color,1);
+        tex=-1;
+    }
     public Texture2D(ByteBuffer imageBuffer, int w, int h) {
         tex = glGenTextures();
         bind();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageBuffer);
 
         glGenerateMipmap(GL_TEXTURE_2D);
@@ -83,8 +88,10 @@ public class Texture2D {
 
     public Texture2D setLinear() {
         bind();
+        glGenerateMipmap(GL_TEXTURE_2D);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
         unbind();
 
         return this;

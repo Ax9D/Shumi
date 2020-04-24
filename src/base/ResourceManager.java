@@ -25,6 +25,7 @@ public class ResourceManager {
         fonts = new HashMap<String, GFont>();
         basicTex = new Texture2D("assets/textures/test.png");
         defaultFont = new GFont("Arial", true);
+        fonts.put("Tahoma",new GFont("Tahoma",true));
     }
 
     public void addModel(Shape m, String id) {

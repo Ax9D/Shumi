@@ -1,7 +1,11 @@
 package UI;
 
-import base.Texture2D;
+import org.joml.Vector2f;
 
-public interface UIElement {
-    public void render();
+public abstract class UIElement {
+    public Frame parent;
+    public Vector2f topLeft;
+    public Vector2f size;
+    public abstract void update();
+    public abstract void render();
 }

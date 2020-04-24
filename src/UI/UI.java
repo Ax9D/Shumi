@@ -16,15 +16,6 @@ public class UI {
     public void update() {
 
     }
-
-    public void addFrame() {
-
-    }
-
-    public void addTextBox() {
-
-    }
-
     public void render() {
 
     }

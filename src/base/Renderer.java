@@ -39,8 +39,8 @@ public class Renderer {
         tmat = new Matrix4f();
         cmat = new Matrix4f();
 
-        boundingBoxDebugColor = new Texture2D(Color.BLUE_A);
-        shapeDebugColor = new Texture2D(Color.WHITE_A);
+        boundingBoxDebugColor = new Texture2D(Color.BLUE);
+        shapeDebugColor = new Texture2D(Color.WHITE);
 
         GSystem.view.onChange(() -> {
             GSystem.renderer.pingpongGaussian[0].delete();
@@ -99,6 +99,8 @@ public class Renderer {
         SShader ms = map.ts;
 
         ms.use();
+
+        glActiveTexture(GL_TEXTURE0);
 
         ms.setMatrix("cmat", cmat);
         ms.setMatrix("ratio_mat", ar_correction_matrix);

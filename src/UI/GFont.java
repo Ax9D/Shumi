@@ -12,11 +12,12 @@ public class GFont {
     private boolean antialias;
     public int fontHeight;
     public int spaceWidth;
-    public static int loadSize = 72;
+    public static int loadSize = 48;
 
     public GFont(String fontName, boolean antialias) {
         glyphs = new Glyph[256];
         Font f = new Font(fontName, Font.PLAIN, loadSize);
+
         this.antialias = antialias;
         for (char c = 32; c < 127; c++)
             glyphs[c] = loadGlyph(f, c);
@@ -56,17 +57,14 @@ public class GFont {
         g2D = img.createGraphics();
         g2D.setFont(f);
 
-        if (antialias)
-            g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
         g2D.setPaint(Color.WHITE);
-        g2D.drawString(String.valueOf(c), 0, fmetric.getAscent());
+        g2D.drawString(""+c, 0, fmetric.getAscent());
         g2D.dispose();
 
         ByteBuffer imgBuff = ImageUtils.toByteBuffer(img, glyphWidth, fontHeight);
 
         Texture2D tex = new Texture2D(imgBuff, glyphWidth, fontHeight);
-        tex.setNearest();
+
 
         if (!antialias)
             tex.setNearest();
