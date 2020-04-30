@@ -45,10 +45,9 @@ public class World {
     }
 
     public void init() {
-        float k = 1f;
-        pointLights.add(new PointLight(new Vector2f(-k, 0f), new Vector3f(255, 230, 146).div(255), 10f, 0.5f));
-        envLight = new EnvironmentLight(new Vector3f(25, 25, 112).div(255), 1f);
-        envLight = new EnvironmentLight(new Vector3f(255).div(255), 0.5f);
+        float k = 10f;
+        pointLights.add(new PointLight(new Vector2f(-k, 0f), new Vector3f(255,100,100).div(255), 10f, 0.1f));
+        envLight = new EnvironmentLight(new Vector3f(255).div(255), 0f);
 
 
         sceneShader.use();
@@ -86,11 +85,12 @@ public class World {
         bb.xratio = 0.3f;
         bb.yratio = 0.09f;
         bb.xoffset = -0.1f;
-        bb.yoffset = -0.9f;
+        bb.yoffset = -0.55f;
 
-        gm.biomeTex.isColor = true;
-        gm.biomeTex.setLinear();
-        gm.biomeTex.color = new Vector4f(108, 209, 90, 255).div(255);
+        gm.biomeTex.isColor = false;
+        gm.biomeTex.setNearest();
+        gm.biomeTex.color = new Vector4f(119, 186, 120, 255).div(255);
+        //gm.biomeTex.color=new Vector4f(0.05f,0.05f,0.05f,1);
 
         gm.size = 200;
         gm.tileSize = 0.125f;

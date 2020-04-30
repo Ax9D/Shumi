@@ -35,7 +35,7 @@ public class Texture2D {
 
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, w[0], h[0], 0, GL_RGBA, GL_UNSIGNED_BYTE, imageBuffer);
 
@@ -80,7 +80,7 @@ public class Texture2D {
     public Texture2D setNearest() {
         bind();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
         unbind();
 
         return this;
@@ -129,7 +129,6 @@ public class Texture2D {
 
     public void bind() {
         glBindTexture(GL_TEXTURE_2D, tex);
-
     }
 
     public void unbind() {

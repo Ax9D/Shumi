@@ -26,11 +26,10 @@ struct EnvironmentLight
 vec3 computePointLight(PointLight pl, vec2 pos)
 {
 
-    float distSq=sqrt(dot(pos-pl.pos, pos-pl.pos));
-
+    float distSq=dot(pos-pl.pos, pos-pl.pos);
     //float adj_factor=clamp(1-distance(pos,pl.pos)/10,0,1);
 
-    float adj_factor=pl.max_intensity/(1+distSq*pl.falloff);
+    float adj_factor=clamp(pl.max_intensity/(1+distSq*pl.falloff),0,5);
 
     return pl.color*adj_factor;
 }
@@ -64,8 +63,8 @@ void main()
 
     float brightness = dot(fragCol.rgb, vec3(0.2126, 0.7152, 0.0722));
     //float brightness = (fragCol.r+fragCol.g+fragCol.b)/3;
-    if (brightness > 1)
-    brightnessCol = vec4(fragCol.rgba);
+    if (brightness > 1.2)
+    brightnessCol = fragCol.rgba;
     else
     brightnessCol = vec4(0.0, 0.0, 0.0, fragCol.a);
 }

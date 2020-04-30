@@ -7,14 +7,14 @@ import org.joml.Vector2f;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
-import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.glBindBuffer;
 
 public class UIRenderer {
 
     private BShader textShader;
     public Matrix4f ar_correction_matrix;
     private Vector2f pos, size;
+
+    public BShader generalShader;
 
     private Matrix4f tmat;
 
@@ -41,12 +41,10 @@ public class UIRenderer {
         Shape sh = GSystem.rsmanager.basicQuad;
 
         glEnable(GL_BLEND);
-        sh.vao.bind();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sh.eboID);
+
+        sh.load();
 
         textShader.use();
-
-        //textShader.setVector4f("textColor", tbox.textColor);
 
         glActiveTexture(GL_TEXTURE0);
 

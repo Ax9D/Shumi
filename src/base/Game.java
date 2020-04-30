@@ -109,7 +109,6 @@ public class Game {
             float ar = (float) width / height;
 
             GSystem.view.adjustAspectRatio(ar);
-
             GSystem.view.processChange();
         });
 

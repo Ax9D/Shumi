@@ -91,11 +91,11 @@ public class Renderer {
 
             glDrawElements(GL_TRIANGLES, rsmanager.basicQuad.ic, GL_UNSIGNED_INT, 0);
         }
+        glDisable(GL_BLEND);
     }
 
 
     public void renderGMap(GMap map) {
-
         SShader ms = map.ts;
 
         ms.use();
@@ -212,7 +212,6 @@ public class Renderer {
 
         postProcess(fbo);
 
-        glDisable(GL_BLEND);
         glClearColor(1f, 1f, 1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
