@@ -13,7 +13,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
 public class Editor {
     Game game;
-    Vector2f oldmouseWorldPos;
+    Vector2f oldMouseWorldPos;
     Vector2f mouseWorldPos;
 
     private Vector2f lastClickMouseWorldPos;
@@ -30,7 +30,7 @@ public class Editor {
         this.game = game;
         mouseWorldPos = new Vector2f();
         lastClickMouseWorldPos = new Vector2f();
-        oldmouseWorldPos=new Vector2f();
+        oldMouseWorldPos =new Vector2f();
         View gameView = GSystem.view;
 
         arMat = gameView.ar_correction_matrix;
@@ -60,10 +60,11 @@ public class Editor {
         MouseHandler.addScrollEventListener((amt) -> {
             float new_scale = gameView.scale * (float) (1 - scrollSpeed * amt);
             gameView.adjustScale(new_scale);
-
             updateMousePos();
-                gameView.camera2D.pos.x+=oldmouseWorldPos.x-mouseWorldPos.x;
-                gameView.camera2D.pos.y+=oldmouseWorldPos.y-mouseWorldPos.y;
+
+                System.out.println("Delta: "+(oldMouseWorldPos.x-mouseWorldPos.x)+","+(oldMouseWorldPos.y-mouseWorldPos.y));
+                gameView.camera2D.pos.x += oldMouseWorldPos.x - mouseWorldPos.x;
+                gameView.camera2D.pos.y += oldMouseWorldPos.y - mouseWorldPos.y;
 
         });
     }
@@ -82,8 +83,8 @@ public class Editor {
 
         Vector4f mouseWorldPosV4 = MouseHandler.getGLScreenPos().mul(mousePosMatrix);
 
-        oldmouseWorldPos.x=mouseWorldPos.x;
-        oldmouseWorldPos.y=mouseWorldPos.y;
+        oldMouseWorldPos.x=mouseWorldPos.x;
+        oldMouseWorldPos.y=mouseWorldPos.y;
 
         mouseWorldPos.x = mouseWorldPosV4.x;
         mouseWorldPos.y = mouseWorldPosV4.y;

@@ -31,7 +31,7 @@ vec3 computePointLight(PointLight pl, vec2 pos)
     float distSq=dot(pos-pl.pos, pos-pl.pos);
     //float adj_factor=clamp(1-distance(pos,pl.pos)/10,0,1);
 
-    float adj_factor=clamp(pl.max_intensity/(1+distSq*pl.falloff),0,5);
+    float adj_factor=pl.max_intensity/(1+distSq*pl.falloff);
 
     return pl.color*adj_factor;
 }
