@@ -12,6 +12,7 @@ Supports :
  - 2D lights
  -  text rendering
  - post process blur
-	 etc.
+ - sprite animation/sorting
+ 
 
 This was an experimental project, and by no means feature complete.
